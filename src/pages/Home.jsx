@@ -6,6 +6,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { PhoneFrame } from "@/components/home/PhoneFrame";
+import { Reveal } from "@/components/home/Reveal";
+import { useParallax } from "@/hooks/useParallax";
 import { Sparkles, ListChecks, Utensils, TrendingUp, Dumbbell } from "lucide-react";
 
 const FEATURES = [
@@ -57,10 +59,11 @@ const FAQ = [
   },
 ];
 
-function Section({ children, className = "", dark = false, id }) {
+function Section({ children, className = "", dark = false, id, reveal = true }) {
+  const Inner = reveal ? Reveal : "div";
   return (
     <section id={id} className={`scroll-mt-20 ${dark ? "bg-[#0D0F14] text-[#F2F4F6]" : ""} ${className}`}>
-      <div className="max-w-5xl mx-auto px-6">{children}</div>
+      <Inner className="max-w-5xl mx-auto px-6">{children}</Inner>
     </section>
   );
 }
@@ -72,6 +75,8 @@ const NAV_LINKS = [
 ];
 
 export default function Home() {
+  const parallaxRef = useParallax(0.15);
+
   return (
     <div className="bg-background text-foreground">
       {/* Nav */}
@@ -94,39 +99,52 @@ export default function Home() {
       </header>
 
       {/* 01 Hero */}
-      <Section dark className="py-16 md:py-24">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="font-heading text-4xl md:text-5xl leading-[1.05] tracking-wide text-balance">
-              Ein Ort für Training, Ernährung und Fortschritt.
-            </h1>
-            <p className="mt-5 text-white/70 text-lg max-w-md">
-              Trainingspläne, die sich anpassen. Ernährung, die du in Sekunden loggst. Fortschritt,
-              den du wirklich siehst.
-            </p>
-            <div className="mt-8">
-              <Button size="lg" className="rounded-full h-12 px-8" asChild>
-                <a href="https://app.strivis.app">Jetzt kostenlos starten →</a>
-              </Button>
-              <p className="mt-3 text-xs text-white/40">app.strivis.app · kein Abo nötig</p>
+      <section className="relative overflow-hidden bg-[#0D0F14] text-[#F2F4F6] py-16 md:py-24">
+        <div className="absolute inset-0">
+          <div ref={parallaxRef} className="absolute inset-0 -top-20 -bottom-20">
+            <img
+              src="/hero-bg.jpg"
+              alt=""
+              className="w-full h-full object-cover opacity-45"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#0D0F14]/75 to-[#0D0F14]" />
+        </div>
+
+        <div className="max-w-5xl mx-auto px-6 relative">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="font-heading text-4xl md:text-5xl leading-[1.05] tracking-wide text-balance">
+                Ein Ort für Training, Ernährung und Fortschritt.
+              </h1>
+              <p className="mt-5 text-white/70 text-lg max-w-md">
+                Trainingspläne, die sich anpassen. Ernährung, die du in Sekunden loggst. Fortschritt,
+                den du wirklich siehst.
+              </p>
+              <div className="mt-8">
+                <Button size="lg" className="rounded-full h-12 px-8" asChild>
+                  <a href="https://app.strivis.app">Jetzt kostenlos starten →</a>
+                </Button>
+                <p className="mt-3 text-xs text-white/40">app.strivis.app · kein Abo nötig</p>
+              </div>
+            </div>
+            <div className="flex justify-center relative h-[380px]">
+              <PhoneFrame
+                src="/screenshots/dashboard-dark.png"
+                alt="Strivis Dashboard"
+                rotate={-6}
+                className="absolute left-[20%] top-2"
+              />
+              <PhoneFrame
+                src="/screenshots/activeworkout-dark.png"
+                alt="Strivis Workout-Logging"
+                rotate={6}
+                className="absolute left-[38%] top-8"
+              />
             </div>
           </div>
-          <div className="flex justify-center relative h-[380px]">
-            <PhoneFrame
-              src="/screenshots/dashboard-dark.png"
-              alt="Strivis Dashboard"
-              rotate={-6}
-              className="absolute left-[20%] top-2"
-            />
-            <PhoneFrame
-              src="/screenshots/activeworkout-dark.png"
-              alt="Strivis Workout-Logging"
-              rotate={6}
-              className="absolute left-[38%] top-8"
-            />
-          </div>
         </div>
-      </Section>
+      </section>
 
       {/* 02 Value props */}
       <Section className="py-14 text-center">
