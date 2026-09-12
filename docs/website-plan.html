@@ -1,0 +1,407 @@
+<title>Strivis Website Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --background: #F6F7F9;
+    --foreground: #131720;
+    --card: #FFFFFF;
+    --card-border: #DCDFE5;
+    --muted: #606876;
+    --muted-bg: #EAECF0;
+    --primary: #FF4400;
+    --primary-ink: #121212;
+    --signal: #C4451A;
+    --accent-bg: #FFF1EA;
+    --ring: rgba(255,68,0,0.35);
+    --good: #1B7A3D;
+    --shadow: 0 1px 2px rgba(19,23,32,.04), 0 8px 24px rgba(19,23,32,.06);
+    --radius: 1rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --background: #0D0F14;
+      --foreground: #F2F4F6;
+      --card: #181B22;
+      --card-border: #2A2D33;
+      --muted: #9CA3AF;
+      --muted-bg: #1F232B;
+      --primary: #FF4400;
+      --primary-ink: #121212;
+      --signal: #FF8A5C;
+      --accent-bg: #241812;
+      --ring: rgba(255,68,0,0.4);
+      --good: #4ADE80;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --background: #0D0F14;
+    --foreground: #F2F4F6;
+    --card: #181B22;
+    --card-border: #2A2D33;
+    --muted: #9CA3AF;
+    --muted-bg: #1F232B;
+    --primary: #FF4400;
+    --primary-ink: #121212;
+    --signal: #FF8A5C;
+    --accent-bg: #241812;
+    --ring: rgba(255,68,0,0.4);
+    --good: #4ADE80;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  h1, h2, h3 { font-family: 'Anton', ui-sans-serif, system-ui, sans-serif; font-weight: 400; letter-spacing: 0.01em; text-wrap: balance; }
+  h1 { font-size: clamp(2rem, 4vw, 2.75rem); margin: 0 0 8px; }
+  h2 { font-size: 1.35rem; margin: 0 0 16px; color: var(--foreground); }
+  h3 { font-size: 1.05rem; margin: 0 0 6px; }
+  p { margin: 0 0 12px; }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--primary); margin-bottom: 14px;
+  }
+  .eyebrow::before { content: ''; width: 22px; height: 2px; background: var(--primary); display: inline-block; }
+
+  .lede { font-size: 1.05rem; color: var(--muted); max-width: 62ch; }
+
+  section { margin-top: 56px; }
+  section > .eyebrow + h2 { margin-top: 0; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+
+  .tldr-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px;
+  }
+  .tldr-grid .card { padding: 18px 20px; }
+  .tldr-grid .k { font-family: 'Anton', sans-serif; font-size: 1.6rem; color: var(--primary); font-variant-numeric: tabular-nums; }
+  .tldr-grid .v { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+
+  .goal-split {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;
+  }
+  .goal-split .card { display: flex; flex-direction: column; gap: 6px; }
+  .goal-split .tag {
+    align-self: flex-start;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--accent-bg); color: var(--signal); padding: 3px 9px; border-radius: 999px;
+  }
+
+  .site-map {
+    display: flex; flex-direction: column; gap: 10px; margin-top: 18px;
+  }
+  .sm-row {
+    display: grid; grid-template-columns: 28px 1fr; gap: 14px;
+    background: var(--card); border: 1px solid var(--card-border); border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .sm-row .num { font-family: 'Anton', sans-serif; color: var(--primary); font-size: 1rem; padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .sm-row .label { font-weight: 700; margin-bottom: 2px; }
+  .sm-row .desc { color: var(--muted); font-size: 0.92rem; }
+  .sm-row.legal { opacity: 0.88; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--card-border); vertical-align: top; }
+  th { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  td.app { font-weight: 700; }
+  .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--card-border); background: var(--card); box-shadow: var(--shadow); }
+  .table-wrap table { margin-top: 0; }
+  .table-wrap th, .table-wrap td { border-bottom: 1px solid var(--card-border); }
+  .table-wrap tr:last-child td { border-bottom: none; }
+
+  .cta-note {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--accent-bg); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 16px 18px; margin-top: 18px;
+  }
+  .cta-note .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); margin-top: 7px; flex-shrink: 0; }
+
+  .phase-list { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+  .phase {
+    display: grid; grid-template-columns: 100px 1fr; gap: 16px;
+    padding: 14px 0; border-bottom: 1px solid var(--card-border);
+  }
+  .phase:last-child { border-bottom: none; }
+  .phase .tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted); padding-top: 2px;
+  }
+  .phase .label { font-weight: 700; margin-bottom: 2px; }
+  .phase .desc { color: var(--muted); font-size: 0.9rem; }
+
+  .fonts-row { display: flex; gap: 24px; margin-top: 18px; flex-wrap: wrap; }
+  .font-sample { flex: 1; min-width: 220px; background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+  .font-sample .big { font-family: 'Anton', sans-serif; font-size: 2rem; margin-bottom: 6px; }
+  .font-sample .small { font-family: 'Manrope', sans-serif; font-size: 0.95rem; color: var(--muted); }
+  .font-sample .tag2 { font-size: 0.7rem; color: var(--primary); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+
+  .swatches { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .swatch { width: 72px; }
+  .swatch .box { height: 48px; border-radius: 8px; border: 1px solid var(--card-border); }
+  .swatch .name { font-size: 0.68rem; color: var(--muted); margin-top: 6px; text-align: center; }
+
+  footer { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--card-border); color: var(--muted); font-size: 0.85rem; }
+
+  @media (max-width: 640px) {
+    .tldr-grid { grid-template-columns: 1fr; }
+    .goal-split { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="eyebrow">Website-Plan · Entwurf zur Abstimmung</div>
+  <h1>Strivis Website</h1>
+  <p class="lede">
+    Eigenständiges Projekt (<code>strivis-website</code>), getrennt vom App-Repo, gleicher Stack
+    und gleiche Marke. Ziel dieses Dokuments: Struktur, Ton und Umfang der Homepage festlegen,
+    bevor Wireframe und Code entstehen.
+  </p>
+
+  <div class="tldr-grid">
+    <div class="card">
+      <div class="k">1</div>
+      <div class="v">Homepage zum Start — kein Mehrseiten-Sitemap-Aufwand vor dem ersten Launch</div>
+    </div>
+    <div class="card">
+      <div class="k">2</div>
+      <div class="v">Ziele gleichgewichtet — Download-Conversion und Markenvertrauen, nicht eines auf Kosten des anderen</div>
+    </div>
+    <div class="card">
+      <div class="k">3</div>
+      <div class="v">Rechtstexte (Datenschutz, AGB, Impressum) gehören zum Launch-Scope, nicht zur Design-Phase</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="eyebrow">Ziel</div>
+    <h2>Zwei gleichwertige Jobs für eine Seite</h2>
+    <p>Die Seite muss beides gleichzeitig leisten, ohne dass eines das andere schwächt:</p>
+    <div class="goal-split">
+      <div class="card">
+        <span class="tag">Conversion</span>
+        <h3>Download / Start</h3>
+        <p style="color:var(--muted); font-size:0.92rem;">
+          Besucher sollen die App tatsächlich ausprobieren. Da Strivis aktuell noch nicht im
+          App Store gelistet ist (Capacitor-iOS-Build existiert, aber kein Store-Eintrag), zeigt
+          der primäre CTA vorerst auf <strong>app.strivis.app</strong> (Web-App / "Zum Home-Bildschirm
+          hinzufügen"). App-Store- und Play-Store-Badges werden ergänzt, sobald die Stores live sind —
+          im Layout schon als Platzhalter-Slot vorsehen, damit der spätere Austausch kein Redesign braucht.
+        </p>
+      </div>
+      <div class="card">
+        <span class="tag">Vertrauen</span>
+        <h3>Marke &amp; Glaubwürdigkeit</h3>
+        <p style="color:var(--muted); font-size:0.92rem;">
+          Für Presse, potenzielle Nutzer, die erst vergleichen, und alle, die "ist das seriös?"
+          prüfen. Braucht klare Produktkommunikation, echte Funktionsbeschreibungen statt
+          Marketing-Floskeln, und ein Impressum — kein Vertrauen ohne Anbieterkennzeichnung.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Struktur</div>
+    <h2>Homepage — Abschnitte in Reihenfolge</h2>
+    <div class="site-map">
+      <div class="sm-row">
+        <div class="num">01</div>
+        <div>
+          <div class="label">Hero</div>
+          <div class="desc">Kernversprechen in einem Satz + primärer CTA ("Jetzt starten" → app.strivis.app) + Produkt-Visual (echtes Dashboard/ActiveWorkout-Screenshot, kein Stock-Mockup).</div>
+        </div>
+      </div>
+      <div class="sm-row">
+        <div class="num">02</div>
+        <div>
+          <div class="label">Problem → Lösung</div>
+          <div class="desc">Kurzer Kontext, warum Strivis existiert (verstreute Fitness-Tools, kein Tool deckt Training + Ernährung + Fortschritt zusammen ab).</div>
+        </div>
+      </div>
+      <div class="sm-row">
+        <div class="num">03</div>
+        <div>
+          <div class="label">Kern-Features (3–4 Blöcke)</div>
+          <div class="desc">KI-Trainingspläne, Workout-Logging (Swipe/PR-Badges/Timer aus ActiveWorkout), Ernährungstracking (Barcode + Datenbank-Suche), Fortschritt/Statistiken. Jeweils mit echtem UI-Ausschnitt, nicht generischer Icon-Liste.</div>
+        </div>
+      </div>
+      <div class="sm-row">
+        <div class="num">04</div>
+        <div>
+          <div class="label">Ehrliche Differenzierung</div>
+          <div class="desc">Was Strivis (noch) nicht hat, wird nicht verschwiegen, aber auch nicht beworben — z.B. keine Foto-Erkennung für Mahlzeiten wie Cal AI. Fokus auf das, was heute wirklich stark ist: Trainings-Logging-Tiefe, KI-Pläne, Premium-Bibliothek.</div>
+        </div>
+      </div>
+      <div class="sm-row">
+        <div class="num">05</div>
+        <div>
+          <div class="label">CTA-Wiederholung</div>
+          <div class="desc">Zweiter, direkter Aufruf weiter unten auf der Seite — üblich bei App-Landingpages, da viele Besucher nicht bis zum Hero-Button zurückscrollen.</div>
+        </div>
+      </div>
+      <div class="sm-row">
+        <div class="num">06</div>
+        <div>
+          <div class="label">FAQ</div>
+          <div class="desc">Kostenlos vs. Premium, Plattformen (iOS/Web), Datenverarbeitung kurz angerissen (Verlinkung zur Datenschutzerklärung).</div>
+        </div>
+      </div>
+      <div class="sm-row legal">
+        <div class="num">07</div>
+        <div>
+          <div class="label">Footer</div>
+          <div class="desc">Logo, Kontakt, Social-Links falls vorhanden, sowie Links zu Datenschutz, AGB, Impressum.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Umfang</div>
+    <h2>Rechtliches</h2>
+    <p style="color:var(--muted)">
+      Drei separate, schlicht gestaltete Unterseiten — Inhalt hat hier Vorrang vor Design.
+      Für Impressum/Datenschutz sind rechtsverbindliche Angaben nötig (Anbieter, Kontakt,
+      ggf. Verantwortlicher für Datenverarbeitung) — diese Angaben kannst nur du liefern,
+      ich kann die Seiten-Struktur vorbereiten, aber keine rechtsgültigen Texte verfassen
+      oder Firmendaten erfinden.
+    </p>
+    <div class="cta-note">
+      <div class="dot"></div>
+      <div>
+        <strong>Offener Punkt:</strong> Für Impressum/AGB brauche ich von dir die formellen Angaben
+        (Anbieter-Name, Anschrift, Kontakt, ggf. Handelsregister/USt-ID). Datenschutzerklärung kann
+        ich auf Basis der tatsächlich genutzten Dienste entwerfen (Base44-Backend, Stripe falls
+        aktiviert, etc.) — auch das bitte vor Veröffentlichung von dir/einem Juristen prüfen lassen.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Design-Richtung</div>
+    <h2>Gleiche Marke wie die App — keine zweite Identität</h2>
+    <p style="color:var(--muted)">Direkt aus <code>design-system/strivis/MASTER.md</code> übernommen, nicht neu erfunden.</p>
+    <div class="fonts-row">
+      <div class="font-sample">
+        <span class="tag2">Headings</span>
+        <div class="big">STRIVIS</div>
+        <div class="small">Anton — bereits auf jedem App-Screen im Einsatz, bleibt unverändert.</div>
+      </div>
+      <div class="font-sample">
+        <span class="tag2">Fließtext</span>
+        <div class="small" style="font-size:1.05rem; color:var(--foreground);">Die All-in-One Fitness-Lösung für Training, Ernährung und Fortschritt.</div>
+        <div class="small" style="margin-top:8px;">Manrope — Body-Font der App, 400–800.</div>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch"><div class="box" style="background:#FF4400"></div><div class="name">Primary</div></div>
+      <div class="swatch"><div class="box" style="background:#131720"></div><div class="name">FG (Light)</div></div>
+      <div class="swatch"><div class="box" style="background:#F6F7F9; border:1px solid #DCDFE5;"></div><div class="name">BG (Light)</div></div>
+      <div class="swatch"><div class="box" style="background:#0D0F14"></div><div class="name">BG (Dark)</div></div>
+      <div class="swatch"><div class="box" style="background:#F2F4F6"></div><div class="name">FG (Dark)</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Einordnung</div>
+    <h2>Wo Strivis heute steht (aus der App-Wettbewerbsanalyse)</h2>
+    <p style="color:var(--muted)">Gleiche Vergleichsgruppe wie im App-Redesign-Report — die Website tritt gegen dieselben Referenzpunkte an, nicht gegen generische "Fitness-App"-Landingpages.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>App</th><th>Positionierung</th><th>Was die Website davon lernen sollte</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="app">Cal AI</td>
+            <td>Foto-Ernährungstracking, sehr hohe Store-Bewertung</td>
+            <td>Extrem reduzierte, ein-Feature-fokussierte Landingpage. Strivis sollte breiter kommunizieren (Training + Ernährung), aber genauso klar in der Kernaussage bleiben.</td>
+          </tr>
+          <tr>
+            <td class="app">Fitbod</td>
+            <td>Adaptive KI-Trainingspläne</td>
+            <td>Zeigt "Plan passt sich an" konkret mit UI-Ausschnitten statt Textbehauptung — direktes Vorbild für Abschnitt 03.</td>
+          </tr>
+          <tr>
+            <td class="app">Whoop</td>
+            <td>Datendichte, Premium-Positionierung</td>
+            <td>Zurückhaltende, hochwertige Bildsprache statt bunter Marketing-Elemente — passt zum bereits etablierten, ruhigen App-Look.</td>
+          </tr>
+          <tr>
+            <td class="app">Freeletics</td>
+            <td>Community/Motivation</td>
+            <td>Weniger relevant für Strivis' aktuellen Reifegrad (keine Community-Features) — bewusst nicht nachahmen.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Nächste Schritte</div>
+    <h2>Ablauf nach Freigabe dieses Plans</h2>
+    <div class="phase-list">
+      <div class="phase">
+        <div class="tag">Schritt 1</div>
+        <div>
+          <div class="label">Wireframe</div>
+          <div class="desc">Low-Fidelity-Layout der 7 Abschnitte zur Abstimmung, bevor echtes UI entsteht.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="tag">Schritt 2</div>
+        <div>
+          <div class="label">Copy</div>
+          <div class="desc">Echte deutsche Texte je Abschnitt (Hero-Zeile, Feature-Beschreibungen, FAQ) — auf Basis der tatsächlichen App-Funktionen, keine Platzhalter.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="tag">Schritt 3</div>
+        <div>
+          <div class="label">Build Homepage</div>
+          <div class="desc">Umsetzung in React/Tailwind/shadcn, mit den neuen Design-Skills (frontend-design, impeccable) für den Feinschliff.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="tag">Schritt 4</div>
+        <div>
+          <div class="label">Rechtliches</div>
+          <div class="desc">Datenschutz/AGB/Impressum, sobald deine Angaben vorliegen.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="tag">Schritt 5</div>
+        <div>
+          <div class="label">Launch</div>
+          <div class="desc">Deployment (z.B. Vercel/Netlify) + eigene Domain-Entscheidung (Subdomain von strivis.app oder separate Domain) — noch offen, mit dir zu klären.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Strivis Website — Planungs-Entwurf · <span id="today"></span>
+  </footer>
+</div>
+
+<script>
+  document.getElementById('today').textContent = new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' });
+</script>
