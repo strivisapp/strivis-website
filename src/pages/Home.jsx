@@ -23,6 +23,7 @@ const FEATURES = [
     icon: Utensils,
     title: "Ernährung in Sekunden",
     desc: "Barcode scannen oder aus einer Datenbank mit echten Lebensmitteldaten suchen (OpenFoodFacts & USDA) — sofort geloggt.",
+    image: "/screenshots/nutrition-dark.png",
   },
   {
     icon: TrendingUp,
@@ -161,12 +162,21 @@ export default function Home() {
       <Section id="features" className="py-14">
         <div className="grid sm:grid-cols-2 gap-4">
           {FEATURES.map((f) => (
-            <div key={f.title} className="rounded-2xl border border-border bg-card p-6">
+            <div key={f.title} className="rounded-2xl border border-border bg-card p-6 overflow-hidden">
               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                 <f.icon className="w-5 h-5 text-primary" />
               </div>
               <h3 className="font-heading text-lg tracking-wide mb-1.5">{f.title}</h3>
               <p className="text-sm text-muted-foreground">{f.desc}</p>
+              {f.image && (
+                <div className="mt-4 -mb-6 -mx-6 rounded-t-xl overflow-hidden border-t border-border">
+                  <img
+                    src={f.image}
+                    alt={f.title}
+                    className="w-full h-40 object-cover object-top"
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>
