@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PhoneMock } from "@/components/home/PhoneMock";
+import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { Sparkles, ListChecks, Utensils, TrendingUp, Dumbbell } from "lucide-react";
 
 const FEATURES = [
@@ -111,8 +111,18 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-center relative h-[380px]">
-            <PhoneMock variant="dashboard" rotate={-6} className="absolute left-[20%] top-2" />
-            <PhoneMock variant="workout" rotate={6} className="absolute left-[38%] top-8" />
+            <PhoneFrame
+              src="/screenshots/dashboard-dark.png"
+              alt="Strivis Dashboard"
+              rotate={-6}
+              className="absolute left-[20%] top-2"
+            />
+            <PhoneFrame
+              src="/screenshots/activeworkout-dark.png"
+              alt="Strivis Workout-Logging"
+              rotate={6}
+              className="absolute left-[38%] top-8"
+            />
           </div>
         </div>
       </Section>
