@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -8,6 +10,8 @@ import {
 import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { Reveal } from "@/components/home/Reveal";
 import { useParallax } from "@/hooks/useParallax";
+import { useScrollPast } from "@/hooks/useScrollPast";
+import { useAuth } from "@/lib/AuthContext";
 import { Sparkles, ListChecks, Utensils, TrendingUp, Dumbbell } from "lucide-react";
 
 const FEATURES = [
@@ -76,30 +80,47 @@ const NAV_LINKS = [
 
 export default function Home() {
   const parallaxRef = useParallax(0.15);
+  const heroEndRef = useRef(null);
+  const scrolledPastHero = useScrollPast(heroEndRef);
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="bg-background text-foreground">
-      {/* Nav */}
-      <header className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
-        <img src="/brand/strivis-icon-mark-orange-dark.svg" alt="Strivis" className="h-8" />
-        <nav className="hidden sm:flex items-center gap-6">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-        <Button size="sm" className="rounded-full" asChild>
-          <a href="https://app.strivis.app">Jetzt starten</a>
-        </Button>
+      {/* Nav — transparent over the hero photo, solid once scrolled past it */}
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+          scrolledPastHero
+            ? "bg-background/95 backdrop-blur border-b border-border"
+            : "bg-transparent border-b border-transparent"
+        }`}
+      >
+        <div className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
+          <img
+            src={scrolledPastHero ? "/brand/strivis-icon-mark-orange-dark.svg" : "/brand/strivis-icon-mark-orange-white.svg"}
+            alt="Strivis"
+            className="h-8"
+          />
+          <nav className="hidden sm:flex items-center gap-6">
+            {NAV_LINKS.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className={`text-sm transition-colors rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                  scrolledPastHero ? "text-muted-foreground hover:text-foreground" : "text-white/80 hover:text-white"
+                }`}
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+          <Button size="sm" className="rounded-full" asChild>
+            <Link to={isAuthenticated ? "/premium" : "/login"}>{isAuthenticated ? "Premium" : "Login"}</Link>
+          </Button>
+        </div>
       </header>
 
       {/* 01 Hero */}
-      <section className="relative overflow-hidden bg-[#0D0F14] text-[#F2F4F6] py-16 md:py-24">
+      <section className="relative overflow-hidden bg-[#0D0F14] text-[#F2F4F6] pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="absolute inset-0">
           <div ref={parallaxRef} className="absolute inset-0 -top-20 -bottom-20">
             <img
@@ -145,6 +166,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <div ref={heroEndRef} className="h-px" />
 
       {/* 02 Value props */}
       <Section className="py-14 text-center">
