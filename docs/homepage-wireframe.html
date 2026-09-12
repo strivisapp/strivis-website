@@ -1,0 +1,285 @@
+<title>Strivis Homepage Wireframe</title>
+<style>
+  :root {
+    --page-bg: #F1F2F4;
+    --ink: #1A1D22;
+    --muted: #7A828E;
+    --line: #C7CBD1;
+    --block: #E3E5E8;
+    --block-line: #B7BCC3;
+    --accent: #FF4400;
+    --accent-bg: #FFE4D6;
+    --card: #FFFFFF;
+    --card-border: #D3D6DA;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page-bg: #14161A;
+      --ink: #E7E9EC;
+      --muted: #8B929C;
+      --line: #33373D;
+      --block: #21242A;
+      --block-line: #3A3F46;
+      --accent: #FF7A4D;
+      --accent-bg: #3A2418;
+      --card: #1B1E23;
+      --card-border: #33373D;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #14161A;
+    --ink: #E7E9EC;
+    --muted: #8B929C;
+    --line: #33373D;
+    --block: #21242A;
+    --block-line: #3A3F46;
+    --accent: #FF7A4D;
+    --accent-bg: #3A2418;
+    --card: #1B1E23;
+    --card-border: #33373D;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--ink);
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  }
+  .shell { max-width: 1040px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  .top {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .top h1 { font-size: 1.05rem; font-weight: 700; margin: 0; letter-spacing: 0.01em; }
+  .top .meta { font-size: 0.72rem; color: var(--muted); }
+
+  .frame {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .section {
+    border-bottom: 1px dashed var(--line);
+    padding: 22px 24px;
+    position: relative;
+  }
+  .section:last-child { border-bottom: none; }
+
+  .tag {
+    position: absolute; top: 10px; right: 14px;
+    font-size: 0.62rem; color: var(--muted); letter-spacing: 0.06em;
+  }
+  .sec-label {
+    font-size: 0.68rem; font-weight: 700; color: var(--muted);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
+  }
+
+  .block {
+    background: var(--block);
+    border: 1px solid var(--block-line);
+    border-radius: 3px;
+  }
+  .line { background: var(--block); border: 1px solid var(--block-line); border-radius: 2px; height: 10px; }
+
+  /* 01 Hero */
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .hero-copy .line.h1 { height: 20px; width: 92%; margin-bottom: 8px; }
+  .hero-copy .line.h1b { height: 20px; width: 70%; margin-bottom: 14px; }
+  .hero-copy .line.p { height: 8px; width: 100%; margin-bottom: 6px; }
+  .hero-copy .line.p2 { height: 8px; width: 80%; margin-bottom: 18px; }
+  .cta-row { display: flex; gap: 10px; }
+  .cta {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--accent-bg); border: 1px solid var(--accent);
+    color: var(--accent); font-size: 0.68rem; font-weight: 700;
+    padding: 9px 16px; border-radius: 3px; letter-spacing: 0.03em;
+  }
+  .cta.ghost { background: transparent; color: var(--muted); border-color: var(--block-line); }
+  .hero-visual { aspect-ratio: 9/16; max-width: 220px; margin: 0 auto; }
+
+  /* generic image placeholder */
+  .imgph {
+    background: repeating-linear-gradient(135deg, var(--block), var(--block) 6px, var(--block-line) 6px, var(--block-line) 7px);
+    border: 1px solid var(--block-line); border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 0.6rem; letter-spacing: 0.05em;
+  }
+
+  /* 02 Problem/Solution */
+  .split-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .split-2 .col { display: flex; flex-direction: column; gap: 8px; }
+
+  /* 03 Features */
+  .feat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .feat-card { border: 1px solid var(--block-line); border-radius: 3px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .feat-icon { width: 26px; height: 26px; border-radius: 50%; }
+  .feat-card .imgph { aspect-ratio: 4/3; margin-top: 4px; }
+
+  /* 04 Differentiation */
+  .diff-row { display: flex; gap: 20px; }
+  .diff-col { flex: 1; border: 1px solid var(--block-line); border-radius: 3px; padding: 14px; }
+  .diff-col.has { border-color: var(--accent); }
+
+  /* 05 CTA repeat */
+  .cta-band { text-align: center; padding: 32px 24px; }
+  .cta-band .line { margin: 0 auto 10px; }
+
+  /* 06 FAQ */
+  .faq-item { border-top: 1px solid var(--line); padding: 12px 0; display: flex; justify-content: space-between; align-items: center; }
+  .faq-item:first-child { border-top: none; }
+
+  /* 07 Footer */
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 20px; }
+  .footer-col .line { margin-bottom: 8px; }
+
+  .annot {
+    margin-top: 10px; font-size: 0.68rem; color: var(--muted);
+    line-height: 1.5; max-width: 60ch;
+  }
+  .annot b { color: var(--ink); }
+
+  .legend {
+    display: flex; gap: 18px; flex-wrap: wrap; margin-top: 28px;
+    font-size: 0.68rem; color: var(--muted); align-items: center;
+  }
+  .legend .item { display: flex; align-items: center; gap: 6px; }
+  .legend .swatch { width: 14px; height: 14px; border-radius: 2px; }
+</style>
+
+<div class="shell">
+  <div class="top">
+    <h1>strivis.app — Homepage Wireframe (Low-Fi)</h1>
+    <div class="meta">Desktop-Breakpoint · Struktur &amp; Proportionen, keine finale Gestaltung</div>
+  </div>
+
+  <div class="frame">
+
+    <div class="section">
+      <div class="tag">01 / hero</div>
+      <div class="sec-label">Hero</div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="line h1"></div>
+          <div class="line h1b"></div>
+          <div class="line p"></div>
+          <div class="line p2"></div>
+          <div class="cta-row">
+            <div class="cta">Jetzt starten →</div>
+            <div class="cta ghost">Mehr erfahren</div>
+          </div>
+        </div>
+        <div class="hero-visual imgph">Dashboard-Screenshot (echt)</div>
+      </div>
+      <div class="annot"><b>Inhalt:</b> Kernversprechen in einem Satz + Subline. Primär-CTA führt zu app.strivis.app. Visual ist ein echter App-Screenshot, kein Icon.</div>
+    </div>
+
+    <div class="section">
+      <div class="tag">02 / problem → lösung</div>
+      <div class="sec-label">Problem → Lösung</div>
+      <div class="split-2">
+        <div class="col">
+          <div class="line" style="width:40%; height:9px;"></div>
+          <div class="line" style="width:95%;"></div>
+          <div class="line" style="width:88%;"></div>
+          <div class="line" style="width:60%;"></div>
+        </div>
+        <div class="col">
+          <div class="line" style="width:40%; height:9px;"></div>
+          <div class="line" style="width:95%;"></div>
+          <div class="line" style="width:88%;"></div>
+          <div class="line" style="width:70%;"></div>
+        </div>
+      </div>
+      <div class="annot"><b>Inhalt:</b> Links kurzer Problemrahmen (verstreute Fitness-Tools), rechts Strivis' Antwort (alles an einem Ort). Zwei Spalten, kein Bild nötig.</div>
+    </div>
+
+    <div class="section">
+      <div class="tag">03 / features</div>
+      <div class="sec-label">Kern-Features</div>
+      <div class="feat-grid">
+        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">UI-Ausschnitt</div></div>
+        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">UI-Ausschnitt</div></div>
+        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">UI-Ausschnitt</div></div>
+        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">UI-Ausschnitt</div></div>
+      </div>
+      <div class="annot"><b>Inhalt:</b> KI-Trainingspläne · Workout-Logging · Ernährungstracking · Fortschritt. Jede Karte: Icon, Titel, ein Satz, echter UI-Ausschnitt (aus ActiveWorkout/AddFood/Progress).</div>
+    </div>
+
+    <div class="section">
+      <div class="tag">04 / differenzierung</div>
+      <div class="sec-label">Ehrliche Differenzierung</div>
+      <div class="diff-row">
+        <div class="diff-col has">
+          <div class="line" style="width:50%; height:9px; margin-bottom:10px;"></div>
+          <div class="line" style="width:90%;"></div>
+          <div class="line" style="width:80%;"></div>
+          <div class="line" style="width:85%;"></div>
+        </div>
+        <div class="diff-col">
+          <div class="line" style="width:50%; height:9px; margin-bottom:10px;"></div>
+          <div class="line" style="width:90%;"></div>
+          <div class="line" style="width:70%;"></div>
+        </div>
+      </div>
+      <div class="annot"><b>Inhalt:</b> Links "Was Strivis heute stark macht" (Trainings-Tiefe, KI-Pläne), rechts kurz &amp; sachlich "Noch nicht enthalten" (z.B. Foto-Ernährungserkennung) — keine Übertreibung, kein Verschweigen.</div>
+    </div>
+
+    <div class="section">
+      <div class="tag">05 / cta</div>
+      <div class="sec-label">CTA-Wiederholung</div>
+      <div class="cta-band">
+        <div class="line" style="width:320px; height:16px;"></div>
+        <div class="cta" style="margin: 12px auto 0;">Jetzt starten →</div>
+      </div>
+      <div class="annot"><b>Inhalt:</b> Zweiter, direkter Download/Start-Aufruf — zentriert, ohne Ablenkung.</div>
+    </div>
+
+    <div class="section">
+      <div class="tag">06 / faq</div>
+      <div class="sec-label">FAQ</div>
+      <div class="faq-item"><div class="line" style="width:60%;"></div><div class="line" style="width:14px; height:14px; border-radius:50%;"></div></div>
+      <div class="faq-item"><div class="line" style="width:48%;"></div><div class="line" style="width:14px; height:14px; border-radius:50%;"></div></div>
+      <div class="faq-item"><div class="line" style="width:55%;"></div><div class="line" style="width:14px; height:14px; border-radius:50%;"></div></div>
+      <div class="faq-item"><div class="line" style="width:40%;"></div><div class="line" style="width:14px; height:14px; border-radius:50%;"></div></div>
+      <div class="annot"><b>Inhalt:</b> Kostenlos vs. Premium, Plattformen, Datenverarbeitung (kurz, mit Link zu Datenschutz). Akkordeon, eingeklappt per Default.</div>
+    </div>
+
+    <div class="section">
+      <div class="tag">07 / footer</div>
+      <div class="sec-label">Footer</div>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="block" style="width:28px; height:28px; border-radius:6px; margin-bottom:8px;"></div>
+          <div class="line" style="width:70%;"></div>
+        </div>
+        <div class="footer-col">
+          <div class="line" style="width:50%; height:8px; margin-bottom:10px;"></div>
+          <div class="line" style="width:70%;"></div>
+          <div class="line" style="width:60%;"></div>
+        </div>
+        <div class="footer-col">
+          <div class="line" style="width:50%; height:8px; margin-bottom:10px;"></div>
+          <div class="line" style="width:65%;"></div>
+          <div class="line" style="width:55%;"></div>
+        </div>
+        <div class="footer-col">
+          <div class="line" style="width:50%; height:8px; margin-bottom:10px;"></div>
+          <div class="line" style="width:70%;"></div>
+          <div class="line" style="width:50%;"></div>
+        </div>
+      </div>
+      <div class="annot"><b>Inhalt:</b> Logo + Kurzclaim, dann drei Linkspalten (Produkt / Rechtliches: Datenschutz, AGB, Impressum / Kontakt-Social).</div>
+    </div>
+
+  </div>
+
+  <div class="legend">
+    <div class="item"><div class="swatch" style="background:var(--block); border:1px solid var(--block-line);"></div> Platzhalter-Inhalt (Text/Bild folgt in Copy-Phase)</div>
+    <div class="item"><div class="swatch" style="background:var(--accent-bg); border:1px solid var(--accent);"></div> Primärer CTA (Download/Start)</div>
+  </div>
+</div>
