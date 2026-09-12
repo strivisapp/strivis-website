@@ -56,13 +56,19 @@ const FAQ = [
   },
 ];
 
-function Section({ children, className = "", dark = false }) {
+function Section({ children, className = "", dark = false, id }) {
   return (
-    <section className={`${dark ? "bg-[#0D0F14] text-[#F2F4F6]" : ""} ${className}`}>
+    <section id={id} className={`scroll-mt-20 ${dark ? "bg-[#0D0F14] text-[#F2F4F6]" : ""} ${className}`}>
       <div className="max-w-5xl mx-auto px-6">{children}</div>
     </section>
   );
 }
+
+const NAV_LINKS = [
+  { href: "#features", label: "Features" },
+  { href: "#plaene", label: "Pläne" },
+  { href: "#faq", label: "FAQ" },
+];
 
 export default function Home() {
   return (
@@ -70,6 +76,17 @@ export default function Home() {
       {/* Nav */}
       <header className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
         <img src="/brand/strivis-icon-mark-orange-dark.svg" alt="Strivis" className="h-8" />
+        <nav className="hidden sm:flex items-center gap-6">
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
         <Button size="sm" className="rounded-full" asChild>
           <a href="https://app.strivis.app">Jetzt starten</a>
         </Button>
@@ -131,7 +148,7 @@ export default function Home() {
       </Section>
 
       {/* 04 Features */}
-      <Section className="py-14">
+      <Section id="features" className="py-14">
         <div className="grid sm:grid-cols-2 gap-4">
           {FEATURES.map((f) => (
             <div key={f.title} className="rounded-2xl border border-border bg-card p-6">
@@ -154,7 +171,7 @@ export default function Home() {
       </Section>
 
       {/* 06 Plan carousel */}
-      <Section className="py-14">
+      <Section id="plaene" className="py-14">
         <h2 className="font-heading text-2xl tracking-wide mb-6 text-center">
           Trainingspläne-Bibliothek
         </h2>
@@ -208,7 +225,7 @@ export default function Home() {
       </Section>
 
       {/* 10 FAQ */}
-      <Section className="py-14 max-w-2xl">
+      <Section id="faq" className="py-14 max-w-2xl">
         <h2 className="font-heading text-2xl tracking-wide mb-6 text-center">Häufige Fragen</h2>
         <Accordion type="single" collapsible>
           {FAQ.map((item, i) => (
