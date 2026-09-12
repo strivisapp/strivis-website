@@ -1,4 +1,4 @@
-<title>Strivis Homepage Wireframe</title>
+<title>Strivis Homepage Wireframe v2</title>
 <style>
   :root {
     --page-bg: #F1F2F4;
@@ -11,6 +11,14 @@
     --accent-bg: #FFE4D6;
     --card: #FFFFFF;
     --card-border: #D3D6DA;
+    --dark-block: #2C2620;
+    --dark-block-line: #4A3F33;
+    --src-a: #6366F1;
+    --src-a-bg: #EEF0FE;
+    --src-b: #2563EB;
+    --src-b-bg: #E9F0FE;
+    --src-c: #16A34A;
+    --src-c-bg: #E9F8EE;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -24,6 +32,11 @@
       --accent-bg: #3A2418;
       --card: #1B1E23;
       --card-border: #33373D;
+      --dark-block: #3A322A;
+      --dark-block-line: #574A3B;
+      --src-a-bg: #23243A;
+      --src-b-bg: #1C2A40;
+      --src-c-bg: #1B3324;
     }
   }
   :root[data-theme="dark"] {
@@ -37,6 +50,11 @@
     --accent-bg: #3A2418;
     --card: #1B1E23;
     --card-border: #33373D;
+    --dark-block: #3A322A;
+    --dark-block-line: #574A3B;
+    --src-a-bg: #23243A;
+    --src-b-bg: #1C2A40;
+    --src-c-bg: #1B3324;
   }
 
   * { box-sizing: border-box; }
@@ -46,15 +64,27 @@
     color: var(--ink);
     font-family: ui-monospace, "SF Mono", Consolas, monospace;
   }
-  .shell { max-width: 1040px; margin: 0 auto; padding: 40px 20px 80px; }
+  .shell { max-width: 1080px; margin: 0 auto; padding: 40px 20px 80px; }
 
   .top {
     display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
-    margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--line);
+    margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);
     flex-wrap: wrap;
   }
   .top h1 { font-size: 1.05rem; font-weight: 700; margin: 0; letter-spacing: 0.01em; }
   .top .meta { font-size: 0.72rem; color: var(--muted); }
+
+  .source-legend {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px;
+  }
+  .src-chip {
+    font-size: 0.66rem; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .src-chip.a { background: var(--src-a-bg); color: var(--src-a); }
+  .src-chip.b { background: var(--src-b-bg); color: var(--src-b); }
+  .src-chip.c { background: var(--src-c-bg); color: var(--src-c); }
+  .src-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
   .frame {
     background: var(--card);
@@ -69,15 +99,26 @@
     position: relative;
   }
   .section:last-child { border-bottom: none; }
+  .section.on-dark { background: #101114; color: #E7E9EC; }
 
   .tag {
     position: absolute; top: 10px; right: 14px;
     font-size: 0.62rem; color: var(--muted); letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 8px;
   }
+  .section.on-dark .tag { color: #7B818C; }
+  .src-mark {
+    width: 7px; height: 7px; border-radius: 50%; display: inline-block;
+  }
+  .src-mark.a { background: var(--src-a); }
+  .src-mark.b { background: var(--src-b); }
+  .src-mark.c { background: var(--src-c); }
+
   .sec-label {
     font-size: 0.68rem; font-weight: 700; color: var(--muted);
     letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
   }
+  .section.on-dark .sec-label { color: #8B929C; }
 
   .block {
     background: var(--block);
@@ -85,63 +126,120 @@
     border-radius: 3px;
   }
   .line { background: var(--block); border: 1px solid var(--block-line); border-radius: 2px; height: 10px; }
+  .section.on-dark .line, .section.on-dark .block { background: var(--dark-block); border-color: var(--dark-block-line); }
 
-  /* 01 Hero */
-  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
-  .hero-copy .line.h1 { height: 20px; width: 92%; margin-bottom: 8px; }
-  .hero-copy .line.h1b { height: 20px; width: 70%; margin-bottom: 14px; }
-  .hero-copy .line.p { height: 8px; width: 100%; margin-bottom: 6px; }
-  .hero-copy .line.p2 { height: 8px; width: 80%; margin-bottom: 18px; }
-  .cta-row { display: flex; gap: 10px; }
-  .cta {
-    display: inline-flex; align-items: center; justify-content: center;
-    background: var(--accent-bg); border: 1px solid var(--accent);
-    color: var(--accent); font-size: 0.68rem; font-weight: 700;
-    padding: 9px 16px; border-radius: 3px; letter-spacing: 0.03em;
-  }
-  .cta.ghost { background: transparent; color: var(--muted); border-color: var(--block-line); }
-  .hero-visual { aspect-ratio: 9/16; max-width: 220px; margin: 0 auto; }
-
-  /* generic image placeholder */
   .imgph {
     background: repeating-linear-gradient(135deg, var(--block), var(--block) 6px, var(--block-line) 6px, var(--block-line) 7px);
     border: 1px solid var(--block-line); border-radius: 3px;
     display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 0.6rem; letter-spacing: 0.05em;
+    color: var(--muted); font-size: 0.6rem; letter-spacing: 0.05em; text-align: center; padding: 4px;
+  }
+  .section.on-dark .imgph {
+    background: repeating-linear-gradient(135deg, var(--dark-block), var(--dark-block) 6px, var(--dark-block-line) 6px, var(--dark-block-line) 7px);
+    border-color: var(--dark-block-line); color: #9AA0AA;
   }
 
-  /* 02 Problem/Solution */
+  .cta {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--accent-bg); border: 1px solid var(--accent);
+    color: var(--accent); font-size: 0.68rem; font-weight: 700;
+    padding: 9px 16px; border-radius: 999px; letter-spacing: 0.03em;
+  }
+  .cta.ghost { background: transparent; color: var(--muted); border-color: var(--block-line); }
+  .cta.full { width: 100%; padding: 12px 16px; }
+
+  /* 01 Hero */
+  .trust-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--dark-block-line); border-radius: 999px;
+    padding: 5px 12px 5px 6px; margin-bottom: 16px; width: fit-content;
+  }
+  .avatar-stack { display: flex; }
+  .avatar-stack .av {
+    width: 18px; height: 18px; border-radius: 50%; background: var(--dark-block);
+    border: 2px solid #101114; margin-left: -6px;
+  }
+  .avatar-stack .av:first-child { margin-left: 0; }
+  .trust-pill .txt { font-size: 0.62rem; color: #B9BEC7; }
+
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center; padding: 36px 8px; }
+  .hero-copy .line.h1 { height: 26px; width: 95%; margin-bottom: 8px; }
+  .hero-copy .line.h1b { height: 26px; width: 60%; margin-bottom: 16px; }
+  .hero-copy .line.p { height: 9px; width: 90%; margin-bottom: 6px; }
+  .hero-copy .line.p2 { height: 9px; width: 65%; margin-bottom: 20px; }
+  .rating-line { font-size: 0.64rem; color: #8B929C; margin-top: 10px; }
+  .phones { display: flex; justify-content: center; gap: 0; position: relative; height: 260px; }
+  .phone { width: 130px; border-radius: 18px; border: 3px solid var(--dark-block-line); position: absolute; top: 0; bottom: 0; }
+  .phone.left { left: 38%; transform: rotate(-6deg); z-index: 1; }
+  .phone.right { left: 52%; transform: rotate(6deg); z-index: 2; }
+
+  /* value prop stack */
+  .value-stack { display: flex; flex-direction: column; gap: 6px; align-items: center; text-align: center; padding: 8px 0 20px; }
+  .value-stack .line { height: 18px; }
+  .value-stack .line.accent { background: var(--accent-bg); border-color: var(--accent); }
+
+  /* 03 Problem/Solution */
   .split-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .split-2 .col { display: flex; flex-direction: column; gap: 8px; }
 
-  /* 03 Features */
+  /* 04 Features */
   .feat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
   .feat-card { border: 1px solid var(--block-line); border-radius: 3px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
   .feat-icon { width: 26px; height: 26px; border-radius: 50%; }
   .feat-card .imgph { aspect-ratio: 4/3; margin-top: 4px; }
 
-  /* 04 Differentiation */
+  /* 05 Big stat */
+  .stat-band { text-align: center; padding: 40px 24px; }
+  .stat-num { font-size: 2.6rem; font-weight: 700; color: #F5A87C; line-height: 1; margin-bottom: 8px; }
+  .stat-sub { font-size: 0.7rem; color: #9AA0AA; }
+
+  /* 06 program carousel */
+  .carousel-row { display: flex; gap: 12px; overflow: hidden; }
+  .prog-card { flex: 0 0 180px; border: 1px solid var(--block-line); border-radius: 6px; overflow: hidden; }
+  .prog-card .imgph { aspect-ratio: 4/5; border-radius: 0; border-left: none; border-right: none; border-top: none; }
+  .prog-tags { display: flex; justify-content: space-between; padding: 8px 10px; font-size: 0.58rem; color: var(--muted); }
+  .dots { display: flex; justify-content: center; gap: 5px; margin-top: 14px; }
+  .dots .d { width: 5px; height: 5px; border-radius: 50%; background: var(--block-line); }
+  .dots .d.active { width: 16px; border-radius: 3px; background: var(--accent); }
+
+  /* 07 differentiation */
   .diff-row { display: flex; gap: 20px; }
   .diff-col { flex: 1; border: 1px solid var(--block-line); border-radius: 3px; padding: 14px; }
   .diff-col.has { border-color: var(--accent); }
 
-  /* 05 CTA repeat */
-  .cta-band { text-align: center; padding: 32px 24px; }
-  .cta-band .line { margin: 0 auto 10px; }
+  /* 08 social proof (deferred) */
+  .proof-row { display: flex; gap: 12px; }
+  .proof-card { flex: 1; border: 1px dashed var(--dark-block-line); border-radius: 6px; padding: 14px; opacity: 0.55; }
+  .stars { color: #C9A227; font-size: 0.7rem; margin-bottom: 8px; }
+  .deferred-flag {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+    font-size: 0.62rem; color: #F5A87C; border: 1px solid var(--dark-block-line);
+    padding: 4px 10px; border-radius: 999px;
+  }
 
-  /* 06 FAQ */
+  /* 09 CTA repeat */
+  .cta-band { text-align: center; padding: 36px 24px; }
+  .cta-band .line { margin: 0 auto 14px; }
+
+  /* 10 FAQ */
   .faq-item { border-top: 1px solid var(--line); padding: 12px 0; display: flex; justify-content: space-between; align-items: center; }
   .faq-item:first-child { border-top: none; }
 
-  /* 07 Footer */
+  /* 11 Footer */
   .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 20px; }
   .footer-col .line { margin-bottom: 8px; }
 
   .annot {
-    margin-top: 10px; font-size: 0.68rem; color: var(--muted);
-    line-height: 1.5; max-width: 60ch;
+    margin-top: 12px; font-size: 0.68rem; color: var(--muted);
+    line-height: 1.55; max-width: 66ch;
   }
   .annot b { color: var(--ink); }
+  .section.on-dark .annot { color: #9AA0AA; }
+  .section.on-dark .annot b { color: #E7E9EC; }
+  .annot .src { font-weight: 700; }
+  .annot .src.a { color: var(--src-a); }
+  .annot .src.b { color: var(--src-b); }
+  .annot .src.c { color: var(--src-c); }
 
   .legend {
     display: flex; gap: 18px; flex-wrap: wrap; margin-top: 28px;
@@ -149,37 +247,74 @@
   }
   .legend .item { display: flex; align-items: center; gap: 6px; }
   .legend .swatch { width: 14px; height: 14px; border-radius: 2px; }
+
+  @media (max-width: 720px) {
+    .hero-grid, .split-2, .diff-row, .proof-row { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+    .feat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
 </style>
 
 <div class="shell">
   <div class="top">
-    <h1>strivis.app — Homepage Wireframe (Low-Fi)</h1>
-    <div class="meta">Desktop-Breakpoint · Struktur &amp; Proportionen, keine finale Gestaltung</div>
+    <h1>strivis.app — Homepage Wireframe v2 (Low-Fi)</h1>
+    <div class="meta">Desktop-Breakpoint · nach Analyse von stndrd.app, hevyapp.com, calai.app</div>
+  </div>
+
+  <div class="source-legend">
+    <span class="src-chip a"><span class="dot"></span>stndrd.app</span>
+    <span class="src-chip b"><span class="dot"></span>hevyapp.com</span>
+    <span class="src-chip c"><span class="dot"></span>calai.app</span>
   </div>
 
   <div class="frame">
 
-    <div class="section">
-      <div class="tag">01 / hero</div>
-      <div class="sec-label">Hero</div>
+    <div class="section on-dark">
+      <div class="tag"><span class="src-mark a"></span><span class="src-mark c"></span>01 / hero</div>
+      <div class="sec-label">Hero — dunkel, kinoartig</div>
+
+      <div class="trust-pill">
+        <div class="avatar-stack"><div class="av"></div><div class="av"></div><div class="av"></div></div>
+        <div class="txt">Trust-Badge — erst nach echten Store-Ratings aktivieren</div>
+      </div>
+
       <div class="hero-grid">
         <div class="hero-copy">
           <div class="line h1"></div>
           <div class="line h1b"></div>
           <div class="line p"></div>
           <div class="line p2"></div>
-          <div class="cta-row">
-            <div class="cta">Jetzt starten →</div>
-            <div class="cta ghost">Mehr erfahren</div>
-          </div>
+          <div class="cta full" style="max-width:260px;">Jetzt starten →</div>
+          <div class="rating-line">app.strivis.app · kostenlos starten</div>
         </div>
-        <div class="hero-visual imgph">Dashboard-Screenshot (echt)</div>
+        <div class="phones">
+          <div class="phone left imgph" style="height:240px; top:10px;">Dashboard<br>(dark, echt)</div>
+          <div class="phone right imgph" style="height:240px; top:30px;">ActiveWorkout<br>(dark, echt)</div>
+        </div>
       </div>
-      <div class="annot"><b>Inhalt:</b> Kernversprechen in einem Satz + Subline. Primär-CTA führt zu app.strivis.app. Visual ist ein echter App-Screenshot, kein Icon.</div>
+
+      <div class="annot">
+        <b>Was übernommen wurde:</b><br>
+        <span class="src a">stndrd</span> — volle dunkle Bühne statt heller Hero-Fläche, großer Bold-Headline-Auftritt (passt zu Anton).<br>
+        <span class="src c">calai</span> — Trust-Pill mit Avatar-Stack direkt über der Headline. <b>Wichtig:</b> Platzhalter bleibt leer/ausgegraut, bis echte Store-Ratings existieren — keine erfundene Nutzerzahl.<br>
+        <span class="src a">stndrd</span> + <span class="src c">calai</span> — zwei echte, angewinkelte Screenshots statt Stockfotos (unsere App hat die Screens bereits).
+      </div>
     </div>
 
     <div class="section">
-      <div class="tag">02 / problem → lösung</div>
+      <div class="tag"><span class="src-mark b"></span>02 / value-props</div>
+      <div class="sec-label">Kernversprechen (3 Zeilen)</div>
+      <div class="value-stack">
+        <div class="line" style="width:280px;"></div>
+        <div class="line accent" style="width:220px;"></div>
+        <div class="line" style="width:250px;"></div>
+      </div>
+      <div class="annot">
+        <span class="src b">hevy</span> — dreizeiliger Value-Prop-Stack ("Log Workouts / Get Stronger / Stay Motivated"), mittlere Zeile in Akzentfarbe. Für Strivis z.B. "Trainiere smarter · Iss bewusster · Sieh Fortschritt" — kurz, direkt unter dem Hero, eigener Mini-Abschnitt statt Teil der Fließtext-Subline.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="tag">03 / problem → lösung</div>
       <div class="sec-label">Problem → Lösung</div>
       <div class="split-2">
         <div class="col">
@@ -195,23 +330,52 @@
           <div class="line" style="width:70%;"></div>
         </div>
       </div>
-      <div class="annot"><b>Inhalt:</b> Links kurzer Problemrahmen (verstreute Fitness-Tools), rechts Strivis' Antwort (alles an einem Ort). Zwei Spalten, kein Bild nötig.</div>
+      <div class="annot"><b>Unverändert aus v1.</b> Links Problemrahmen, rechts Strivis' Antwort.</div>
     </div>
 
     <div class="section">
-      <div class="tag">03 / features</div>
+      <div class="tag"><span class="src-mark b"></span>04 / features</div>
       <div class="sec-label">Kern-Features</div>
       <div class="feat-grid">
-        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">UI-Ausschnitt</div></div>
-        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">UI-Ausschnitt</div></div>
-        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">UI-Ausschnitt</div></div>
-        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">UI-Ausschnitt</div></div>
+        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">Phone-Frame<br>(echtes UI)</div></div>
+        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">Phone-Frame<br>(echtes UI)</div></div>
+        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">Phone-Frame<br>(echtes UI)</div></div>
+        <div class="feat-card"><div class="feat-icon block"></div><div class="line" style="width:70%;"></div><div class="imgph">Phone-Frame<br>(echtes UI)</div></div>
       </div>
-      <div class="annot"><b>Inhalt:</b> KI-Trainingspläne · Workout-Logging · Ernährungstracking · Fortschritt. Jede Karte: Icon, Titel, ein Satz, echter UI-Ausschnitt (aus ActiveWorkout/AddFood/Progress).</div>
+      <div class="annot">
+        KI-Trainingspläne · Workout-Logging · Ernährungstracking · Fortschritt. <span class="src b">hevy</span> — Screenshots jetzt in echtem Geräte-Rahmen statt freigestelltem Ausschnitt, wirkt produktechter.
+      </div>
+    </div>
+
+    <div class="section on-dark">
+      <div class="tag"><span class="src-mark a"></span>05 / big stat</div>
+      <div class="sec-label">Zahlen-Moment</div>
+      <div class="stat-band">
+        <div class="stat-num">601 Übungen</div>
+        <div class="stat-sub">RepDB-Katalog · mit Bildern &amp; Anleitungen · offline nutzbar</div>
+      </div>
+      <div class="annot">
+        <span class="src a">stndrd</span> — großer, isolierter Zahlen-Moment mit riesiger Typo ("100,000+"). Strivis hat noch keine Nutzerzahl zum Zeigen (kein Store-Launch) — <b>deshalb eine reale, heute schon wahre Zahl</b>: die 601 Übungen aus der bereits eingebauten RepDB-Datenbank (<code>Exercises.jsx</code>). Sobald echte Nutzer-/Rating-Zahlen existieren, ersetzt das diesen Platzhalter.
+      </div>
     </div>
 
     <div class="section">
-      <div class="tag">04 / differenzierung</div>
+      <div class="tag"><span class="src-mark a"></span>06 / plan-carousel</div>
+      <div class="sec-label">Trainingspläne-Bibliothek</div>
+      <div class="carousel-row">
+        <div class="prog-card"><div class="imgph">Plan-Foto</div><div class="prog-tags"><span>Kraft</span><span>8 Wochen</span></div></div>
+        <div class="prog-card"><div class="imgph">Plan-Foto</div><div class="prog-tags"><span>Hypertrophie</span><span>6 Wochen</span></div></div>
+        <div class="prog-card"><div class="imgph">Plan-Foto</div><div class="prog-tags"><span>Einsteiger</span><span>4 Wochen</span></div></div>
+        <div class="prog-card"><div class="imgph">Plan-Foto</div><div class="prog-tags"><span>Ganzkörper</span><span>6 Wochen</span></div></div>
+      </div>
+      <div class="dots"><div class="d active"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div></div>
+      <div class="annot">
+        <span class="src a">stndrd</span> — horizontaler Karten-Carousel mit Foto, Kategorie-Tag und Dauer, Dot-Pagination. Bildet real existierende <code>CURATED_PLANS</code> aus <code>PlanLibrary.jsx</code> ab, keine erfundenen Programme.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="tag">07 / differenzierung</div>
       <div class="sec-label">Ehrliche Differenzierung</div>
       <div class="diff-row">
         <div class="diff-col has">
@@ -226,31 +390,47 @@
           <div class="line" style="width:70%;"></div>
         </div>
       </div>
-      <div class="annot"><b>Inhalt:</b> Links "Was Strivis heute stark macht" (Trainings-Tiefe, KI-Pläne), rechts kurz &amp; sachlich "Noch nicht enthalten" (z.B. Foto-Ernährungserkennung) — keine Übertreibung, kein Verschweigen.</div>
+      <div class="annot"><b>Unverändert aus v1.</b> Links Stärken, rechts sachlich "noch nicht enthalten" — z.B. Foto-Ernährungserkennung (Cal AIs Kernfeature, das Strivis heute nicht hat).</div>
+    </div>
+
+    <div class="section on-dark">
+      <div class="tag"><span class="src-mark a"></span>08 / social proof</div>
+      <div class="sec-label">Stimmen (zurückgestellt)</div>
+      <div class="proof-row">
+        <div class="proof-card"><div class="stars">★★★★★</div><div class="line" style="width:90%;"></div><div class="line" style="width:70%;"></div></div>
+        <div class="proof-card"><div class="stars">★★★★★</div><div class="line" style="width:85%;"></div><div class="line" style="width:60%;"></div></div>
+        <div class="proof-card"><div class="stars">★★★★★</div><div class="line" style="width:80%;"></div><div class="line" style="width:65%;"></div></div>
+      </div>
+      <div class="deferred-flag">⏳ Abschnitt bleibt leer bis echte Bewertungen/Zitate vorliegen</div>
+      <div class="annot">
+        <span class="src a">stndrd</span> — Testimonial-Karten mit Sternen auf dunklem Grund. Layout wird jetzt reserviert, <b>aber nicht mit erfundenen Bewertungen gefüllt</b> — das wäre eine fingierte Rezension. Füllen, sobald erste echte Nutzerstimmen (z.B. nach Store-Launch oder aus Beta-Feedback) vorliegen.
+      </div>
     </div>
 
     <div class="section">
-      <div class="tag">05 / cta</div>
+      <div class="tag">09 / cta</div>
       <div class="sec-label">CTA-Wiederholung</div>
       <div class="cta-band">
         <div class="line" style="width:320px; height:16px;"></div>
-        <div class="cta" style="margin: 12px auto 0;">Jetzt starten →</div>
+        <div class="cta" style="margin: 0 auto;">Jetzt starten →</div>
       </div>
-      <div class="annot"><b>Inhalt:</b> Zweiter, direkter Download/Start-Aufruf — zentriert, ohne Ablenkung.</div>
+      <div class="annot"><b>Unverändert aus v1.</b> Zweiter, direkter Aufruf, jetzt als Pill-Button (<span class="src a">stndrd</span>-Stil) statt eckigem Button.</div>
     </div>
 
     <div class="section">
-      <div class="tag">06 / faq</div>
+      <div class="tag">10 / faq</div>
       <div class="sec-label">FAQ</div>
       <div class="faq-item"><div class="line" style="width:60%;"></div><div class="line" style="width:14px; height:14px; border-radius:50%;"></div></div>
       <div class="faq-item"><div class="line" style="width:48%;"></div><div class="line" style="width:14px; height:14px; border-radius:50%;"></div></div>
       <div class="faq-item"><div class="line" style="width:55%;"></div><div class="line" style="width:14px; height:14px; border-radius:50%;"></div></div>
       <div class="faq-item"><div class="line" style="width:40%;"></div><div class="line" style="width:14px; height:14px; border-radius:50%;"></div></div>
-      <div class="annot"><b>Inhalt:</b> Kostenlos vs. Premium, Plattformen, Datenverarbeitung (kurz, mit Link zu Datenschutz). Akkordeon, eingeklappt per Default.</div>
+      <div class="annot">
+        <span class="src c">calai</span> — FAQ gezielt gegen Reibungspunkte (Kosten, Kündigung, Datenschutz), nicht als generisches "Über uns". Für Strivis: kostenlos vs. Premium, Plattformen, Datenverarbeitung (Link zu Datenschutz).
+      </div>
     </div>
 
     <div class="section">
-      <div class="tag">07 / footer</div>
+      <div class="tag">11 / footer</div>
       <div class="sec-label">Footer</div>
       <div class="footer-grid">
         <div class="footer-col">
@@ -273,13 +453,14 @@
           <div class="line" style="width:50%;"></div>
         </div>
       </div>
-      <div class="annot"><b>Inhalt:</b> Logo + Kurzclaim, dann drei Linkspalten (Produkt / Rechtliches: Datenschutz, AGB, Impressum / Kontakt-Social).</div>
+      <div class="annot"><b>Unverändert aus v1.</b> Logo + Kurzclaim, drei Linkspalten (Produkt / Rechtliches / Kontakt).</div>
     </div>
 
   </div>
 
   <div class="legend">
     <div class="item"><div class="swatch" style="background:var(--block); border:1px solid var(--block-line);"></div> Platzhalter-Inhalt (Text/Bild folgt in Copy-Phase)</div>
-    <div class="item"><div class="swatch" style="background:var(--accent-bg); border:1px solid var(--accent);"></div> Primärer CTA (Download/Start)</div>
+    <div class="item"><div class="swatch" style="background:var(--accent-bg); border:1px solid var(--accent);"></div> Primärer CTA</div>
+    <div class="item"><span class="src-mark a"></span> stndrd-Einfluss &nbsp; <span class="src-mark b"></span> hevy-Einfluss &nbsp; <span class="src-mark c"></span> calai-Einfluss</div>
   </div>
 </div>
