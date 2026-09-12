@@ -59,11 +59,11 @@ const FAQ = [
   },
 ];
 
-function Section({ children, className = "", dark = false, id, reveal = true }) {
+function Section({ children, className = "", dark = false, id, reveal = true, maxWidth = "max-w-5xl" }) {
   const Inner = reveal ? Reveal : "div";
   return (
     <section id={id} className={`scroll-mt-20 ${dark ? "bg-[#0D0F14] text-[#F2F4F6]" : ""} ${className}`}>
-      <Inner className="max-w-5xl mx-auto px-6">{children}</Inner>
+      <Inner className={`${maxWidth} mx-auto px-6`}>{children}</Inner>
     </section>
   );
 }
@@ -87,7 +87,7 @@ export default function Home() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               {l.label}
             </a>
@@ -125,7 +125,7 @@ export default function Home() {
                 <Button size="lg" className="rounded-full h-12 px-8" asChild>
                   <a href="https://app.strivis.app">Jetzt kostenlos starten →</a>
                 </Button>
-                <p className="mt-3 text-xs text-white/40">app.strivis.app · kein Abo nötig</p>
+                <p className="mt-3 text-xs text-white/60">app.strivis.app · kein Abo nötig</p>
               </div>
             </div>
             <div className="flex justify-center relative h-[380px]">
@@ -263,7 +263,7 @@ export default function Home() {
       </Section>
 
       {/* 10 FAQ */}
-      <Section id="faq" className="py-14 max-w-2xl">
+      <Section id="faq" className="py-14" maxWidth="max-w-2xl">
         <h2 className="font-heading text-2xl tracking-wide mb-6 text-center">Häufige Fragen</h2>
         <Accordion type="single" collapsible>
           {FAQ.map((item, i) => (
@@ -283,9 +283,9 @@ export default function Home() {
             <span className="font-heading tracking-wide">Strivis</span>
           </div>
           <nav className="flex gap-5 text-sm text-muted-foreground">
-            <a href="/datenschutz" className="hover:text-foreground">Datenschutz</a>
-            <a href="/agb" className="hover:text-foreground">AGB</a>
-            <a href="/impressum" className="hover:text-foreground">Impressum</a>
+            <a href="/datenschutz" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">Datenschutz</a>
+            <a href="/agb" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">AGB</a>
+            <a href="/impressum" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">Impressum</a>
           </nav>
         </div>
       </footer>

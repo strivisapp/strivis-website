@@ -77,4 +77,8 @@
   body {
     @apply bg-background text-foreground font-body;
   }
+  ::selection {
+    background-color: hsl(var(--primary) / 0.25);
+    color: hsl(var(--foreground));
+  }
 }
