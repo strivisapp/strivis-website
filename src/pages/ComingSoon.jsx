@@ -36,8 +36,14 @@ export default function ComingSoon() {
     setLoading(true);
     try {
       const res = await base44.functions.invoke("submitWaitlistEmail", { email });
-      if (res.data?.success) setSubmitted(true);
-      else setError("Something went wrong. Please try again in a moment.");
+      if (res.data?.success) {
+        setSubmitted(true);
+        // Lets Meta Ads report real waitlist conversions instead of just
+        // page views/clicks, and lets a campaign optimize toward this event.
+        window.fbq?.("track", "Lead");
+      } else {
+        setError("Something went wrong. Please try again in a moment.");
+      }
     } catch (err) {
       setError(
         err.response?.data?.error === "invalid_email"
