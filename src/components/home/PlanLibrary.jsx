@@ -2,21 +2,27 @@ import { Dumbbell } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 
 const PLANS = [
-  { name: "Starting Strength", level: "Einsteiger", weeks: 4 },
-  { name: "Push Pull Legs", level: "Fortgeschritten", weeks: 4 },
-  { name: "5/3/1 Kraftfokus", level: "Erfahren", weeks: 4 },
+  { name: "Starting Strength", level: "Einsteiger", weeks: 4, gradient: "from-primary/25 via-primary/10 to-transparent" },
+  { name: "Push Pull Legs", level: "Fortgeschritten", weeks: 4, gradient: "from-[#0D0F14]/60 via-primary/10 to-transparent" },
+  { name: "5/3/1 Kraftfokus", level: "Erfahren", weeks: 4, gradient: "from-primary/35 via-primary/5 to-transparent" },
 ];
 
 export function PlanLibrary() {
   return (
-    <section id="plaene" className="scroll-mt-24 py-14">
+    <section id="plaene" className="scroll-mt-24 py-16 bg-background text-foreground">
       <Reveal className="max-w-5xl mx-auto px-6">
-        <h2 className="font-heading text-2xl tracking-wide mb-6 text-center">Trainingspläne-Bibliothek</h2>
+        <div className="flex items-end justify-between mb-8 gap-4">
+          <div>
+            <div className="text-xs font-semibold tracking-wide uppercase text-primary mb-2">Plan-Bibliothek</div>
+            <h2 className="font-heading text-2xl md:text-3xl tracking-wide">Kuratiert von echten Programmen.</h2>
+          </div>
+        </div>
         <div className="grid sm:grid-cols-3 gap-4">
           {PLANS.map((p) => (
-            <div key={p.name} className="rounded-2xl border border-border bg-card overflow-hidden">
-              <div className="aspect-[4/3] bg-primary/10 flex items-center justify-center">
-                <Dumbbell className="w-8 h-8 text-primary" />
+            <div key={p.name} className="group rounded-2xl border border-border bg-card overflow-hidden transition-colors hover:border-primary/40">
+              <div className={`aspect-[16/10] bg-gradient-to-br ${p.gradient} flex items-center justify-center relative`}>
+                <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,68,0,0.35), transparent 60%)" }} />
+                <Dumbbell className="w-9 h-9 text-primary relative" />
               </div>
               <div className="p-4">
                 <h3 className="font-heading text-base tracking-wide">{p.name}</h3>
