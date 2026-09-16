@@ -27,7 +27,7 @@ export function FloatingNav({ heroEndRef, ctaHref = "/login", ctaLabel = "Login"
         }`}
       >
         <Link to="/" className="shrink-0">
-          <img src="/brand/strivis-icon-mark-orange-white.svg" alt="Strivis" className="h-7" />
+          <img src="/brand/strivis-lockup-on-dark.svg" alt="Strivis" className="h-8 md:h-9" />
         </Link>
         <nav className="hidden sm:flex items-center gap-6">
           {LINKS.map((l) => (
