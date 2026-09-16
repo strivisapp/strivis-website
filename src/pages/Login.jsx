@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { base44 } from "@/lib/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -172,27 +173,34 @@ function RegisterForm() {
 export default function Login() {
   return (
     <div className="min-h-svh flex items-center justify-center bg-background px-4 py-12">
-      <Card className="w-full max-w-sm rounded-2xl">
-        <CardHeader className="text-center">
-          <img src="/brand/strivis-icon-mark-orange-dark.svg" alt="Strivis" className="h-10 mx-auto mb-2" />
-          <CardTitle className="font-heading text-2xl tracking-wide">Willkommen bei Strivis</CardTitle>
-          <CardDescription>Melde dich an, um Premium freizuschalten.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="login">
-            <TabsList className="grid w-full grid-cols-2 mb-4">
-              <TabsTrigger value="login">Anmelden</TabsTrigger>
-              <TabsTrigger value="register">Registrieren</TabsTrigger>
-            </TabsList>
-            <TabsContent value="login">
-              <LoginForm />
-            </TabsContent>
-            <TabsContent value="register">
-              <RegisterForm />
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-sm"
+      >
+        <Card className="rounded-2xl">
+          <CardHeader className="text-center">
+            <img src="/brand/strivis-icon-mark-orange-dark.svg" alt="Strivis" className="h-10 mx-auto mb-2" />
+            <CardTitle className="font-heading text-2xl tracking-wide">Willkommen bei Strivis</CardTitle>
+            <CardDescription>Melde dich an, um Premium freizuschalten.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="login">
+              <TabsList className="grid w-full grid-cols-2 mb-4">
+                <TabsTrigger value="login">Anmelden</TabsTrigger>
+                <TabsTrigger value="register">Registrieren</TabsTrigger>
+              </TabsList>
+              <TabsContent value="login">
+                <LoginForm />
+              </TabsContent>
+              <TabsContent value="register">
+                <RegisterForm />
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </motion.div>
     </div>
   );
 }

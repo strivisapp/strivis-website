@@ -3,6 +3,9 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Premium from "@/pages/Premium";
 import ComingSoon from "@/pages/ComingSoon";
+import Datenschutz from "@/pages/Datenschutz";
+import Agb from "@/pages/Agb";
+import Impressum from "@/pages/Impressum";
 import { useAuth } from "@/lib/AuthContext";
 import { isPreLaunch } from "@/lib/launchDate";
 import { Loader2 } from "lucide-react";
@@ -32,6 +35,11 @@ function App() {
       <Route path="/" element={gatedForVisitor ? <ComingSoon /> : <Home />} />
       <Route path="/login" element={gatedForVisitor ? <ComingSoon /> : <Login />} />
       <Route path="/premium" element={<Premium />} />
+      {/* Reachable regardless of the launch gate — legal pages shouldn't
+          disappear just because the rest of the site is pre-launch. */}
+      <Route path="/datenschutz" element={<Datenschutz />} />
+      <Route path="/agb" element={<Agb />} />
+      <Route path="/impressum" element={<Impressum />} />
     </Routes>
   );
 }
