@@ -27,11 +27,11 @@ function LoginForm() {
       navigate("/premium");
     } catch (err) {
       if (err.status === 401) {
-        setError("E-Mail oder Passwort ist falsch.");
+        setError("Email or password is incorrect.");
       } else if (err.status === 403) {
-        setError("E-Mail noch nicht bestätigt. Bitte Posteingang prüfen.");
+        setError("Email not verified yet. Please check your inbox.");
       } else {
-        setError(err.message || "Anmeldung fehlgeschlagen.");
+        setError(err.message || "Login failed.");
       }
     } finally {
       setBusy(false);
@@ -41,7 +41,7 @@ function LoginForm() {
   return (
     <form onSubmit={submit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="login-email">E-Mail</Label>
+        <Label htmlFor="login-email">Email</Label>
         <Input
           id="login-email"
           type="email"
@@ -52,7 +52,7 @@ function LoginForm() {
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="login-password">Passwort</Label>
+        <Label htmlFor="login-password">Password</Label>
         <Input
           id="login-password"
           type="password"
@@ -65,7 +65,7 @@ function LoginForm() {
       {error && <p className="text-sm text-destructive">{error}</p>}
       <Button type="submit" className="w-full h-11 rounded-xl" disabled={busy}>
         {busy && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-        Anmelden
+        Log in
       </Button>
     </form>
   );
@@ -89,7 +89,7 @@ function RegisterForm() {
       await base44.auth.register({ email, password });
       setStep("otp");
     } catch (err) {
-      setError(err.message || "Registrierung fehlgeschlagen.");
+      setError(err.message || "Registration failed.");
     } finally {
       setBusy(false);
     }
@@ -104,7 +104,7 @@ function RegisterForm() {
       await login(email, password);
       navigate("/premium");
     } catch (err) {
-      setError(err.message || "Bestätigung fehlgeschlagen.");
+      setError(err.message || "Verification failed.");
     } finally {
       setBusy(false);
     }
@@ -114,10 +114,10 @@ function RegisterForm() {
     return (
       <form onSubmit={submitOtp} className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Wir haben einen Code an <span className="font-medium text-foreground">{email}</span> geschickt.
+          We sent a code to <span className="font-medium text-foreground">{email}</span>.
         </p>
         <div className="space-y-2">
-          <Label htmlFor="otp">Bestätigungscode</Label>
+          <Label htmlFor="otp">Verification code</Label>
           <Input
             id="otp"
             required
@@ -130,7 +130,7 @@ function RegisterForm() {
         {error && <p className="text-sm text-destructive">{error}</p>}
         <Button type="submit" className="w-full h-11 rounded-xl" disabled={busy}>
           {busy && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-          Bestätigen
+          Verify
         </Button>
       </form>
     );
@@ -139,7 +139,7 @@ function RegisterForm() {
   return (
     <form onSubmit={submitRegister} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="reg-email">E-Mail</Label>
+        <Label htmlFor="reg-email">Email</Label>
         <Input
           id="reg-email"
           type="email"
@@ -150,7 +150,7 @@ function RegisterForm() {
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="reg-password">Passwort</Label>
+        <Label htmlFor="reg-password">Password</Label>
         <Input
           id="reg-password"
           type="password"
@@ -164,7 +164,7 @@ function RegisterForm() {
       {error && <p className="text-sm text-destructive">{error}</p>}
       <Button type="submit" className="w-full h-11 rounded-xl" disabled={busy}>
         {busy && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-        Konto erstellen
+        Create account
       </Button>
     </form>
   );
@@ -182,14 +182,14 @@ export default function Login() {
         <Card className="rounded-2xl">
           <CardHeader className="text-center">
             <img src="/brand/strivis-icon-mark-orange-dark.svg" alt="Strivis" className="h-10 mx-auto mb-2" />
-            <CardTitle className="font-heading text-2xl tracking-wide">Willkommen bei Strivis</CardTitle>
-            <CardDescription>Melde dich an, um Premium freizuschalten.</CardDescription>
+            <CardTitle className="font-heading text-2xl tracking-wide">Welcome to Strivis</CardTitle>
+            <CardDescription>Log in to unlock Premium.</CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login">
               <TabsList className="grid w-full grid-cols-2 mb-4">
-                <TabsTrigger value="login">Anmelden</TabsTrigger>
-                <TabsTrigger value="register">Registrieren</TabsTrigger>
+                <TabsTrigger value="login">Log in</TabsTrigger>
+                <TabsTrigger value="register">Sign up</TabsTrigger>
               </TabsList>
               <TabsContent value="login">
                 <LoginForm />

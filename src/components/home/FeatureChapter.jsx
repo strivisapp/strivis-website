@@ -1,44 +1,53 @@
 import { motion } from "framer-motion";
-import { Reveal } from "@/components/home/Reveal";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// One feature, one full-bleed screen — the Apple-style "chapter" pattern:
-// a single dominant screenshot instead of an icon in a small card, a short
-// headline fragment instead of a paragraph, alternating side and background
-// per chapter for rhythm down the page.
-export function FeatureChapter({ id, eyebrow, headline, body, stat, statLabel, image, imageAlt, dark = false, reverse = false }) {
+// Ferrari-style cinematic chapter: the screenshot IS the full-bleed background
+// (cropped/scaled, not boxed), headline + copy float directly on top with a
+// gradient for legibility. `align` and `focus` vary per chapter so the
+// sequence doesn't repeat the same composition four times in a row.
+const ALIGN = {
+  left: "items-end md:items-center justify-start text-left",
+  right: "items-end md:items-center justify-end text-right md:text-right",
+  center: "items-end md:items-center justify-center text-center",
+};
+
+export function FeatureChapter({ id, eyebrow, headline, body, image, imageAlt, align = "left", focus = "50% 20%", href = "https://app.strivis.app" }) {
   return (
-    <section
-      id={id}
-      className={cn("scroll-mt-24 py-20 md:py-28 overflow-hidden", dark ? "bg-[#0D0F14] text-[#F2F4F6]" : "bg-background text-foreground")}
-    >
-      <Reveal className="max-w-5xl mx-auto px-6">
-        <div className={cn("grid md:grid-cols-2 gap-10 md:gap-16 items-center", reverse && "md:[&>*:first-child]:order-2")}>
-          <div>
-            <div className={cn("text-xs font-semibold tracking-wide uppercase mb-3", dark ? "text-primary" : "text-primary")}>{eyebrow}</div>
-            <h2 className="font-heading text-4xl md:text-5xl tracking-wide leading-[1.03] text-balance mb-5">{headline}</h2>
-            <p className={cn("text-base md:text-lg leading-relaxed max-w-sm", dark ? "text-white/65" : "text-muted-foreground")}>{body}</p>
-            {stat && (
-              <div className="mt-8">
-                <div className="font-heading text-4xl tracking-wide text-primary tabular-nums">{stat}</div>
-                <div className={cn("text-sm mt-1", dark ? "text-white/50" : "text-muted-foreground")}>{statLabel}</div>
-              </div>
-            )}
-          </div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 16 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
-          >
-            <div className={cn("absolute -inset-8 rounded-[3rem] blur-3xl -z-10", dark ? "bg-primary/10" : "bg-primary/[0.07]")} />
-            <div className="rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl shadow-black/20 mx-auto max-w-[280px] md:max-w-none">
-              <img src={image} alt={imageAlt} className="w-full h-auto block" loading="lazy" />
-            </div>
-          </motion.div>
-        </div>
-      </Reveal>
+    <section id={id} className="scroll-mt-24 relative h-[92vh] min-h-[560px] max-h-[900px] overflow-hidden bg-black">
+      <motion.img
+        src={image}
+        alt={imageAlt}
+        initial={{ scale: 1.2, opacity: 0.6 }}
+        whileInView={{ scale: 1.08, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute inset-0 w-full h-full object-cover blur-[3px] saturate-[0.85]"
+        style={{ objectPosition: focus }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/45" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-black/20" />
+
+      <div className={cn("relative h-full flex px-6 pb-16 md:pb-24", ALIGN[align])}>
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-xl"
+        >
+          <div className="text-xs font-semibold tracking-[0.2em] uppercase text-white/70 mb-4">{eyebrow}</div>
+          <h2 className="font-heading text-5xl md:text-7xl uppercase tracking-wide leading-[0.95] text-white text-balance mb-5">{headline}</h2>
+          <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-md">{body}</p>
+          <a href={href} className="inline-flex items-center gap-2 mt-7 text-sm font-medium text-white group">
+            <span className="border-b border-white/40 group-hover:border-white transition-colors pb-0.5">Explore</span>
+            <span className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center group-hover:border-primary group-hover:bg-primary transition-colors">
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </span>
+          </a>
+        </motion.div>
+      </div>
     </section>
   );
 }

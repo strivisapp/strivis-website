@@ -6,36 +6,36 @@ import { cn } from "@/lib/utils";
 
 const FAQ = [
   {
-    q: "Ist Strivis kostenlos?",
-    a: "Ja. Trainings- und Ernährungslogging, die Übungsdatenbank und ein kostenloser KI-Plan sind ohne Kosten nutzbar. Premium schaltet weitere KI-Pläne und die Plan-Bibliothek frei.",
+    q: "Is Strivis free?",
+    a: "Yes. Workout and nutrition logging, the exercise database and one free AI plan are all free to use. Premium unlocks further AI plans and the plan library.",
   },
   {
-    q: "Auf welchen Geräten läuft Strivis?",
-    a: "Aktuell als iOS-App. Eine Version für Google Play ist in Vorbereitung.",
+    q: "What devices does Strivis run on?",
+    a: "Currently as an iOS app. A Google Play version is in the works.",
   },
   {
-    q: "Wie werden meine Daten verarbeitet?",
-    a: "Details dazu findest du in unserer Datenschutzerklärung.",
+    q: "How is my data handled?",
+    a: "Details are in our Privacy Policy.",
   },
   {
-    q: "Kann ich meinen eigenen Trainingsplan erstellen?",
-    a: "Ja, zusätzlich zu KI-generierten und kuratierten Plänen kannst du Pläne komplett selbst zusammenstellen.",
+    q: "Can I build my own training plan?",
+    a: "Yes — alongside AI-generated and curated plans, you can put together a plan entirely yourself.",
   },
   {
-    q: "Läuft die Übungsdatenbank auch offline?",
-    a: "Ja. Nach einmaligem Download stehen alle 601 Übungen mit Bild und Anleitung offline zur Verfügung.",
+    q: "Does the exercise database work offline?",
+    a: "Yes. After a one-time download, all 601 exercises with image and instructions are available offline.",
   },
   {
-    q: "Kann ich mein Konto wieder löschen?",
-    a: "Ja, jederzeit in den Kontoeinstellungen — deine Daten werden dabei unwiderruflich entfernt.",
+    q: "Can I delete my account again?",
+    a: "Yes, anytime in account settings — your data is permanently removed with it.",
   },
   {
-    q: "Was, wenn ich auf mehreren Geräten trainiere?",
-    a: "Dein Konto ist geräteübergreifend synchron — melde dich einfach überall mit denselben Zugangsdaten an.",
+    q: "What if I train on more than one device?",
+    a: "Your account syncs across devices — just log in anywhere with the same credentials.",
   },
   {
-    q: "Woher stammen die Ernährungsdaten?",
-    a: "Aus OpenFoodFacts und der USDA-Datenbank — echte, öffentlich gepflegte Lebensmitteldaten, keine Schätzwerte.",
+    q: "Where does the nutrition data come from?",
+    a: "OpenFoodFacts and the USDA database — real, publicly maintained food data, not estimates.",
   },
 ];
 
@@ -71,8 +71,8 @@ export function Faq() {
   return (
     <section id="faq" className="scroll-mt-24 py-16">
       <Reveal className="max-w-4xl mx-auto px-6">
-        <div className="text-xs font-semibold tracking-wide uppercase text-primary mb-2 text-center">FAQ</div>
-        <h2 className="font-heading text-2xl md:text-3xl tracking-wide mb-10 text-center">Häufige Fragen</h2>
+        <div className="text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-2 text-center">FAQ</div>
+        <h2 className="font-heading text-2xl md:text-3xl tracking-wide mb-10 text-center">Frequently asked questions</h2>
         <div className="grid md:grid-cols-2 md:gap-x-10">
           <div>
             {left.map((item, i) => (

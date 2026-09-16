@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { FloatingNav } from "@/components/home/FloatingNav";
 import { Hero } from "@/components/home/Hero";
 import { Features } from "@/components/home/Features";
+import { Statement } from "@/components/home/Statement";
 import { ExerciseSpotlight } from "@/components/home/ExerciseSpotlight";
 import { PlanLibrary } from "@/components/home/PlanLibrary";
 import { Differentiation } from "@/components/home/Differentiation";
@@ -19,6 +20,7 @@ export default function Home() {
       <FloatingNav heroEndRef={heroEndRef} ctaHref={isAuthenticated ? "/premium" : "/login"} ctaLabel={isAuthenticated ? "Premium" : "Login"} />
       <Hero heroEndRef={heroEndRef} />
       <Features />
+      <Statement />
       <ExerciseSpotlight />
       <PlanLibrary />
       <Differentiation />

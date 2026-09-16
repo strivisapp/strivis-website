@@ -10,12 +10,10 @@ export function LegalPlaceholder({ title }) {
     <div className="min-h-svh bg-background text-foreground px-6 py-16">
       <div className="max-w-2xl mx-auto">
         <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-10">
-          <ArrowLeft className="w-4 h-4" /> Zurück
+          <ArrowLeft className="w-4 h-4" /> Back
         </Link>
         <h1 className="font-heading text-3xl tracking-wide mb-4">{title}</h1>
-        <p className="text-muted-foreground">
-          Dieser Text folgt vor dem Launch. Wir arbeiten daran, ihn rechtzeitig und rechtssicher bereitzustellen.
-        </p>
+        <p className="text-muted-foreground">This text follows before launch. We're working on providing it on time and legally sound.</p>
       </div>
     </div>
   );

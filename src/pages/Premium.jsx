@@ -6,17 +6,12 @@ import { Card } from "@/components/ui/card";
 import { Check, Crown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const FEATURES = [
-  "Unbegrenzte KI-Trainingspläne",
-  "Komplette Plan-Bibliothek",
-  "Erweiterte Fortschritts-Statistiken",
-  "Barcode-Scanner für Ernährung",
-];
+const FEATURES = ["Unlimited AI training plans", "The complete plan library", "Advanced progress analytics", "Barcode scanner for nutrition"];
 
 const TIERS = [
-  { key: "yearly", title: "Jährlich", price: "39,99 €", unit: "/Jahr", note: "≈ 3,33 €/Monat · spar 33 %", highlight: true, badge: "Am beliebtesten" },
-  { key: "monthly", title: "Monatlich", price: "4,99 €", unit: "/Monat", note: "jederzeit kündbar" },
-  { key: "lifetime", title: "Lifetime", price: "89,99 €", unit: "einmalig", note: "einmal zahlen, für immer" },
+  { key: "yearly", title: "Yearly", price: "€39.99", unit: "/year", note: "≈ €3.33/month · save 33%", highlight: true, badge: "Most popular" },
+  { key: "monthly", title: "Monthly", price: "€4.99", unit: "/month", note: "cancel anytime" },
+  { key: "lifetime", title: "Lifetime", price: "€89.99", unit: "one-time", note: "pay once, use forever" },
 ];
 
 export default function Premium() {
@@ -34,9 +29,9 @@ export default function Premium() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-svh flex flex-col items-center justify-center gap-4 px-4 text-center">
-        <p className="text-muted-foreground">Du musst angemeldet sein, um Premium zu sehen.</p>
+        <p className="text-muted-foreground">You need to be logged in to see Premium.</p>
         <Button className="rounded-xl" onClick={() => navigate("/login")}>
-          Zum Login
+          Go to login
         </Button>
       </div>
     );
@@ -47,13 +42,13 @@ export default function Premium() {
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="max-w-lg mx-auto">
         <div className="flex items-center justify-between mb-8">
           <p className="text-sm text-muted-foreground">
-            Angemeldet als <span className="text-foreground font-medium">{user?.email}</span>
+            Logged in as <span className="text-foreground font-medium">{user?.email}</span>
           </p>
           <button
             onClick={() => logout(window.location.origin)}
             className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-2"
           >
-            Abmelden
+            Log out
           </button>
         </div>
 
@@ -92,11 +87,11 @@ export default function Premium() {
           </div>
 
           <Button size="lg" className="w-full h-12 rounded-xl mt-8" disabled>
-            Zahlung folgt in Kürze
+            Checkout coming soon
           </Button>
           <p className="mt-3 text-xs text-muted-foreground">
-            Der Checkout ist noch nicht angebunden — dein Konto ist bereits mit der echten Strivis-App
-            verknüpft, die Bezahlfunktion folgt als nächster Schritt.
+            Checkout isn't connected yet — your account is already linked to the real Strivis app, payment
+            follows as the next step.
           </p>
         </Card>
       </motion.div>

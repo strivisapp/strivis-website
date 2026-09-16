@@ -10,13 +10,13 @@ export function Footer() {
         </div>
         <nav className="flex gap-5 text-sm text-muted-foreground">
           <Link to="/datenschutz" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-            Datenschutz
+            Privacy
           </Link>
           <Link to="/agb" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-            AGB
+            Terms
           </Link>
           <Link to="/impressum" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-            Impressum
+            Legal Notice
           </Link>
         </nav>
       </div>
