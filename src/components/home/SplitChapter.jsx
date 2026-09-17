@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { Reveal } from "@/components/home/Reveal";
@@ -21,9 +22,19 @@ export function SplitChapter({
   href = "https://app.strivis.app",
 }) {
   const dark = theme === "dark";
+  const sectionRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const sign = reverse ? -1 : 1;
+  const rotateY = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    prefersReducedMotion ? [0, 0, 0] : [sign * 24, sign * 6, sign * -10]
+  );
 
   return (
     <section
+      ref={sectionRef}
       id={id}
       className={cn(
         "scroll-mt-24 py-24 md:py-32 overflow-hidden",
@@ -60,16 +71,18 @@ export function SplitChapter({
             </a>
           </div>
           <motion.div
-            initial={{ opacity: 0, y: 24, rotate: reverse ? 4 : -4 }}
-            whileInView={{ opacity: 1, y: 0, rotate: reverse ? 4 : -4 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="flex justify-center"
+            style={{ perspective: 1400 }}
           >
             <PhoneFrame
               src={image}
               alt={imageAlt}
-              rotate={reverse ? 4 : -4}
+              rotateY={rotateY}
+              rotateX={4}
               className={cn("w-[210px] md:w-[230px]", dark ? "shadow-[0_0_70px_rgba(255,68,0,0.15)]" : "shadow-2xl shadow-black/20")}
             />
           </motion.div>
