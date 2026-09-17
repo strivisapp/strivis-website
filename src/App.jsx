@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Premium from "@/pages/Premium";
+import Support from "@/pages/Support";
 import ComingSoon from "@/pages/ComingSoon";
 import { useAuth } from "@/lib/AuthContext";
 import { isPreLaunch } from "@/lib/launchDate";
@@ -32,6 +33,9 @@ function App() {
       <Route path="/" element={gatedForVisitor ? <ComingSoon /> : <Home />} />
       <Route path="/login" element={gatedForVisitor ? <ComingSoon /> : <Login />} />
       <Route path="/premium" element={<Premium />} />
+      {/* Reachable regardless of the launch gate — App Store review and
+          real users need this before the site itself goes live. */}
+      <Route path="/support" element={<Support />} />
     </Routes>
   );
 }
