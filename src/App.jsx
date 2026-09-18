@@ -3,6 +3,7 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Premium from "@/pages/Premium";
 import Support from "@/pages/Support";
+import Datenschutz from "@/pages/Datenschutz";
 import ComingSoon from "@/pages/ComingSoon";
 import { useAuth } from "@/lib/AuthContext";
 import { isPreLaunch } from "@/lib/launchDate";
@@ -36,6 +37,7 @@ function App() {
       {/* Reachable regardless of the launch gate — App Store review and
           real users need this before the site itself goes live. */}
       <Route path="/support" element={<Support />} />
+      <Route path="/datenschutz" element={<Datenschutz />} />
     </Routes>
   );
 }
