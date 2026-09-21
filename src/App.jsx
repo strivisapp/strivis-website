@@ -6,7 +6,6 @@ import Support from "@/pages/Support";
 import Datenschutz from "@/pages/Datenschutz";
 import Agb from "@/pages/Agb";
 import ComingSoon from "@/pages/ComingSoon";
-import Impressum from "@/pages/Impressum";
 import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
 import { useAuth } from "@/lib/AuthContext";
 import { isPreLaunch } from "@/lib/launchDate";
@@ -42,7 +41,6 @@ function App() {
       <Route path="/support" element={<Support />} />
       <Route path="/datenschutz" element={<Datenschutz />} />
       <Route path="/agb" element={<Agb />} />
-      <Route path="/impressum" element={<Impressum />} />
       {/* Native app OAuth handoff target — reachable regardless of the
           launch gate, same as the legal pages, since the native app needs
           this whether or not the public site has "launched" yet. */}
