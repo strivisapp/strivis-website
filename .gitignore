@@ -27,3 +27,12 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Private keys and OAuth client secrets (Apple .p8, Google client_secret JSON,
+# PEM/P12) must never be committed, even by accident with `git add .`.
+*.p8
+*.p12
+*.pem
+*.key
+client_secret*.json
+*service-account*.json
