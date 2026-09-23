@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Env files (public repo): never commit real values, only the example
+.env
+.env.*
+!.env.example
