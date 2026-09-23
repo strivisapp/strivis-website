@@ -9,15 +9,14 @@ import { Differentiation } from "@/components/home/Differentiation";
 import { CtaRepeat } from "@/components/home/CtaRepeat";
 import { Faq } from "@/components/home/Faq";
 import { Footer } from "@/components/home/Footer";
-import { useAuth } from "@/lib/AuthContext";
 
 export default function Home() {
   const heroEndRef = useRef(null);
-  const { isAuthenticated } = useAuth();
 
   return (
     <div className="bg-background text-foreground">
-      <FloatingNav heroEndRef={heroEndRef} ctaHref={isAuthenticated ? "/premium" : "/login"} ctaLabel={isAuthenticated ? "Premium" : "Login"} />
+      {/* The site has no accounts (native-only app), so no login here. */}
+      <FloatingNav heroEndRef={heroEndRef} ctaHref="/support" ctaLabel="Support" />
       <Hero heroEndRef={heroEndRef} />
       <Features />
       <Statement />

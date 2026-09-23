@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { AppStoreButton } from "@/components/home/AppStoreButton";
 import { Reveal } from "@/components/home/Reveal";
 
 // Deliberately photo-free — the hero and Statement already carry the
@@ -21,10 +21,8 @@ export function CtaRepeat() {
         <h2 className="font-heading uppercase text-5xl md:text-7xl tracking-wide leading-[0.95] text-balance mb-6">
           Ready to have it <span className="text-primary">all in one place?</span>
         </h2>
-        <p className="text-white/60 text-base md:text-lg mb-10 max-w-md mx-auto">Start free, right in your browser — no subscription required.</p>
-        <Button size="lg" className="rounded-full h-14 px-10 text-base" asChild>
-          <a href="https://app.strivis.app">Start for free →</a>
-        </Button>
+        <p className="text-white/60 text-base md:text-lg mb-10 max-w-md mx-auto">Free on iPhone — no subscription required.</p>
+        <AppStoreButton className="rounded-full h-14 px-10 text-base" />
       </Reveal>
     </section>
   );

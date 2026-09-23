@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { APP_STORE_URL } from "@/lib/appStore";
 
 // Ferrari-style cinematic chapter: the screenshot IS the full-bleed background
 // (cropped/scaled, not boxed), headline + copy float directly on top with a
@@ -12,7 +13,8 @@ const ALIGN = {
   center: "items-end md:items-center justify-center text-center",
 };
 
-export function FeatureChapter({ id, eyebrow, headline, body, image, imageAlt, align = "left", focus = "50% 20%", href = "https://app.strivis.app" }) {
+// "Explore" leads to the App Store listing once it exists, the FAQ until then.
+export function FeatureChapter({ id, eyebrow, headline, body, image, imageAlt, align = "left", focus = "50% 20%", href = APP_STORE_URL ?? "#faq" }) {
   return (
     <section id={id} className="scroll-mt-24 relative h-[92vh] min-h-[560px] max-h-[900px] overflow-hidden bg-black">
       <motion.img

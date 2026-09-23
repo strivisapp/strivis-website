@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AppStoreButton } from "@/components/home/AppStoreButton";
 import { useParallax } from "@/hooks/useParallax";
 
 // Pure cinematic opening — full-bleed photography and one line of type, no UI
@@ -34,10 +34,8 @@ export function Hero({ heroEndRef }) {
           </h1>
           <p className="text-white/70 text-lg md:text-xl max-w-md mb-9">One app for training, nutrition and progress — built around what you actually do.</p>
           <div className="flex items-center gap-6 flex-wrap">
-            <Button size="lg" className="rounded-full h-14 px-9 text-base" asChild>
-              <a href="https://app.strivis.app">Start for free →</a>
-            </Button>
-            <span className="text-xs text-white/50">app.strivis.app · no subscription required</span>
+            <AppStoreButton />
+            <span className="text-xs text-white/50">For iPhone · no subscription required</span>
           </div>
         </motion.div>
       </motion.div>

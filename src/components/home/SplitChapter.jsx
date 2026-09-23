@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { Reveal } from "@/components/home/Reveal";
 import { cn } from "@/lib/utils";
+import { APP_STORE_URL } from "@/lib/appStore";
 
 // Apple-style counterpoint to FeatureChapter's full-bleed cinematic treatment:
 // clean text-and-device split on a solid ground, sharp (unblurred) screenshot.
@@ -19,7 +20,8 @@ export function SplitChapter({
   imageAlt,
   theme = "light",
   reverse = false,
-  href = "https://app.strivis.app",
+  // App Store listing once it exists, the FAQ until then (see FeatureChapter).
+  href = APP_STORE_URL ?? "#faq",
 }) {
   const dark = theme === "dark";
   const sectionRef = useRef(null);

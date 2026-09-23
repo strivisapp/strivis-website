@@ -13,7 +13,7 @@ const LINKS = [
 // Stays dark/transparent the whole way down — the page itself is now a
 // sequence of full-bleed dark chapters, so the nav no longer flips to a
 // light pill past the hero, it just tightens into a pill.
-export function FloatingNav({ heroEndRef, ctaHref = "/login", ctaLabel = "Login" }) {
+export function FloatingNav({ heroEndRef, ctaHref = "/support", ctaLabel = "Support" }) {
   const fallbackRef = useRef(null);
   const scrolledPast = useScrollPast(heroEndRef ?? fallbackRef);
 
