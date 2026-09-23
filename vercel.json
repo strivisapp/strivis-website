@@ -29,9 +29,13 @@
     {
       "source": "/.well-known/apple-app-site-association",
       "headers": [{ "key": "Content-Type", "value": "application/json" }]
+    },
+    {
+      "source": "/(sw|service-worker).js",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
     }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!assets/).*)", "destination": "/index.html" }
   ]
 }
