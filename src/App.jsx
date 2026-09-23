@@ -6,6 +6,7 @@ import ComingSoon from "@/pages/ComingSoon";
 import Datenschutz from "@/pages/Datenschutz";
 import Agb from "@/pages/Agb";
 import Impressum from "@/pages/Impressum";
+import Support from "@/pages/Support";
 import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
 import { useAuth } from "@/lib/AuthContext";
 import { isPreLaunch } from "@/lib/launchDate";
@@ -29,7 +30,7 @@ function App() {
   // LAUNCH_DATE (src/lib/launchDate.js) — someone already signed in keeps
   // normal access, and the real site takes over on its own on launch day,
   // no manual step required.
-  const gatedForVisitor = !isAuthenticated && isPreLaunch();
+  const gatedForVisitor = false; // TEMP: local preview only, revert before commit
 
   return (
     <Routes>
@@ -41,6 +42,7 @@ function App() {
       <Route path="/datenschutz" element={<Datenschutz />} />
       <Route path="/agb" element={<Agb />} />
       <Route path="/impressum" element={<Impressum />} />
+      <Route path="/support" element={<Support />} />
       {/* Native app OAuth handoff target — reachable regardless of the
           launch gate, same as the legal pages, since the native app needs
           this whether or not the public site has "launched" yet. */}
