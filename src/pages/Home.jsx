@@ -11,7 +11,7 @@ import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { Reveal } from "@/components/home/Reveal";
 import { useParallax } from "@/hooks/useParallax";
 import { useScrollPast } from "@/hooks/useScrollPast";
-import { useAuth } from "@/lib/AuthContext";
+import { APP_STORE_URL } from "@/lib/appStore";
 import { Sparkles, ListChecks, Utensils, TrendingUp, Dumbbell } from "lucide-react";
 
 const FEATURES = [
@@ -78,11 +78,27 @@ const NAV_LINKS = [
   { href: "#faq", label: "FAQ" },
 ];
 
+// Download button for the native app. The old target, app.strivis.app, was
+// the Base44 web app, which is being shut down.
+function AppStoreButton() {
+  if (!APP_STORE_URL) {
+    return (
+      <Button size="lg" className="rounded-full h-12 px-8" disabled>
+        Bald im App Store
+      </Button>
+    );
+  }
+  return (
+    <Button size="lg" className="rounded-full h-12 px-8" asChild>
+      <a href={APP_STORE_URL}>Jetzt kostenlos laden →</a>
+    </Button>
+  );
+}
+
 export default function Home() {
   const parallaxRef = useParallax(0.15);
   const heroEndRef = useRef(null);
   const scrolledPastHero = useScrollPast(heroEndRef);
-  const { isAuthenticated } = useAuth();
 
   return (
     <div className="bg-background text-foreground">
@@ -113,8 +129,9 @@ export default function Home() {
               </a>
             ))}
           </nav>
+          {/* The site has no accounts (native-only app), so no login here. */}
           <Button size="sm" className="rounded-full" asChild>
-            <Link to={isAuthenticated ? "/premium" : "/login"}>{isAuthenticated ? "Premium" : "Login"}</Link>
+            <Link to="/support">Support</Link>
           </Button>
         </div>
       </header>
@@ -143,10 +160,8 @@ export default function Home() {
                 den du wirklich siehst.
               </p>
               <div className="mt-8">
-                <Button size="lg" className="rounded-full h-12 px-8" asChild>
-                  <a href="https://app.strivis.app">Jetzt kostenlos starten →</a>
-                </Button>
-                <p className="mt-3 text-xs text-white/60">app.strivis.app · kein Abo nötig</p>
+                <AppStoreButton />
+                <p className="mt-3 text-xs text-white/60">Für iPhone · kostenlos, kein Abo nötig</p>
               </div>
             </div>
             <div className="flex justify-center relative h-[380px]">
@@ -279,9 +294,9 @@ export default function Home() {
         <h2 className="font-heading text-2xl md:text-3xl tracking-wide">
           Bereit, alles an einem Ort zu haben?
         </h2>
-        <Button size="lg" className="rounded-full h-12 px-8 mt-6" asChild>
-          <a href="https://app.strivis.app">Jetzt kostenlos starten →</a>
-        </Button>
+        <div className="mt-6">
+          <AppStoreButton />
+        </div>
       </Section>
 
       {/* 10 FAQ */}

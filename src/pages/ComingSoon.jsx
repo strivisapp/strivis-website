@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { base44 } from "@/lib/base44Client";
+import { Link } from "react-router-dom";
+import { BACKEND_URL } from "@/lib/backend";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Check, Loader2 } from "lucide-react";
@@ -26,6 +27,9 @@ function useCountdown(target) {
 export default function ComingSoon() {
   const { days, hours, minutes, seconds } = useCountdown(LAUNCH_DATE);
   const [email, setEmail] = useState("");
+  // Honeypot: hidden from people, filled in by form-spamming bots. The
+  // backend accepts such a request but stores nothing.
+  const [website, setWebsite] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -35,21 +39,30 @@ export default function ComingSoon() {
     setError("");
     setLoading(true);
     try {
-      const res = await base44.functions.invoke("submitWaitlistEmail", { email });
-      if (res.data?.success) {
+      const res = await fetch(`${BACKEND_URL}/api/waitlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          locale: navigator.language?.slice(0, 2),
+          source: "coming_soon",
+          website,
+        }),
+      });
+      if (res.ok) {
         setSubmitted(true);
         // Lets Meta Ads report real waitlist conversions instead of just
-        // page views/clicks, and lets a campaign optimize toward this event.
+        // page views/clicks. Only fires if the visitor accepted the pixel.
         window.fbq?.("track", "Lead");
+      } else if (res.status === 400) {
+        setError("Please enter a valid email address.");
+      } else if (res.status === 429) {
+        setError("Too many attempts. Please try again later.");
       } else {
         setError("Something went wrong. Please try again in a moment.");
       }
-    } catch (err) {
-      setError(
-        err.response?.data?.error === "invalid_email"
-          ? "Please enter a valid email address."
-          : "Something went wrong. Please try again in a moment."
-      );
+    } catch {
+      setError("Something went wrong. Please try again in a moment.");
     } finally {
       setLoading(false);
     }
@@ -107,14 +120,30 @@ export default function ComingSoon() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="h-12 text-center bg-white/5 border-white/15 text-white placeholder:text-white/40"
+              maxLength={254}
               required
+            />
+            <input
+              type="text"
+              name="website"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute left-[-10000px] h-px w-px overflow-hidden"
             />
             {error && <p className="text-xs text-red-400">{error}</p>}
             <Button type="submit" className="w-full h-14 rounded-xl text-base font-medium" disabled={loading}>
               {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
               Notify me
             </Button>
-            <p className="text-[11px] text-white/50">We'll email you once, right when it launches.</p>
+            <p className="text-[11px] text-white/50">
+              We'll email you once, right when it launches.{" "}
+              <Link to="/datenschutz" className="underline hover:text-white">
+                Privacy Policy
+              </Link>
+            </p>
           </form>
         )}
 
