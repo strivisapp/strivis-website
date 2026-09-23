@@ -30,7 +30,7 @@ function App() {
   // LAUNCH_DATE (src/lib/launchDate.js) — someone already signed in keeps
   // normal access, and the real site takes over on its own on launch day,
   // no manual step required.
-  const gatedForVisitor = false; // TEMP: local preview only, revert before commit
+  const gatedForVisitor = !isAuthenticated && isPreLaunch();
 
   return (
     <Routes>
