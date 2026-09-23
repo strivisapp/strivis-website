@@ -1,6 +1,12 @@
 {
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.strivis.app" }],
+      "destination": "https://strivis.app/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.strivis.app" }],
       "destination": "https://strivis.app/:path*",
