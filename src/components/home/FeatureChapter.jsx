@@ -42,7 +42,7 @@ export function FeatureChapter({ id, eyebrow, headline, body, image, imageAlt, a
           <div className="text-xs font-semibold tracking-[0.2em] uppercase text-white/70 mb-4">{eyebrow}</div>
           <h2 className="font-heading text-5xl md:text-7xl uppercase tracking-wide leading-[0.95] text-white text-balance mb-5">{headline}</h2>
           <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-md">{body}</p>
-          <a href={href} className="inline-flex items-center gap-2 mt-7 text-sm font-medium text-white group rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-ink">
+          <a href={href} className="inline-flex items-center gap-2 mt-7 min-h-11 text-sm font-medium text-white group rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-ink">
             <span className="border-b border-white/40 group-hover:border-white transition-colors pb-0.5">Explore</span>
             <span className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center group-hover:border-primary group-hover:bg-primary transition-colors">
               <ArrowUpRight className="w-3.5 h-3.5" />

@@ -112,7 +112,10 @@ const SCHEME = {
   general_fitness: { sets: "3 × 10–12", finisher: false },
 };
 
-const exercise = (id, sets) => ({ id, name: EXERCISES[id].name, muscle: EXERCISES[id].muscle, sets });
+// Held positions are done for time, not reps.
+const HOLDS = new Set(["plank", "reverse-plank"]);
+
+const exercise = (id, sets) => ({ id, name: EXERCISES[id].name, muscle: EXERCISES[id].muscle, sets: HOLDS.has(id) ? "3 × 30–45 s" : sets });
 
 // Returns the example week for one combination, or null if a choice is unknown.
 export function buildExampleWeek({ goal, days, equipment }) {

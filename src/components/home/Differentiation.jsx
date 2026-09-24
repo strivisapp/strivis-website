@@ -13,7 +13,7 @@ const MISSING = ["No food recognition from photos yet", "Nutrition is logged via
 
 export function Differentiation() {
   return (
-    <section className="py-20 md:py-28 bg-background text-foreground">
+    <section className="py-16 md:py-20 bg-background text-foreground">
       <Reveal className="max-w-5xl mx-auto px-6">
         <SectionHeader className="mb-12" align="center" eyebrow="Straight talk" title="Where Strivis stands today." />
         <div className="grid md:grid-cols-2 gap-4">

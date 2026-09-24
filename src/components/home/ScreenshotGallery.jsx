@@ -79,14 +79,14 @@ export function ScreenshotGallery() {
           aria-label="App screenshots — use the arrow keys to browse"
           onKeyDown={onKeyDown}
           className={cn(
-            "overflow-x-auto snap-x snap-mandatory scroll-px-6 rounded-2xl",
+            "relative overflow-x-auto snap-x snap-mandatory scroll-px-6 rounded-2xl",
             "outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset",
             "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           )}
         >
           <ul className="flex w-max gap-5 md:gap-6 px-6 pb-6 pt-2">
           {SCREENSHOTS.map((s, i) => (
-            <li key={s.src} className="snap-start shrink-0 w-[220px] md:w-[240px]">
+            <li key={s.src} className="relative snap-start shrink-0 w-[220px] md:w-[240px]">
               <PhoneFrame src={s.src} alt={s.alt} className="w-full shadow-[0_0_50px_rgba(255,68,0,0.08)]" />
               <div className="mt-4 px-1">
                 <div className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">

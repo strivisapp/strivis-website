@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 // A segmented control built from native radio buttons: Tab reaches the
 // group, arrow keys move the choice, screen readers announce it as a radio
 // group — no custom key handling needed.
-function Segmented({ legend, name, options, value, onChange }) {
+function Segmented({ legend, name, options, value, onChange, itemMinWidth = "min-w-[5.5rem]" }) {
   return (
     <fieldset className="min-w-0">
       <legend className="text-xs font-semibold tracking-[0.2em] uppercase text-white/70 mb-3">{legend}</legend>
@@ -17,7 +17,7 @@ function Segmented({ legend, name, options, value, onChange }) {
           const id = `${name}-${o.id}`;
           const checked = value === o.id;
           return (
-            <div key={o.id} className="flex-1 min-w-[5.5rem]">
+            <div key={o.id} className={cn("flex-1", itemMinWidth)}>
               <input
                 type="radio"
                 id={id}
@@ -68,7 +68,7 @@ export function PlanConfigurator() {
           />
         </Reveal>
 
-        <Reveal className="mt-10 grid gap-6 md:grid-cols-[1.1fr_0.8fr_1fr]">
+        <Reveal className="mt-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr_1.1fr]">
           <Segmented legend="Goal" name={`${uid}-goal`} options={GOALS} value={goal} onChange={setGoal} />
           <Segmented
             legend="Days a week"
@@ -76,6 +76,7 @@ export function PlanConfigurator() {
             options={DAYS_PER_WEEK.map((d) => ({ id: d, label: String(d) }))}
             value={days}
             onChange={setDays}
+            itemMinWidth="min-w-[2.75rem]"
           />
           <Segmented legend="Equipment" name={`${uid}-equipment`} options={EQUIPMENT} value={equipment} onChange={setEquipment} />
         </Reveal>

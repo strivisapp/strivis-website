@@ -29,7 +29,7 @@ const PERSONAS = [
 
 export function Personas() {
   return (
-    <section id="who" className="scroll-mt-24 py-20 md:py-28 bg-background text-foreground">
+    <section id="who" className="scroll-mt-24 py-16 md:py-20 bg-background text-foreground">
       <Reveal className="max-w-5xl mx-auto px-6">
         <SectionHeader className="mb-12" eyebrow="Who it's for" title="Who is Strivis for?" />
         <ul className="grid gap-4 md:grid-cols-3">

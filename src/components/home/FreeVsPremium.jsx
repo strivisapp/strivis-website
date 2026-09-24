@@ -19,7 +19,7 @@ function FeatureList({ items, muted = false }) {
 // Two columns built only from what the app really gates (src/content/premium.js).
 export function FreeVsPremium() {
   return (
-    <section id="premium" className="scroll-mt-24 py-20 md:py-28 bg-background text-foreground">
+    <section id="premium" className="scroll-mt-24 py-16 md:py-20 bg-background text-foreground">
       <Reveal className="max-w-5xl mx-auto px-6">
         <SectionHeader
           className="mb-12"

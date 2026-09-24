@@ -46,7 +46,7 @@ function PlanCard({ plan }) {
 
 export function PlanLibrary() {
   return (
-    <section id="plans" className="scroll-mt-24 py-20 md:py-28 bg-background text-foreground">
+    <section id="plans" className="scroll-mt-24 py-16 md:py-20 bg-background text-foreground">
       <Reveal className="max-w-5xl mx-auto px-6">
         <SectionHeader
           className="mb-10"
