@@ -19,7 +19,7 @@ export function PhoneFrame({ src, alt, className, rotate = 0, rotateY, rotateX }
           : { transform: `rotate(${rotate}deg)` }
       }
     >
-      <img src={src} alt={alt} className="w-full h-auto block" />
+      <img src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
     </motion.div>
   );
 }

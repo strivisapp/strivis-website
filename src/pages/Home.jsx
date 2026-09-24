@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import { FloatingNav } from "@/components/home/FloatingNav";
 import { Hero } from "@/components/home/Hero";
+import { HowItWorks } from "@/components/home/HowItWorks";
 import { Features } from "@/components/home/Features";
+import { ScreenshotGallery } from "@/components/home/ScreenshotGallery";
 import { Statement } from "@/components/home/Statement";
 import { PlanConfigurator } from "@/components/home/PlanConfigurator";
 import { ExerciseSpotlight } from "@/components/home/ExerciseSpotlight";
@@ -29,7 +31,9 @@ export default function Home() {
       <FloatingNav heroEndRef={heroEndRef} ctaHref="/support" ctaLabel="Support" />
       <main id="main" tabIndex={-1} className="outline-none">
       <Hero heroEndRef={heroEndRef} />
+      <HowItWorks />
       <Features />
+      <ScreenshotGallery />
       <Statement />
       <PlanConfigurator />
       <ExerciseSpotlight />
