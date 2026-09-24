@@ -3,6 +3,7 @@ import { FloatingNav } from "@/components/home/FloatingNav";
 import { Hero } from "@/components/home/Hero";
 import { Features } from "@/components/home/Features";
 import { Statement } from "@/components/home/Statement";
+import { PlanConfigurator } from "@/components/home/PlanConfigurator";
 import { ExerciseSpotlight } from "@/components/home/ExerciseSpotlight";
 import { PlanLibrary } from "@/components/home/PlanLibrary";
 import { Differentiation } from "@/components/home/Differentiation";
@@ -30,6 +31,7 @@ export default function Home() {
       <Hero heroEndRef={heroEndRef} />
       <Features />
       <Statement />
+      <PlanConfigurator />
       <ExerciseSpotlight />
       <PlanLibrary />
       <Differentiation />
