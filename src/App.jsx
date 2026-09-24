@@ -7,6 +7,7 @@ import Impressum from "@/pages/Impressum";
 import ComingSoon from "@/pages/ComingSoon";
 import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
 import OpenInApp from "@/pages/OpenInApp";
+import NotFound from "@/pages/NotFound";
 import ConsentBanner from "@/components/ConsentBanner";
 import { isPreLaunch } from "@/lib/launchDate";
 
@@ -35,8 +36,9 @@ function App() {
             (Universal Link), this page otherwise — also before launch, since
             app users share these as soon as the app is out. */}
         <Route path="/u/*" element={<OpenInApp />} />
-        {/* Old links to the removed /login and /premium pages land here. */}
-        <Route path="*" element={gated ? <ComingSoon /> : <Home />} />
+        {/* Old links to the removed /login and /premium pages, typos: the
+            countdown before launch, an honest 404 after. */}
+        <Route path="*" element={gated ? <ComingSoon /> : <NotFound />} />
       </Routes>
       <ConsentBanner />
     </>

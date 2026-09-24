@@ -15,8 +15,16 @@ export default function Home() {
 
   return (
     <div className="bg-background text-foreground">
+      {/* First thing a keyboard user reaches: skips the nav. */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-white"
+      >
+        Skip to content
+      </a>
       {/* The site has no accounts (native-only app), so no login here. */}
       <FloatingNav heroEndRef={heroEndRef} ctaHref="/support" ctaLabel="Support" />
+      <main id="main" tabIndex={-1} className="outline-none">
       <Hero heroEndRef={heroEndRef} />
       <Features />
       <Statement />
@@ -26,6 +34,7 @@ export default function Home() {
       {/* Social proof deferred — no fabricated testimonials/numbers */}
       <CtaRepeat />
       <Faq />
+      </main>
       <Footer />
     </div>
   );

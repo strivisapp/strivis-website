@@ -40,7 +40,7 @@ export function SplitChapter({
       id={id}
       className={cn(
         "scroll-mt-24 py-24 md:py-32 overflow-hidden",
-        dark ? "bg-black text-white" : "bg-background text-foreground"
+        dark ? "bg-ink text-white" : "bg-background text-foreground"
       )}
     >
       <Reveal className="max-w-5xl mx-auto px-6">
@@ -58,7 +58,7 @@ export function SplitChapter({
                 ))}
               </ul>
             )}
-            <a href={href} className="inline-flex items-center gap-2 mt-8 text-sm font-medium group">
+            <a href={href} className="inline-flex items-center gap-2 mt-8 text-sm font-medium group rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4">
               <span className={cn("border-b pb-0.5 transition-colors", dark ? "border-white/40 group-hover:border-white" : "border-foreground/30 group-hover:border-foreground")}>
                 Explore
               </span>
@@ -85,7 +85,7 @@ export function SplitChapter({
               alt={imageAlt}
               rotateY={rotateY}
               rotateX={4}
-              className={cn("w-[210px] md:w-[230px]", dark ? "shadow-[0_0_70px_rgba(255,68,0,0.15)]" : "shadow-2xl shadow-black/20")}
+              className={cn("w-[210px] md:w-[230px]", dark ? "shadow-[0_0_70px_rgba(255,68,0,0.15)]" : "shadow-2xl shadow-ink/20")}
             />
           </motion.div>
         </div>
