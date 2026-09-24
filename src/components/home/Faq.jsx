@@ -51,7 +51,7 @@ const FAQ = [
 function FaqItem({ item, isOpen, onToggle }) {
   return (
     <div className="border-b border-border">
-      <button onClick={onToggle} className="w-full min-h-12 flex items-center justify-between gap-4 py-5 text-left rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-expanded={isOpen}>
+      <button onClick={onToggle} className="w-full min-h-12 flex items-center justify-between gap-4 py-5 text-left rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background" aria-expanded={isOpen}>
         <span className="text-sm md:text-base font-medium">{item.q}</span>
         <Plus className={cn("w-4 h-4 text-primary shrink-0 transition-transform duration-300", isOpen && "rotate-45")} />
       </button>
@@ -78,7 +78,7 @@ export function Faq() {
   const right = FAQ.slice(4);
 
   return (
-    <section id="faq" className="scroll-mt-24 py-16">
+    <section id="faq" className="scroll-mt-24 py-20 md:py-28 bg-background text-foreground">
       <Reveal className="max-w-4xl mx-auto px-6">
         <div className="text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-2 text-center">FAQ</div>
         <h2 className="font-heading text-2xl md:text-3xl tracking-wide mb-10 text-center">Frequently asked questions</h2>

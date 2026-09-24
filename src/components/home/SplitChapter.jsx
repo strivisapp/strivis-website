@@ -7,9 +7,11 @@ import { cn } from "@/lib/utils";
 import { APP_STORE_URL } from "@/lib/appStore";
 
 // Apple-style counterpoint to FeatureChapter's full-bleed cinematic treatment:
-// clean text-and-device split on a solid ground, sharp (unblurred) screenshot.
-// Breaks the run of identical full-bleed chapters without abandoning the
-// same headline/body/CTA vocabulary they share.
+// clean text-and-device split, sharp (unblurred) screenshot. Breaks the run
+// of identical full-bleed chapters without abandoning the same
+// headline/body/CTA vocabulary they share. Dark like the rest of the page —
+// the contrast to the cinematic chapters comes from hairline edges and a
+// soft glow behind the device, not from a light block.
 export function SplitChapter({
   id,
   eyebrow,
@@ -18,12 +20,10 @@ export function SplitChapter({
   bullets,
   image,
   imageAlt,
-  theme = "light",
   reverse = false,
   // App Store listing once it exists, the FAQ until then (see FeatureChapter).
   href = APP_STORE_URL ?? "#faq",
 }) {
-  const dark = theme === "dark";
   const sectionRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
@@ -38,42 +38,43 @@ export function SplitChapter({
     <section
       ref={sectionRef}
       id={id}
-      className={cn(
-        "scroll-mt-24 py-24 md:py-32 overflow-hidden",
-        dark ? "bg-ink text-white" : "bg-background text-foreground"
-      )}
+      className="scroll-mt-24 relative py-24 md:py-32 overflow-hidden bg-background text-foreground border-y border-white/[0.06]"
     >
-      <Reveal className="max-w-5xl mx-auto px-6">
+      <div
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-primary/10 blur-[120px]",
+          reverse ? "left-[5%]" : "right-[5%]"
+        )}
+      />
+      <Reveal className="relative max-w-5xl mx-auto px-6">
         <div className={cn("grid md:grid-cols-2 gap-12 md:gap-16 items-center", reverse && "md:[&>*:first-child]:order-2")}>
           <div>
-            <div className={cn("text-xs font-semibold tracking-[0.2em] uppercase mb-4", dark ? "text-white/60" : "text-muted-foreground")}>
-              {eyebrow}
-            </div>
+            <div className="text-xs font-semibold tracking-[0.2em] uppercase mb-4 text-white/70">{eyebrow}</div>
             <h2 className="font-heading text-4xl md:text-5xl uppercase tracking-wide leading-[0.98] text-balance mb-5">{headline}</h2>
-            <p className={cn("text-base md:text-lg leading-relaxed max-w-md", dark ? "text-white/65" : "text-muted-foreground")}>{body}</p>
+            <p className="text-base md:text-lg leading-relaxed max-w-md text-white/70">{body}</p>
             {bullets && (
-              <ul className={cn("mt-6 space-y-2 text-sm", dark ? "text-white/50" : "text-muted-foreground")}>
+              <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
                 {bullets.map((b) => (
-                  <li key={b}>{b}</li>
+                  <li key={b} className="flex items-start gap-2.5">
+                    <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary" />
+                    <span>{b}</span>
+                  </li>
                 ))}
               </ul>
             )}
-            <a href={href} className="inline-flex items-center gap-2 mt-8 text-sm font-medium group rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4">
-              <span className={cn("border-b pb-0.5 transition-colors", dark ? "border-white/40 group-hover:border-white" : "border-foreground/30 group-hover:border-foreground")}>
-                Explore
-              </span>
-              <span
-                className={cn(
-                  "w-7 h-7 rounded-full border flex items-center justify-center transition-colors group-hover:border-primary group-hover:bg-primary group-hover:text-white",
-                  dark ? "border-white/40" : "border-foreground/30"
-                )}
-              >
+            <a
+              href={href}
+              className="inline-flex items-center gap-2 mt-8 min-h-11 text-sm font-medium group rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+            >
+              <span className="border-b pb-0.5 transition-colors border-white/40 group-hover:border-white">Explore</span>
+              <span className="w-7 h-7 rounded-full border flex items-center justify-center transition-colors border-white/40 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </span>
             </a>
           </div>
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -85,7 +86,7 @@ export function SplitChapter({
               alt={imageAlt}
               rotateY={rotateY}
               rotateX={4}
-              className={cn("w-[210px] md:w-[230px]", dark ? "shadow-[0_0_70px_rgba(255,68,0,0.15)]" : "shadow-2xl shadow-ink/20")}
+              className="w-[210px] md:w-[230px] shadow-[0_0_70px_rgba(255,68,0,0.15)]"
             />
           </motion.div>
         </div>

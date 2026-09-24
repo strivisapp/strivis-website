@@ -25,7 +25,6 @@ export function Features() {
         bullets={["Automatic rest timer between sets", "Real-time personal-record detection", "Last session's numbers, one glance away"]}
         image="/screenshots/active-workout-fresh.png"
         imageAlt="An active workout with logged sets, PR detection and a rest timer"
-        theme="light"
       />
       <FeatureChapter
         id="nutrition"
@@ -45,7 +44,6 @@ export function Features() {
         bullets={["Training volume over time", "Every personal record, timestamped", "Muscle-group balance at a glance"]}
         image="/screenshots/progress-records-fresh.png"
         imageAlt="Progress view with training volume, personal records and muscle groups"
-        theme="light"
         reverse
       />
     </>

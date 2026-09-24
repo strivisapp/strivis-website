@@ -13,8 +13,10 @@ import { Footer } from "@/components/home/Footer";
 export default function Home() {
   const heroEndRef = useRef(null);
 
+  // `dark` switches every token-based section to the .dark palette
+  // (index.css), so the whole page reads as one dark, cinematic piece.
   return (
-    <div className="bg-background text-foreground">
+    <div className="dark bg-background text-foreground">
       {/* First thing a keyboard user reaches: skips the nav. */}
       <a
         href="#main"
