@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main, redesign-2026-10-13]
+  pull_request:
+
+# Read-only token: the job only checks out, installs, builds and tests.
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Pinned to commit SHAs (tags can be moved); the comment names the tag.
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          # `node --test` only takes glob patterns from Node 21 on.
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run build
+
+      # Security headers, CSP, CORS, framing and redirects in vercel.json
+      # (tests/security-headers.test.mjs).
+      - run: npm test
