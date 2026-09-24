@@ -5,6 +5,7 @@ import Datenschutz from "@/pages/Datenschutz";
 import Agb from "@/pages/Agb";
 import ComingSoon from "@/pages/ComingSoon";
 import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
+import OpenInApp from "@/pages/OpenInApp";
 import ConsentBanner from "@/components/ConsentBanner";
 import { isPreLaunch } from "@/lib/launchDate";
 
@@ -28,6 +29,10 @@ function App() {
             launch gate, same as the legal pages, since the native app needs
             this whether or not the public site has "launched" yet. */}
         <Route path="/oauth-native-callback" element={<OAuthNativeCallback />} />
+        {/* Shared profile links: opened in the app on iPhones that have it
+            (Universal Link), this page otherwise — also before launch, since
+            app users share these as soon as the app is out. */}
+        <Route path="/u/*" element={<OpenInApp />} />
         {/* Old links to the removed /login and /premium pages land here. */}
         <Route path="*" element={gated ? <ComingSoon /> : <Home />} />
       </Routes>
