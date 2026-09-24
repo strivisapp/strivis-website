@@ -1,27 +1,21 @@
 import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
 import { cn } from "@/lib/utils";
+import { PLANS, planAnchor } from "@/content/plans";
 
 // Spec-sheet cards: training days per week is the headline number (it's
 // what differs between programs and what a reader plans their week by; all
-// four run four weeks), the dot-grid shows which days, and the level is a
+// three run four weeks), the dot-grid shows which days, and the level is a
 // quiet one-colour label so the brand orange stays the only accent. A
 // horizontal rail, not a fixed 3-up grid, so it scales to any number of
 // programs.
 const DAYS = ["M", "T", "W", "T", "F", "S", "S"];
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-const PLANS = [
-  { name: "Starting Strength", level: "Beginner", weeks: 4, trainDays: [0, 2, 4] },
-  { name: "Upper/Lower Split", level: "Intermediate", weeks: 4, trainDays: [0, 2, 3, 5] },
-  { name: "Push Pull Legs", level: "Intermediate", weeks: 4, trainDays: [0, 1, 2, 3, 4, 5] },
-  { name: "5/3/1 Strength Focus", level: "Experienced", weeks: 4, trainDays: [0, 1, 3, 4] },
-];
-
 function PlanCard({ plan }) {
   const daysPerWeek = plan.trainDays.length;
   return (
-    <div className="relative w-[260px] shrink-0 snap-start rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition-colors hover:border-primary/40">
+    <div id={planAnchor(plan.key)} className="scroll-mt-28 relative w-[260px] shrink-0 snap-start rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition-colors hover:border-primary/40">
       <div className="flex items-center justify-between mb-8">
         <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{plan.level}</span>
         <span className="text-[11px] font-medium text-muted-foreground tabular-nums">{plan.weeks} weeks</span>
@@ -64,7 +58,7 @@ export function PlanLibrary() {
       <Reveal className="max-w-5xl mx-auto">
         <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory scroll-px-6 pb-4 px-6 rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" tabIndex={0} aria-label="Training plans" role="region">
           {PLANS.map((p) => (
-            <PlanCard key={p.name} plan={p} />
+            <PlanCard key={p.key} plan={p} />
           ))}
           <div className="w-[200px] shrink-0 snap-start rounded-2xl border border-dashed border-white/15 flex flex-col items-center justify-center text-center p-6">
             <p className="font-heading text-sm tracking-wide mb-1">More every month</p>
