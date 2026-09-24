@@ -13,6 +13,7 @@ import { FreeVsPremium } from "@/components/home/FreeVsPremium";
 import { Differentiation } from "@/components/home/Differentiation";
 import { Roadmap } from "@/components/home/Roadmap";
 import { Trust } from "@/components/home/Trust";
+import { FounderStory } from "@/components/home/FounderStory";
 import { CtaRepeat } from "@/components/home/CtaRepeat";
 import { Faq } from "@/components/home/Faq";
 import { Footer } from "@/components/home/Footer";
@@ -49,6 +50,8 @@ export default function Home() {
         <Differentiation />
         <Roadmap />
         <Trust />
+        {/* Renders only once src/content/founder.js has Simon's own text. */}
+        <FounderStory />
         {/* Social proof deferred — no fabricated testimonials/numbers */}
         <CtaRepeat />
         <Faq />

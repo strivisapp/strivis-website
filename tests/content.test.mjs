@@ -28,3 +28,11 @@ test("no hard-coded prices in the home page's components or content", () => {
     }
   }
 });
+
+test("founder story: hidden while empty, and never placeholder text", async () => {
+  const { FOUNDER_STORY, FOUNDER_SIGNATURE } = await import("../src/content/founder.js");
+  assert.equal(typeof FOUNDER_STORY, "string");
+  assert.doesNotMatch(`${FOUNDER_STORY} ${FOUNDER_SIGNATURE}`, /lorem|ipsum|TODO|TBD|placeholder|\[.*\]/i);
+  const component = readFileSync(new URL("../src/components/home/FounderStory.jsx", import.meta.url), "utf8");
+  assert.match(component, /if \(paragraphs\.length === 0\) return null;/, "FounderStory must render nothing without a story");
+});
