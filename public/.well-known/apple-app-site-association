@@ -13,5 +13,10 @@
         ]
       }
     ]
+  },
+  "webcredentials": {
+    "apps": [
+      "Z6XFDVYTFH.com.strivis.app"
+    ]
   }
 }
