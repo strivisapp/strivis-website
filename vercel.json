@@ -33,6 +33,10 @@
       "headers": [{ "key": "Referrer-Policy", "value": "no-referrer" }]
     },
     {
+      "source": "/u/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
       "source": "/.well-known/apple-app-site-association",
       "headers": [{ "key": "Content-Type", "value": "application/json" }]
     },

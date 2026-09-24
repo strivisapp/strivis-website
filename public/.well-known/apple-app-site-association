@@ -4,8 +4,13 @@
     "details": [
       {
         "appID": "Z6XFDVYTFH.com.strivis.app",
-        "appIDs": ["Z6XFDVYTFH.com.strivis.app"],
-        "paths": ["/oauth-native-callback*"]
+        "appIDs": [
+          "Z6XFDVYTFH.com.strivis.app"
+        ],
+        "paths": [
+          "/oauth-native-callback*",
+          "/u/*"
+        ]
       }
     ]
   }
