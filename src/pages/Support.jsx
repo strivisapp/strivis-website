@@ -12,7 +12,7 @@ const FAQ = [
   },
   {
     q: "How do I delete my account and data?",
-    a: "Email us from the address linked to your account and we'll delete your profile and all associated data within a few days.",
+    a: "In the app: Settings > Account > Delete account. Your profile and all associated data are deleted right away. If you can no longer sign in, email us from the address linked to your account and we'll do it for you.",
   },
 ];
 

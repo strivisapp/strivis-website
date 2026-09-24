@@ -8,7 +8,7 @@ const STRONG = [
   "A real light/dark design, not a half-finished skin",
 ];
 
-const MISSING = ["No photo-based food recognition (like Cal AI)", "Nutrition is currently logged via search or barcode"];
+const MISSING = ["No food recognition from photos yet", "Nutrition is logged via search or barcode for now"];
 
 export function Differentiation() {
   return (

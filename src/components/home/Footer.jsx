@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="relative border-t border-border py-10 mt-8 overflow-hidden">
       <div
         aria-hidden="true"
-        className="pointer-events-none select-none absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-[18%] font-heading uppercase text-foreground/[0.04] text-[22vw] leading-none tracking-tight whitespace-nowrap"
+        className="pointer-events-none select-none absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-[8%] font-heading uppercase text-foreground/[0.04] text-[22vw] leading-none tracking-tight whitespace-nowrap"
       >
         Strivis
       </div>
@@ -14,7 +14,10 @@ export function Footer() {
           <img src="/brand/strivis-icon-mark-orange-dark.svg" alt="Strivis" className="h-6" />
           <span className="font-heading tracking-wide">Strivis</span>
         </div>
-        <nav className="flex gap-5 text-sm text-muted-foreground">
+        <nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
+          <Link to="/support" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+            Support
+          </Link>
           <Link to="/datenschutz" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
             Privacy
           </Link>

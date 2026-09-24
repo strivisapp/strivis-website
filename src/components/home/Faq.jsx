@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 import { cn } from "@/lib/utils";
@@ -15,7 +16,15 @@ const FAQ = [
   },
   {
     q: "How is my data handled?",
-    a: "Details are in our Privacy Policy.",
+    a: (
+      <>
+        You can delete your data together with your account at any time, right in the app. All the details are in our{" "}
+        <Link to="/datenschutz" className="text-foreground underline underline-offset-4 hover:text-primary">
+          Privacy Policy
+        </Link>
+        .
+      </>
+    ),
   },
   {
     q: "Can I build my own training plan?",
@@ -42,7 +51,7 @@ const FAQ = [
 function FaqItem({ item, isOpen, onToggle }) {
   return (
     <div className="border-b border-border">
-      <button onClick={onToggle} className="w-full flex items-center justify-between gap-4 py-5 text-left" aria-expanded={isOpen}>
+      <button onClick={onToggle} className="w-full min-h-12 flex items-center justify-between gap-4 py-5 text-left rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-expanded={isOpen}>
         <span className="text-sm md:text-base font-medium">{item.q}</span>
         <Plus className={cn("w-4 h-4 text-primary shrink-0 transition-transform duration-300", isOpen && "rotate-45")} />
       </button>
@@ -55,7 +64,7 @@ function FaqItem({ item, isOpen, onToggle }) {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <p className="text-muted-foreground text-sm leading-relaxed pb-5 pr-6">{item.a}</p>
+            <p className="text-muted-foreground text-sm leading-relaxed pb-5 pr-6 max-w-prose">{item.a}</p>
           </motion.div>
         )}
       </AnimatePresence>
