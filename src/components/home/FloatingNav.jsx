@@ -9,6 +9,7 @@ const LINKS = [
   { href: "#features", label: "Features" },
   { href: "#exercises", label: "Exercises" },
   { href: "#plans", label: "Plans" },
+  { href: "#premium", label: "Premium" },
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -16,7 +17,7 @@ const LINK_FOCUS = "rounded-sm outline-none focus-visible:ring-2 focus-visible:r
 
 // Stays dark/transparent the whole way down — the page itself is now a
 // sequence of full-bleed dark chapters, so the nav no longer flips to a
-// light pill past the hero, it just tightens into a pill. Below `sm` the
+// light pill past the hero, it just tightens into a pill. Below `md` the
 // section links move into a menu sheet instead of disappearing.
 export function FloatingNav({ heroEndRef, ctaHref = "/support", ctaLabel = "Support" }) {
   const fallbackRef = useRef(null);
@@ -56,7 +57,7 @@ export function FloatingNav({ heroEndRef, ctaHref = "/support", ctaLabel = "Supp
         <Link to="/" className={`shrink-0 ${LINK_FOCUS}`}>
           <img src="/brand/strivis-lockup-on-dark.svg" alt="Strivis" className="h-8 md:h-9" />
         </Link>
-        <nav aria-label="Sections" className="hidden sm:flex items-center gap-6">
+        <nav aria-label="Sections" className="hidden md:flex items-center gap-6">
           {LINKS.map((l) => (
             <a key={l.href} href={l.href} className={`text-xs font-medium tracking-[0.12em] uppercase text-white/70 hover:text-white transition-colors ${LINK_FOCUS}`}>
               {l.label}
@@ -70,7 +71,7 @@ export function FloatingNav({ heroEndRef, ctaHref = "/support", ctaLabel = "Supp
           <button
             ref={menuButtonRef}
             type="button"
-            className={`sm:hidden inline-flex h-11 w-11 items-center justify-center rounded-full text-white/80 hover:text-white active:scale-95 transition ${LINK_FOCUS}`}
+            className={`md:hidden inline-flex h-11 w-11 items-center justify-center rounded-full text-white/80 hover:text-white active:scale-95 transition ${LINK_FOCUS}`}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -90,7 +91,7 @@ export function FloatingNav({ heroEndRef, ctaHref = "/support", ctaLabel = "Supp
             animate={{ opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="sm:hidden pointer-events-auto absolute inset-x-4 top-[calc(env(safe-area-inset-top)+4.75rem)] rounded-3xl border border-white/10 bg-ink/95 backdrop-blur-lg p-2 shadow-2xl shadow-ink/60"
+            className="md:hidden pointer-events-auto absolute inset-x-4 top-[calc(env(safe-area-inset-top)+4.75rem)] rounded-3xl border border-white/10 bg-ink/95 backdrop-blur-lg p-2 shadow-2xl shadow-ink/60"
           >
             {LINKS.map((l) => (
               <a

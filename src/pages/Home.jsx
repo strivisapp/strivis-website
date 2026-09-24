@@ -7,8 +7,12 @@ import { ScreenshotGallery } from "@/components/home/ScreenshotGallery";
 import { Statement } from "@/components/home/Statement";
 import { PlanConfigurator } from "@/components/home/PlanConfigurator";
 import { ExerciseSpotlight } from "@/components/home/ExerciseSpotlight";
+import { Personas } from "@/components/home/Personas";
 import { PlanLibrary } from "@/components/home/PlanLibrary";
+import { FreeVsPremium } from "@/components/home/FreeVsPremium";
 import { Differentiation } from "@/components/home/Differentiation";
+import { Roadmap } from "@/components/home/Roadmap";
+import { Trust } from "@/components/home/Trust";
 import { CtaRepeat } from "@/components/home/CtaRepeat";
 import { Faq } from "@/components/home/Faq";
 import { Footer } from "@/components/home/Footer";
@@ -30,18 +34,24 @@ export default function Home() {
       {/* The site has no accounts (native-only app), so no login here. */}
       <FloatingNav heroEndRef={heroEndRef} ctaHref="/support" ctaLabel="Support" />
       <main id="main" tabIndex={-1} className="outline-none">
-      <Hero heroEndRef={heroEndRef} />
-      <HowItWorks />
-      <Features />
-      <ScreenshotGallery />
-      <Statement />
-      <PlanConfigurator />
-      <ExerciseSpotlight />
-      <PlanLibrary />
-      <Differentiation />
-      {/* Social proof deferred — no fabricated testimonials/numbers */}
-      <CtaRepeat />
-      <Faq />
+        {/* What it is → how it works → what it does → try it → the content
+            → who it's for and what it costs → honesty → trust → download. */}
+        <Hero heroEndRef={heroEndRef} />
+        <HowItWorks />
+        <Features />
+        <ScreenshotGallery />
+        <Statement />
+        <PlanConfigurator />
+        <ExerciseSpotlight />
+        <Personas />
+        <PlanLibrary />
+        <FreeVsPremium />
+        <Differentiation />
+        <Roadmap />
+        <Trust />
+        {/* Social proof deferred — no fabricated testimonials/numbers */}
+        <CtaRepeat />
+        <Faq />
       </main>
       <Footer />
     </div>
