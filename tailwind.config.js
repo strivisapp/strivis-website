@@ -44,6 +44,9 @@ module.exports = {
           DEFAULT: 'hsl(var(--signal))',
           foreground: 'hsl(var(--signal-foreground))'
         },
+        // The one near-black of every dark chapter (hero, cinematic features,
+        // statement, exercises, CTA): slightly blue-tinted instead of #000.
+        ink: '#0B0D11',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

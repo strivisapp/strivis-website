@@ -1,62 +1,49 @@
 import { Reveal } from "@/components/home/Reveal";
 import { cn } from "@/lib/utils";
 
-// Spec-sheet cards: the week count is the headline number (Ferrari spec-sheet
-// register), the dot-grid is real information (which days the program trains),
-// not decoration — and the format scales to any number of programs, since
-// this is a horizontal rail, not a fixed 3-up grid.
+// Spec-sheet cards: training days per week is the headline number (it's
+// what differs between programs and what a reader plans their week by; all
+// four run four weeks), the dot-grid shows which days, and the level is a
+// quiet one-colour label so the brand orange stays the only accent. A
+// horizontal rail, not a fixed 3-up grid, so it scales to any number of
+// programs.
 const DAYS = ["M", "T", "W", "T", "F", "S", "S"];
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-const LEVEL_STYLE = {
-  Beginner: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-  Intermediate: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-  Advanced: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
-  Experienced: "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20",
-};
-
 const PLANS = [
   { name: "Starting Strength", level: "Beginner", weeks: 4, trainDays: [0, 2, 4] },
-  { name: "Push Pull Legs", level: "Advanced", weeks: 4, trainDays: [0, 1, 2, 3, 4, 5] },
-  { name: "5/3/1 Strength Focus", level: "Experienced", weeks: 4, trainDays: [0, 1, 3, 4] },
   { name: "Upper/Lower Split", level: "Intermediate", weeks: 4, trainDays: [0, 2, 3, 5] },
+  { name: "Push Pull Legs", level: "Intermediate", weeks: 4, trainDays: [0, 1, 2, 3, 4, 5] },
+  { name: "5/3/1 Strength Focus", level: "Experienced", weeks: 4, trainDays: [0, 1, 3, 4] },
 ];
 
 function PlanCard({ plan }) {
   const daysPerWeek = plan.trainDays.length;
   return (
-    <div className="group relative w-[260px] shrink-0 snap-start rounded-2xl border border-border bg-card p-6 overflow-hidden transition-colors hover:border-primary/40">
-      <div
-        className="absolute inset-0 opacity-[0.06] group-hover:opacity-10 transition-opacity"
-        style={{ backgroundImage: "url(/hero-bg.jpg)", backgroundSize: "cover", backgroundPosition: "50% 30%", filter: "grayscale(1)" }}
-      />
-      <div className="relative">
-        <div className="flex items-center justify-between mb-8">
-          <span className={cn("text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full border", LEVEL_STYLE[plan.level])}>
-            {plan.level}
+    <div className="relative w-[260px] shrink-0 snap-start rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/40">
+      <div className="flex items-center justify-between mb-8">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{plan.level}</span>
+        <span className="text-[11px] font-medium text-muted-foreground tabular-nums">{plan.weeks} weeks</span>
+      </div>
+
+      <div className="font-heading text-6xl tabular-nums leading-none mb-1">{daysPerWeek}</div>
+      <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">Days a week</div>
+
+      <h3 className="font-heading text-lg tracking-wide mb-3">{plan.name}</h3>
+
+      <div className="flex items-center gap-1.5" role="img" aria-label={`Trains ${daysPerWeek} days a week: ${plan.trainDays.map((d) => DAY_NAMES[d]).join(", ")}`}>
+        {DAYS.map((d, i) => (
+          <span
+            key={i}
+            title={DAY_NAMES[i]}
+            className={cn(
+              "w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-semibold",
+              plan.trainDays.includes(i) ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground/60"
+            )}
+          >
+            {d}
           </span>
-        </div>
-
-        <div className="font-heading text-6xl tabular-nums leading-none mb-1">{plan.weeks}</div>
-        <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">Weeks</div>
-
-        <h3 className="font-heading text-lg tracking-wide mb-3">{plan.name}</h3>
-
-        <div className="flex items-center gap-1.5 mb-1.5" role="img" aria-label={`Trains ${daysPerWeek} days a week: ${plan.trainDays.map((d) => DAY_NAMES[d]).join(", ")}`}>
-          {DAYS.map((d, i) => (
-            <span
-              key={i}
-              title={DAY_NAMES[i]}
-              className={cn(
-                "w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-semibold",
-                plan.trainDays.includes(i) ? "bg-primary text-white" : "bg-muted text-muted-foreground/50"
-              )}
-            >
-              {d}
-            </span>
-          ))}
-        </div>
-        <p className="text-xs text-muted-foreground">{daysPerWeek}x per week</p>
+        ))}
       </div>
     </div>
   );
@@ -73,7 +60,7 @@ export function PlanLibrary() {
         </div>
       </Reveal>
       <Reveal className="max-w-5xl mx-auto">
-        <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4 px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory scroll-px-6 pb-4 px-6 rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-primary [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" tabIndex={0} aria-label="Training plans" role="region">
           {PLANS.map((p) => (
             <PlanCard key={p.name} plan={p} />
           ))}

@@ -14,13 +14,13 @@ export function Hero({ heroEndRef }) {
   const contentY = useTransform(scrollYProgress, [0, 1], [0, 60]);
 
   return (
-    <section ref={sectionRef} className="relative h-[100dvh] min-h-[640px] overflow-hidden bg-black text-white">
+    <section ref={sectionRef} className="relative h-[100dvh] min-h-[640px] overflow-hidden bg-ink text-white">
       <div className="absolute inset-0">
         <div ref={parallaxRef} className="absolute inset-0 -top-20 -bottom-20">
           <img src="/hero-bg.jpg" alt="" className="w-full h-full object-cover opacity-70" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-transparent" />
       </div>
 
       <motion.div style={{ opacity: contentOpacity, y: contentY }} className="relative h-full flex flex-col justify-end px-6 pb-20 md:pb-28">

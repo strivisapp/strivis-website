@@ -9,15 +9,15 @@ export function Statement() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="relative h-[60vh] min-h-[420px] overflow-hidden bg-black">
+    <section className="relative h-[60vh] min-h-[420px] overflow-hidden bg-ink">
       <MeshGradient
         className="absolute inset-0 w-full h-full"
-        colors={["#0a0a0a", "#1a0e05", "#ff4500", "#0a0a0a"]}
+        colors={["#0B0D11", "#1a0e05", "#ff4500", "#0B0D11"]}
         distortion={0.4}
         swirl={0.3}
         speed={prefersReducedMotion ? 0 : 0.08}
       />
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-ink/45" />
       <div className="relative h-full flex items-center justify-center px-6">
         <motion.p
           initial={{ opacity: 0, y: 20, filter: "blur(14px)" }}

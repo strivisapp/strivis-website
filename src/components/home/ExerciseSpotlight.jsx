@@ -7,7 +7,7 @@ import { Reveal } from "@/components/home/Reveal";
 // a one-line stat buried in a feature card.
 export function ExerciseSpotlight() {
   return (
-    <section id="exercises" className="scroll-mt-24 relative bg-black text-white py-24 md:py-32 overflow-hidden">
+    <section id="exercises" className="scroll-mt-24 relative bg-ink text-white py-24 md:py-32 overflow-hidden">
       <Reveal className="max-w-5xl mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>

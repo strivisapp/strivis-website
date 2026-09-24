@@ -7,7 +7,7 @@ import { Reveal } from "@/components/home/Reveal";
 // repeat of the same background image.
 export function CtaRepeat() {
   return (
-    <section className="relative bg-[#0D0F14] text-white py-28 md:py-40 overflow-hidden">
+    <section className="relative bg-ink text-white py-28 md:py-40 overflow-hidden">
       <motion.div
         className="absolute left-1/2 top-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/25 blur-[140px]"
         animate={{ opacity: [0.5, 0.85, 0.5] }}
