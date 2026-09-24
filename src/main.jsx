@@ -9,6 +9,10 @@ import '@fontsource/manrope/700.css'
 import '@fontsource/manrope/800.css'
 import './index.css'
 import App from './App.jsx'
+import { stripAuthParams } from './lib/stripAuthParams.js'
+
+// Before the router or any script reads the URL — see stripAuthParams.js.
+stripAuthParams()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

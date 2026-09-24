@@ -1,7 +1,7 @@
 import { Loader2 } from "lucide-react";
 
 // Landing target for the native app's Google/Apple sign-in flow (see
-// strivis/src/lib/nativeOAuth.js and its NATIVE_OAUTH_CALLBACK_URL). This
+// strivis/src/lib/authRedirect.js and its AUTH_REDIRECT_URL). This
 // page almost never actually renders in the success case: strivis.app is
 // registered as a Universal Link domain for /oauth-native-callback* (see
 // public/.well-known/apple-app-site-association), so iOS intercepts the
