@@ -55,13 +55,13 @@ export function Features() {
           </Cell>
           <Cell
             title="Logged, not guessed"
-            body="Search real food data from OpenFoodFacts and USDA. Scan barcodes with Premium."
+            body="Calories, macros and water for the day. Search real food data from OpenFoodFacts and USDA. Scan barcodes with Premium."
             className="md:col-span-5"
           >
             <ScreenCrop
               shot={screenshot("Nutrition")}
-              alt="Calories, protein, carbs and fat of a food as rings against the daily goal"
-              position="50% 31%"
+              alt="Today in the Nutrition tab: 2875 kcal left, rings for protein, carbs and fat, and the macro split"
+              position="50% 33%"
               className="mx-6 aspect-[16/9] rounded-b-none md:mx-7"
             />
           </Cell>
@@ -72,8 +72,8 @@ export function Features() {
             </div>
             <ScreenCrop
               shot={screenshot("Progress")}
-              alt="A new Barbell Bench Press record with its estimated 1RM, and the split of sets across muscle groups"
-              position="50% 44%"
+              alt="A new record for Banded Chest Stretch, 20 kg x 10 with an estimated 1RM of 27 kg, and the split of sets across muscle groups"
+              position="50% 12%"
               className="mx-6 aspect-[4/3] rounded-b-none md:col-span-7 md:mx-0 md:mr-10 md:mt-8 md:aspect-[16/10]"
             />
           </Bezel>
