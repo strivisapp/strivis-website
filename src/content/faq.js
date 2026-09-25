@@ -1,6 +1,6 @@
 // FAQ content, grouped. Plain data (no JSX) so tests can read it without a
 // build step. An answer may end in one internal `link`, rendered after the
-// text. Every answer is checked against the app (strivis repo) — change
+// text. Every answer is checked against the app (strivis repo); change
 // them only together with the app.
 export const FAQ_GROUPS = [
   {
@@ -13,7 +13,7 @@ export const FAQ_GROUPS = [
       },
       {
         q: "Can I build my own training plan?",
-        a: "Yes — alongside AI-generated and curated plans, you can put together a plan entirely yourself.",
+        a: "Yes. Alongside AI-generated and curated plans, you can put together a plan entirely yourself.",
       },
       {
         q: "Does the exercise database work offline?",
@@ -21,7 +21,7 @@ export const FAQ_GROUPS = [
       },
       {
         q: "What if I train on more than one device?",
-        a: "Your account syncs across devices — just log in anywhere with the same credentials.",
+        a: "Your account syncs across devices. Just log in anywhere with the same credentials.",
       },
     ],
   },
@@ -30,23 +30,21 @@ export const FAQ_GROUPS = [
     title: "Your data",
     items: [
       {
+        // Also answers what "Can I delete my account again?" used to ask on
+        // its own (merged in the launch redesign).
         q: "How is my data handled?",
-        a: "You can delete your data together with your account at any time, right in the app. All the details are in our",
+        a: "You can delete your account at any time, right in the app's account settings, and your data is permanently removed with it. All the details are in our",
         link: { to: "/datenschutz", label: "Privacy Policy" },
       },
       {
-        q: "Can I delete my account again?",
-        a: "Yes, anytime in account settings — your data is permanently removed with it.",
-      },
-      {
         q: "Where does the nutrition data come from?",
-        a: "OpenFoodFacts and the USDA database — real, publicly maintained food data, not estimates.",
+        a: "OpenFoodFacts and the USDA database: real, publicly maintained food data, not estimates.",
       },
     ],
   },
   {
     id: "premium",
-    title: "Premium & pricing",
+    title: "Premium and pricing",
     items: [
       {
         q: "Is Strivis free?",
@@ -56,7 +54,7 @@ export const FAQ_GROUPS = [
       },
       {
         q: "What does Premium cost?",
-        a: "Premium is available monthly, yearly or as a one-time lifetime purchase. Prices depend on your country and come straight from the App Store — you see yours in the app before you buy. Subscriptions can be cancelled anytime in your device's subscription settings.",
+        a: "Premium is available monthly, yearly or as a one-time lifetime purchase. Prices depend on your country and come straight from the App Store; you see yours in the app before you buy. Subscriptions can be cancelled anytime in your device's subscription settings.",
       },
     ],
   },

@@ -1,23 +1,25 @@
 import { useId, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
+import { DownloadAction } from "@/components/download/DownloadAction";
+import { Bezel } from "@/components/ui/bezel";
 import { GOALS, DAYS_PER_WEEK, EQUIPMENT, buildExampleWeek } from "@/content/planExamples";
 import { cn } from "@/lib/utils";
 
 // A segmented control built from native radio buttons: Tab reaches the
 // group, arrow keys move the choice, screen readers announce it as a radio
-// group — no custom key handling needed.
+// group, no custom key handling needed.
 function Segmented({ legend, name, options, value, onChange, itemMinWidth = "min-w-[5.5rem]" }) {
   return (
     <fieldset className="min-w-0">
-      <legend className="text-xs font-semibold tracking-[0.2em] uppercase text-white/70 mb-3">{legend}</legend>
-      <div className="flex flex-wrap gap-1 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-1">
+      <legend className="mb-3 text-small font-semibold text-white/80">{legend}</legend>
+      <div className="flex flex-wrap gap-1 rounded-[26px] bg-white/[0.03] p-1 ring-1 ring-hairline">
         {options.map((o) => {
           const id = `${name}-${o.id}`;
           const checked = value === o.id;
           return (
-            <div key={o.id} className={cn("flex-1", itemMinWidth)}>
+            <div key={o.id} className={cn("flex-auto", itemMinWidth)}>
               <input
                 type="radio"
                 id={id}
@@ -30,9 +32,9 @@ function Segmented({ legend, name, options, value, onChange, itemMinWidth = "min
               <label
                 htmlFor={id}
                 className={cn(
-                  "flex min-h-11 cursor-pointer items-center justify-center rounded-xl px-3 py-1.5 text-center text-sm font-medium leading-tight transition-colors",
-                  "peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background",
-                  checked ? "bg-primary text-primary-foreground" : "text-white/70 hover:text-white hover:bg-white/[0.05]"
+                  "press flex min-h-11 cursor-pointer items-center justify-center whitespace-nowrap rounded-full px-3.5 py-1.5 text-center text-small font-semibold leading-tight",
+                  "peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-ink",
+                  checked ? "bg-primary text-primary-foreground" : "text-white/70 hover:bg-white/[0.05] hover:text-white"
                 )}
               >
                 {o.label}
@@ -50,25 +52,24 @@ export function PlanConfigurator() {
   const [goal, setGoal] = useState("build_muscle");
   const [days, setDays] = useState(3);
   const [equipment, setEquipment] = useState("gym");
-  const prefersReducedMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion();
 
   const week = buildExampleWeek({ goal, days, equipment });
   const goalLabel = GOALS.find((g) => g.id === goal).label;
   const equipmentLabel = EQUIPMENT.find((e) => e.id === equipment).label;
 
   return (
-    <section id="try-it" aria-labelledby={`${uid}-title`} className="scroll-mt-24 py-20 md:py-28 bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-6">
+    <section id="try-it" aria-labelledby={`${uid}-title`} className="scroll-mt-20 border-t border-hairline bg-surface-0 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6">
         <Reveal>
           <SectionHeader
             id={`${uid}-title`}
-            eyebrow="Try it"
             title="Sketch your week."
-            lead="Pick a goal, how often you train and what you train with — and see what a week could look like."
+            lead="Pick a goal, how often you train and what you train with, and see what a week could look like."
           />
         </Reveal>
 
-        <Reveal className="mt-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr_1.1fr]">
+        <div className="mt-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr_1.1fr]">
           <Segmented legend="Goal" name={`${uid}-goal`} options={GOALS} value={goal} onChange={setGoal} />
           <Segmented
             legend="Days a week"
@@ -79,54 +80,56 @@ export function PlanConfigurator() {
             itemMinWidth="min-w-[2.75rem]"
           />
           <Segmented legend="Equipment" name={`${uid}-equipment`} options={EQUIPMENT} value={equipment} onChange={setEquipment} />
-        </Reveal>
+        </div>
 
-        <div className="mt-10 rounded-3xl border border-white/[0.08] bg-white/[0.02] p-5 md:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-            <h3 className="font-heading uppercase text-xl md:text-2xl tracking-wide" aria-live="polite">
-              {goalLabel} · {days} days · {equipmentLabel}
+        <Bezel className="mt-10" coreClassName="p-5 md:p-8">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            <h3 className="font-heading uppercase text-h3" aria-live="polite">
+              {goalLabel}, {days} days, {equipmentLabel}
             </h3>
-            <span className="rounded-full border border-primary/50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
-              Example week
-            </span>
+            <p className="text-small text-white/60">Example week, not your plan.</p>
           </div>
 
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.ol
-              key={`${goal}-${days}-${equipment}`}
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={prefersReducedMotion ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: -8 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {week.map((day) => (
-                <li key={`${day.weekday}-${day.name}`} className="rounded-2xl border border-white/[0.06] bg-ink/60 p-4">
-                  <div className="flex items-baseline justify-between gap-2 mb-3">
-                    <span className="font-heading uppercase tracking-wide text-lg">{day.name}</span>
-                    <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{day.weekday}</span>
-                  </div>
-                  <ul className="space-y-2.5">
-                    {day.exercises.map((ex) => (
-                      <li key={ex.id} className="flex items-start justify-between gap-3 text-sm">
-                        <span>
-                          <span className="block font-medium">{ex.name}</span>
-                          <span className="block text-xs text-muted-foreground">{ex.muscle}</span>
-                        </span>
-                        <span className="shrink-0 text-xs tabular-nums text-white/70 pt-0.5">{ex.sets}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </motion.ol>
-          </AnimatePresence>
+          {/* The new week fades in over the old one at once (180 ms, a 2 px
+              blur bridging the swap) instead of waiting for it to leave. */}
+          <motion.ol
+            key={`${goal}-${days}-${equipment}`}
+            initial={reduceMotion ? false : { opacity: 0, filter: "blur(2px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
+            className="mt-6 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {week.map((day) => (
+              <li key={`${day.weekday}-${day.name}`} className="border-t border-hairline py-5">
+                <div className="mb-3 flex items-baseline justify-between gap-2">
+                  <span className="font-heading uppercase text-lg">{day.name}</span>
+                  <span className="text-small text-white/55">{day.weekday}</span>
+                </div>
+                <ul className="space-y-2.5">
+                  {day.exercises.map((ex) => (
+                    <li key={ex.id} className="flex items-start justify-between gap-3 text-small">
+                      <span>
+                        <span className="block font-medium text-white">{ex.name}</span>
+                        <span className="block text-white/55">{ex.muscle}</span>
+                      </span>
+                      <span className="shrink-0 pt-0.5 tabular-nums text-white/70">{ex.sets}</span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </motion.ol>
 
-          <p className="mt-6 text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            A hand-picked example from the app's exercise library — not your plan. In the app, the AI builds your actual plan
-            from your goal, level, equipment, training days and session length, and you can edit every day of it.
+          <p className="mt-4 max-w-[70ch] text-small text-white/60">
+            A hand-picked example from the app's exercise library. In the app, the AI builds your actual plan from your goal,
+            level, equipment, training days and session length, and you can edit every day of it.
           </p>
-        </div>
+
+          <div className="mt-6 flex flex-col gap-4 border-t border-hairline pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-heading uppercase text-xl">Get your real plan in the app.</p>
+            <DownloadAction variant="compact" />
+          </div>
+        </Bezel>
       </div>
     </section>
   );

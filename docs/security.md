@@ -36,7 +36,7 @@ allowlist includes strivis.app (strivis-backend docs/security/cors.md).
 
 ```
 default-src 'self'; script-src 'self' https://connect.facebook.net;
-style-src 'self' 'sha256-bcX2M6hOeEgeI9Ttj3KtXWZuoRsKenyQAlXswSnLakA=';
+style-src 'self';
 img-src 'self' data: https://www.facebook.com; font-src 'self' data:;
 connect-src 'self' https://strivis-backend-production.up.railway.app https://www.facebook.com https://connect.facebook.net;
 frame-src https://www.facebook.com; frame-ancestors 'none'; base-uri 'self';
@@ -49,9 +49,12 @@ form-action 'self'; object-src 'none'; upgrade-insecure-requests
   `redesign-2026-10-13`, scrolled through, FAQ opened):
   - React's style props go through the CSSOM, which CSP doesn't block.
   - The one violation was the fixed `<style>` element that
-    `@paper-design/shaders` injects. It is allowed by its SHA-256 hash, and
-    the test recomputes that hash from the installed library, so a library
-    update that changes the CSS fails CI.
+    `@paper-design/shaders` injected. It was allowed by its SHA-256 hash
+    until the launch redesign removed the shader (and the library) on
+    2026-09-25; the hash went with it, so `style-src` is `'self'` only.
+    A future library that injects a `<style>` element needs its hash added
+    here, in `vercel.json` and in `tests/security-headers.test.mjs`, with a
+    comment saying why.
   - There is no report collector, so a Report-Only phase wouldn't report
     anywhere; the local test run took its place.
 - **Third parties:** only the Meta Pixel (`connect.facebook.net`,

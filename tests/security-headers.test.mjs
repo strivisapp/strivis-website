@@ -4,8 +4,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 
 const root = new URL("../", import.meta.url);
 const vercel = JSON.parse(readFileSync(new URL("vercel.json", root), "utf8"));
@@ -104,13 +103,12 @@ test("redirects only ever go to https://strivis.app on the same path", () => {
   }
 });
 
-test("runtime <style> elements in the built bundle are all hash-allowed", (t) => {
-  // @paper-design/shaders (launch design) injects one fixed <style>; its
-  // hash is in style-src. If the library changes it, the hash must change.
-  const lib = new URL("node_modules/@paper-design/shaders/dist/shader-mount.js", root);
-  if (!existsSync(lib)) return t.skip("shader library not installed on this branch");
-  const text = /const defaultStyle = `([\s\S]*?)`;/.exec(readFileSync(lib, "utf8"))?.[1];
-  assert.ok(text, "defaultStyle not found in shader-mount.js");
-  const hash = `'sha256-${createHash("sha256").update(text).digest("base64")}'`;
-  assert.ok(csp["style-src"].includes(hash), `add ${hash} to style-src`);
+test("style-src: 'self' only, no inline-style hashes left over", () => {
+  // The only hash this ever held was for the <style> element that
+  // @paper-design/shaders injected; the launch redesign removed that
+  // library (2026-09-25). A new hash needs a reviewed reason: add it here
+  // and in docs/security.md together with vercel.json.
+  assert.deepEqual(csp["style-src"], ["'self'"]);
+  const pkg = JSON.parse(readFileSync(new URL("package.json", root), "utf8"));
+  assert.ok(!pkg.dependencies?.["@paper-design/shaders-react"], "the shader library is back: its <style> needs a reviewed hash");
 });

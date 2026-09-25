@@ -1,38 +1,35 @@
-import { motion, useReducedMotion } from "framer-motion";
-import { AppStoreButton } from "@/components/home/AppStoreButton";
+import { DownloadAction } from "@/components/download/DownloadAction";
 import { AppStoreQr } from "@/components/home/AppStoreQr";
+import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { Reveal } from "@/components/home/Reveal";
+import { screenshot } from "@/content/screenshots";
 
-// Deliberately photo-free — the hero and Statement already carry the
-// photography, so the close is a pure graphic moment instead of a third
-// repeat of the same background image. On desktop, once the App Store
-// listing exists, a QR code sits next to the button (AppStoreQr).
-export function CtaRepeat() {
-  const prefersReducedMotion = useReducedMotion();
-
+// The close: the device once more (today's plan day, ready to log), the
+// download action and, on desktop once the listing
+// exists, a QR code (AppStoreQr). No grid lines, no pulsing glow. This
+// section is the page's #download target.
+// Headline is a proposal from the website audit; the owner confirms it.
+export function CtaRepeat({ ref }) {
   return (
-    <section id="download" className="scroll-mt-24 relative bg-ink text-white py-28 md:py-40 overflow-hidden">
-      <motion.div
-        aria-hidden="true"
-        className="absolute left-1/2 top-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/25 blur-[140px] opacity-70"
-        animate={prefersReducedMotion ? undefined : { opacity: [0.5, 0.85, 0.5] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-[0.08]"
-        style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "48px 48px" }}
-      />
-      <Reveal className="relative max-w-3xl mx-auto px-6 text-center">
-        <h2 className="font-heading uppercase text-5xl md:text-7xl tracking-wide leading-[0.95] text-balance mb-6">
-          Ready to have it <span className="text-primary">all in one place?</span>
-        </h2>
-        <p className="text-white/70 text-base md:text-lg mb-10 max-w-md mx-auto">Free on iPhone — no subscription required.</p>
-        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
-          <AppStoreButton className="rounded-full h-14 px-10 text-base" />
-          <AppStoreQr />
+    <section ref={ref} id="download" aria-labelledby="download-title" className="scroll-mt-20 overflow-hidden border-t border-hairline bg-surface-0">
+      <div className="mx-auto grid max-w-6xl gap-12 px-5 pt-20 sm:px-6 md:grid-cols-12 md:items-end md:gap-8 md:pt-28">
+        <Reveal className="pb-4 md:col-span-7 md:self-center md:pb-28">
+          <h2 id="download-title" className="font-heading uppercase text-h2-sm md:text-[4.5rem] md:leading-[0.92] text-balance">
+            Your next set starts here.
+          </h2>
+          <p className="mt-5 text-body text-white/70 md:text-lead">Free on iPhone. No subscription required.</p>
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+            <DownloadAction variant="full" source="home_cta" />
+            <AppStoreQr />
+          </div>
+        </Reveal>
+        <div className="flex justify-center md:col-span-5 md:justify-end">
+          {/* Only the top of the phone shows; the section edge cuts it off. */}
+          <div className="h-[380px] overflow-hidden md:h-[460px]">
+            <PhoneFrame shot={screenshot("Plan")} sizes="(min-width: 768px) 300px, 260px" className="w-[260px] md:w-[300px]" />
+          </div>
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }

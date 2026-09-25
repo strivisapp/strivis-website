@@ -1,54 +1,45 @@
-import { motion, useReducedMotion } from "framer-motion";
-import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { Reveal } from "@/components/home/Reveal";
+import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { PREVIEW_EXERCISES, EXERCISE_COUNT } from "@/content/exercises";
+import { screenshot } from "@/content/screenshots";
 
-// A dedicated section for the exercise database — the detail view (tabs,
-// history, favorites) is a concrete, current differentiator worth more than
-// a one-line stat buried in a feature card. Below it, a handful of real
-// entries from the catalog with the same illustrations the app shows.
+// The exercise library: the number once, two real detail screens (each
+// turned 3 degrees, once, no stacked rotation), then real entries from the
+// catalog with the illustrations the app shows: a swipeable rail on phones,
+// a grid from md up.
 export function ExerciseSpotlight() {
-  const prefersReducedMotion = useReducedMotion();
-  const tilt = (rotate, delay = 0) => ({
-    initial: prefersReducedMotion ? false : { opacity: 0, y: 20, rotate },
-    whileInView: { opacity: 1, y: 0, rotate },
-    viewport: { once: true, margin: "-60px" },
-    transition: { duration: 0.6, delay },
-  });
-
   return (
-    <section id="exercises" className="scroll-mt-24 relative bg-ink text-white py-24 md:py-32 overflow-hidden">
-      <Reveal className="max-w-5xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <div className="font-heading text-7xl md:text-8xl text-primary tabular-nums mb-4 leading-none">{EXERCISE_COUNT}</div>
-            <h2 className="font-heading uppercase text-2xl md:text-3xl tracking-wide mb-4">Exercises. Every one explained.</h2>
-            <p className="text-white/70 text-base md:text-lg max-w-md">
-              Image, step-by-step instructions, target muscles and your own history for every exercise — from the RepDB
-              database, downloaded once, usable offline from then on.
-            </p>
-            <ul className="mt-6 space-y-2 text-sm text-white/60">
-              <li>Estimated 1RM, volume and set-by-set history per exercise</li>
-              <li>Favorites, for the ones you come back to</li>
-              <li>Start and end position of every movement</li>
-            </ul>
-          </div>
-          <div className="flex justify-center gap-4">
-            <motion.div {...tilt(-4)}>
-              <PhoneFrame src="/screenshots/exercise-detail-fresh.png" alt="Exercise detail with info, history and favorites" rotate={-4} className="w-[150px] sm:w-[170px] shadow-[0_0_60px_rgba(255,68,0,0.12)]" />
-            </motion.div>
-            <motion.div {...tilt(4, 0.1)} className="mt-10">
-              <PhoneFrame src="/screenshots/exercise-detail-execution-fresh.png" alt="Exercise instructions with image" rotate={4} className="w-[150px] sm:w-[170px] shadow-[0_0_60px_rgba(255,68,0,0.12)]" />
-            </motion.div>
-          </div>
+    <section id="exercises" aria-labelledby="exercises-title" className="scroll-mt-20 overflow-hidden border-t border-hairline bg-surface-0 py-20 md:py-28">
+      <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 sm:px-6 md:grid-cols-12 md:gap-8">
+        <Reveal className="md:col-span-6">
+          <h2 id="exercises-title" className="font-heading uppercase">
+            <span className="block text-[7rem] leading-[0.85] text-primary tabular-nums md:text-[9rem]">{EXERCISE_COUNT}</span>
+            <span className="mt-3 block text-h2-sm md:text-h2 text-balance">Exercises. Every one explained.</span>
+          </h2>
+          <p className="mt-5 max-w-[46ch] text-body text-white/70 md:text-lead">
+            Image, steps, target muscles and your own history for each one. Offline after a one-time download.
+          </p>
+          <ul className="mt-6 space-y-2 text-small text-white/60">
+            <li>Estimated 1RM, volume and set-by-set history per exercise</li>
+            <li>Favorites, for the ones you come back to</li>
+            <li>Start and end position of every movement</li>
+          </ul>
+        </Reveal>
+        <div className="flex justify-center gap-4 sm:gap-6 md:col-span-6">
+          <PhoneFrame shot={screenshot("Exercise library")} sizes="200px" className="w-[150px] -rotate-3 sm:w-[190px]" />
+          <PhoneFrame shot={screenshot("Execution")} sizes="200px" className="mt-12 w-[150px] rotate-3 sm:w-[190px]" />
         </div>
-      </Reveal>
+      </div>
 
-      <Reveal className="max-w-5xl mx-auto px-6 mt-20 md:mt-28">
-        <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-white/70 mb-6">A few from the library</h3>
-        <ul className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div className="mx-auto mt-16 max-w-6xl md:mt-24">
+        <h3 className="px-5 text-small font-semibold text-white/80 sm:px-6">A few from the library</h3>
+        <ul
+          tabIndex={0}
+          aria-label="Exercises from the library"
+          className="mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-5 px-5 pb-2 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary [scrollbar-width:none] sm:px-6 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible [&::-webkit-scrollbar]:hidden"
+        >
           {PREVIEW_EXERCISES.map((ex) => (
-            <li key={ex.id} className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-2.5 md:p-3">
+            <li key={ex.id} className="w-[46%] shrink-0 snap-start rounded-core bg-surface-1 p-1.5 shadow-core ring-1 ring-hairline sm:w-[30%] md:w-auto">
               <img
                 src={ex.image}
                 alt={`${ex.name}, illustrated`}
@@ -56,21 +47,16 @@ export function ExerciseSpotlight() {
                 height={512}
                 loading="lazy"
                 decoding="async"
-                className="aspect-square w-full rounded-xl object-cover"
+                className="aspect-square w-full rounded-tile object-cover"
               />
-              <div className="px-1 pt-3 pb-1">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{ex.area}</div>
-                <div className="mt-1 font-medium text-sm md:text-base leading-snug">{ex.name}</div>
-                <div className="mt-0.5 text-xs text-muted-foreground">{ex.muscle}</div>
+              <div className="px-2 pb-2 pt-3">
+                <div className="text-small font-semibold leading-snug text-white">{ex.name}</div>
+                <div className="mt-0.5 text-small text-white/55">{ex.area}</div>
               </div>
             </li>
           ))}
         </ul>
-        <p className="mt-8 text-base md:text-lg text-white/70">
-          <span className="font-heading text-2xl text-white tabular-nums mr-2">{EXERCISE_COUNT}</span>
-          exercises in the app — available offline after a one-time download.
-        </p>
-      </Reveal>
+      </div>
     </section>
   );
 }
