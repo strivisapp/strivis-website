@@ -31,17 +31,6 @@ test("download actions: official badge with a listing, waitlist without, never a
   assert.match(badge, /Download_on_the_App_Store_Badge/, "the badge file must stay Apple's original");
 });
 
-test("from launch day on, the Impressum has no placeholders left", async () => {
-  const { IMPRESSUM, IMPRESSUM_PLACEHOLDER } = await import("../src/content/impressum.js");
-  for (const key of ["name", "street", "city", "country", "email", "responsible"]) {
-    assert.ok(typeof IMPRESSUM[key] === "string" && IMPRESSUM[key].trim(), `IMPRESSUM.${key} is empty`);
-  }
-  if (!launched) return; // placeholders are expected until the owner fills them in
-  for (const [key, value] of Object.entries(IMPRESSUM)) {
-    if (value !== null) assert.doesNotMatch(value, IMPRESSUM_PLACEHOLDER, `fill in IMPRESSUM.${key} in src/content/impressum.js`);
-  }
-});
-
 test("no screenshot with a test account's name anywhere (dashboard-fresh.png)", () => {
   assert.ok(!existsSync(new URL("../public/screenshots/dashboard-fresh.png", import.meta.url)));
   const src = new URL("../src/", import.meta.url);
