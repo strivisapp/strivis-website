@@ -7,9 +7,11 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/content/screenshots";
 // src/content/screenshots.js; width/height reserve the space before the
 // image arrives (no layout shift). `priority` for the one image on the
 // first screen: eager and high fetch priority instead of lazy.
+// A small phone passes `screenClassName` (and a smaller shell radius and
+// padding in `className`) to keep the radii concentric.
 // `src` + `rotate` instead of `shot` is the older call style, kept so the
 // pre-redesign home page on main keeps rendering with this same file.
-export function PhoneFrame({ shot, src, rotate, alt, className, priority = false, sizes = "(min-width: 768px) 300px, 60vw" }) {
+export function PhoneFrame({ shot, src, rotate, alt, className, screenClassName, priority = false, sizes = "(min-width: 768px) 300px, 60vw" }) {
   const image = shot ?? { src };
   return (
     <div
@@ -19,7 +21,7 @@ export function PhoneFrame({ shot, src, rotate, alt, className, priority = false
       )}
       style={rotate ? { transform: `rotate(${rotate}deg)` } : undefined}
     >
-      <div className="overflow-hidden rounded-[40px] bg-ink ring-1 ring-black/70">
+      <div className={cn("overflow-hidden rounded-[40px] bg-ink ring-1 ring-black/70", screenClassName)}>
         <img
           src={image.src}
           srcSet={image.src480 ? `${image.src480} 480w, ${image.src} 780w` : undefined}
