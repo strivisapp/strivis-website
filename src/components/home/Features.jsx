@@ -5,10 +5,13 @@ import { Bezel } from "@/components/ui/bezel";
 import { screenshot } from "@/content/screenshots";
 import { cn } from "@/lib/utils";
 
-// Four features as one asymmetric bento (7 | 5 over 5 | 12), each cell with
-// a sharp cut-out of a real screen. Replaces the four full-screen chapters
-// (blurred screenshots, scroll-driven tilt). Copy only names what the app
-// does today; the barcode scanner is Premium and says so.
+// Four features as one asymmetric bento, each cell with a sharp cut-out of a
+// real screen. Desktop: the plan (7 columns) spans two rows next to two
+// stacked 5-column cells, then one full-width row. The two stacked cells set
+// the row heights (text plus a 16:9 crop); the plan crop only fills what is
+// left, so no cell is taller than its content. Replaces the four
+// full-screen chapters (blurred screenshots, scroll-driven tilt). Copy only
+// names what the app does today; the barcode scanner is Premium and says so.
 function Cell({ title, body, children, className, textClassName }) {
   return (
     <Bezel as="li" className={className} coreClassName="flex flex-col overflow-hidden">

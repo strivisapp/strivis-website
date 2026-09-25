@@ -38,10 +38,13 @@ export function PhoneFrame({ shot, src, rotate, alt, className, priority = false
 }
 
 // A cut-out of a real screenshot (not a rebuilt UI): the image is scaled to
-// the frame's width and `position` picks which part shows.
+// the frame's width and `position` picks which part shows. The image sits
+// absolutely inside the frame, so the frame's size comes only from its own
+// classes (an aspect ratio, or flex-1 filling a cell) and never from the
+// screenshot's full 780 x 1688 height.
 export function ScreenCrop({ shot, alt, className, position = "50% 0%", sizes = "(min-width: 768px) 480px, 90vw" }) {
   return (
-    <div className={cn("overflow-hidden rounded-tile bg-ink ring-1 ring-hairline", className)}>
+    <div className={cn("relative overflow-hidden rounded-tile bg-ink ring-1 ring-hairline", className)}>
       <img
         src={shot.src}
         srcSet={`${shot.src480} 480w, ${shot.src} 780w`}
@@ -51,7 +54,7 @@ export function ScreenCrop({ shot, alt, className, position = "50% 0%", sizes = 
         alt={alt ?? shot.alt}
         loading="lazy"
         decoding="async"
-        className="block h-full w-full object-cover"
+        className="absolute inset-0 block h-full w-full object-cover"
         style={{ objectPosition: position }}
       />
     </div>
