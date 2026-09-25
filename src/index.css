@@ -3,67 +3,53 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 220 22% 97%;
-    --foreground: 222 24% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 24% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 24% 10%;
-    --primary: 16 100% 50%;
-    --primary-foreground: 0 0% 7%;
-    --secondary: 220 16% 93%;
-    --secondary-foreground: 222 24% 14%;
-    --muted: 220 16% 93%;
-    --muted-foreground: 220 10% 42%;
-    --accent: 220 16% 91%;
-    --accent-foreground: 222 24% 14%;
-    --destructive: 0 78% 48%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 14% 88%;
-    --input: 220 14% 88%;
-    --ring: 16 100% 50%;
-    --signal: 16 75% 38%;
-    --signal-foreground: 0 0% 100%;
-    --chart-1: 16 100% 50%;
-    --chart-2: 16 75% 38%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 1rem;
-    --font-heading: 'Anton', ui-sans-serif, system-ui, sans-serif;
-    --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Anton', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  }
-
+  /* The site has one theme: dark. index.html sets class="dark" on <html>,
+     so every page (home, countdown, support, legal, 404, profile links)
+     renders from the same tokens below. */
+  :root,
   .dark {
-    --background: 222 22% 6%;
+    --background: 220 21% 5.5%; /* = ink #0B0D11 */
     --foreground: 210 20% 96%;
-    --card: 222 20% 10%;
+    --card: 222 18% 9%;
     --card-foreground: 210 20% 96%;
-    --popover: 222 20% 10%;
+    --popover: 222 18% 9%;
     --popover-foreground: 210 20% 96%;
     --primary: 16 100% 50%;
     --primary-foreground: 0 0% 7%;
     --secondary: 222 16% 16%;
     --secondary-foreground: 210 20% 92%;
     --muted: 222 16% 15%;
-    --muted-foreground: 220 10% 62%;
+    --muted-foreground: 220 10% 64%;
     --accent: 222 18% 18%;
     --accent-foreground: 210 20% 92%;
-    --destructive: 0 80% 55%;
+    --destructive: 0 80% 62%;
     --destructive-foreground: 0 0% 100%;
     --border: 222 16% 18%;
-    --input: 222 16% 18%;
+    --input: 222 16% 22%;
     --ring: 16 100% 50%;
-    --signal: 16 90% 68%;
-    --signal-foreground: 0 0% 7%;
-    --chart-1: 16 100% 50%;
-    --chart-2: 16 90% 68%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --radius: 1rem;
+
+    /* Surfaces: ink, then two raised layers. Hairlines instead of borders
+       in a new colour. */
+    --surface-0: #0b0d11;
+    --surface-1: #11141a;
+    --surface-2: #171b22;
+    --hairline: rgb(255 255 255 / 0.08);
+    --hairline-strong: rgb(255 255 255 / 0.14);
+
+    /* Motion: custom curves (the built-in CSS easings are too weak) and
+       fixed durations. Enter and respond with ease-out; move on screen with
+       ease-in-out. Nothing in the UI runs longer than 300ms. */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --dur-press: 160ms;
+    --dur-ui: 220ms;
+    --dur-reveal: 280ms;
+
+    --font-heading: 'Anton', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Anton', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
 }
 
@@ -72,13 +58,77 @@
     @apply border-border;
   }
   html {
+    color-scheme: dark;
     scroll-behavior: smooth;
+    scrollbar-color: rgb(255 255 255 / 0.2) var(--surface-0);
+    -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground font-body antialiased;
+    caret-color: hsl(var(--primary));
+    accent-color: hsl(var(--primary));
   }
   ::selection {
-    background-color: hsl(var(--primary) / 0.25);
-    color: hsl(var(--foreground));
+    background-color: hsl(var(--primary) / 0.35);
+    color: #fff;
+  }
+  /* Film grain over the whole page: one fixed, non-interactive layer, never
+     on a scrolling container (that would repaint on every frame). */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 3px;
+  }
+  a {
+    text-underline-offset: 0.25em;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  body::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@layer components {
+  /* Pressable feedback: every button and button-like link scales down a
+     touch while pressed, so the interface visibly hears the tap. */
+  .press {
+    transition-property: transform, background-color, border-color, color, opacity;
+    transition-duration: var(--dur-press);
+    transition-timing-function: var(--ease-out);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .press:active {
+      transform: none;
+    }
+  }
+
+  /* Once-only entrance used by <Reveal>: opacity plus a short rise. */
+  .reveal {
+    transition-property: opacity, transform;
+    transition-duration: var(--dur-reveal);
+    transition-timing-function: var(--ease-out);
+  }
+  .reveal[data-visible="false"] {
+    opacity: 0;
+    transform: translateY(12px);
   }
 }

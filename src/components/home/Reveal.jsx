@@ -1,24 +1,25 @@
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 /**
- * Fades/slides its children in once they scroll into view.
- * Shows content immediately (no animation) when the user prefers reduced
- * motion, or if IntersectionObserver isn't available.
+ * Fades its children in with a short rise (12 px, 280 ms, --ease-out) the
+ * first time they scroll into view (`.reveal`, src/index.css). Visible from
+ * the first frame when the user prefers reduced motion, when
+ * IntersectionObserver is missing, or before JavaScript runs.
  */
-export function Reveal({ children, className = "", as: Tag = "div" }) {
+export function Reveal({ children, className, as: Tag = "div", ...props }) {
   const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Already on screen at mount: leave it alone instead of blinking it out.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion || typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
-
+    setVisible(false);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -26,19 +27,14 @@ export function Reveal({ children, className = "", as: Tag = "div" }) {
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <Tag
-      ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      } ${className}`}
-    >
+    <Tag ref={ref} data-visible={visible} className={cn("reveal", className)} {...props}>
       {children}
     </Tag>
   );

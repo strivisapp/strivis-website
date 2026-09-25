@@ -2,12 +2,25 @@
 module.exports = {
   darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,jsx}"],
+  future: {
+    // Every `hover:` utility only applies on devices that really hover
+    // (@media (hover: hover) and (pointer: fine)): a tap on a phone must not
+    // leave a hover state behind.
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        sm: 'calc(var(--radius) - 4px)',
+        // Shape system (one rule, used everywhere): anything you press is a
+        // pill (rounded-full); surfaces are a double bezel, an outer shell
+        // and an inner core with concentric radii (shell = core + 6px
+        // padding); images inside a core use `tile`.
+        shell: '28px',
+        core: '22px',
+        tile: '16px',
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -40,29 +53,56 @@ module.exports = {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))'
         },
-        signal: {
-          DEFAULT: 'hsl(var(--signal))',
-          foreground: 'hsl(var(--signal-foreground))'
-        },
-        // The one near-black of every dark chapter (hero, cinematic features,
-        // statement, exercises, CTA): slightly blue-tinted instead of #000.
+        // The site's one near-black (#0B0D11), slightly blue-tinted instead
+        // of #000. surface-1/2 are the raised layers on top of it.
         ink: '#0B0D11',
+        surface: {
+          0: 'var(--surface-0)',
+          1: 'var(--surface-1)',
+          2: 'var(--surface-2)',
+        },
+        hairline: {
+          DEFAULT: 'var(--hairline)',
+          strong: 'var(--hairline-strong)',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))'
-        }
       },
       fontFamily: {
         heading: ['var(--font-heading)'],
         body: ['var(--font-body)'],
         display: ['var(--font-display)'],
         mono: ['var(--font-mono)']
+      },
+      // Fixed type ramp (mobile / desktop pairs). Anton is set without extra
+      // tracking; display stays at or below 6rem.
+      fontSize: {
+        'display-sm': ['3.5rem', { lineHeight: '0.95' }],
+        display: ['6rem', { lineHeight: '0.9' }],
+        'h2-sm': ['2.25rem', { lineHeight: '1' }],
+        h2: ['3.5rem', { lineHeight: '0.95' }],
+        h3: ['1.5rem', { lineHeight: '1.1' }],
+        lead: ['1.1875rem', { lineHeight: '1.6' }],
+        body: ['1.0625rem', { lineHeight: '1.65' }],
+        small: ['0.875rem', { lineHeight: '1.5' }],
+      },
+      // Motion tokens (src/index.css): one strong ease-out for everything
+      // that enters or responds, a few fixed durations, all under 300ms.
+      transitionTimingFunction: {
+        out: 'var(--ease-out)',
+        'in-out': 'var(--ease-in-out)',
+      },
+      transitionDuration: {
+        press: 'var(--dur-press)',
+        ui: 'var(--dur-ui)',
+        reveal: 'var(--dur-reveal)',
+      },
+      boxShadow: {
+        // Depth comes from an inner highlight plus an offset, blurred,
+        // tinted shadow; never from a coloured zero-offset glow.
+        core: 'inset 0 1px 0 rgb(255 255 255 / 0.06)',
+        lift: '0 24px 48px -24px rgb(0 0 0 / 0.6), 0 8px 16px -8px rgb(0 0 0 / 0.4)',
       },
       keyframes: {
         'accordion-down': {
@@ -75,8 +115,8 @@ module.exports = {
         }
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
+        'accordion-down': 'accordion-down 0.2s var(--ease-out)',
+        'accordion-up': 'accordion-up 0.16s var(--ease-out)'
       }
     }
   },
