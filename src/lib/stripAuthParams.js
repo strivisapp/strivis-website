@@ -39,7 +39,12 @@ export function withoutAuthParams(href) {
     url.hash = "";
     changed = true;
   }
-  return changed ? url.pathname + url.search + url.hash : null;
+  if (!changed) return null;
+  // A path that starts with "//" (a crafted strivis.app//evil.example/?code=
+  // link; "/\" arrives as "//" too) would be read by replaceState as a
+  // protocol-relative URL on another host. That throws, and the tokens would
+  // stay in the address bar. One leading slash keeps it a path on this site.
+  return url.pathname.replace(/^\/+/, "/") + url.search + url.hash;
 }
 
 export function stripAuthParams() {
