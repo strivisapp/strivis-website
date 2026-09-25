@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { LegalPage } from "@/components/site/LegalPage";
 
 const SECTIONS = [
   {
@@ -16,7 +15,7 @@ const SECTIONS = [
   },
   {
     heading: "Handling payments",
-    body: `Strivis offers in-app purchases (Premium subscriptions) processed via the Apple App Store. Strivis is not involved in the collection or processing of your payment details — Apple handles this directly and only notifies Strivis whether a payment was completed. Purchase state is also managed through RevenueCat, Inc. (United States), which processes your user ID, device information, and usage data to keep your subscription status in sync across devices.`,
+    body: `Strivis offers in-app purchases (Premium subscriptions) processed via the Apple App Store. Strivis is not involved in the collection or processing of your payment details; Apple handles this directly and only notifies Strivis whether a payment was completed. Purchase state is also managed through RevenueCat, Inc. (United States), which processes your user ID, device information, and usage data to keep your subscription status in sync across devices.`,
   },
   {
     heading: "Platform services and hosting",
@@ -52,7 +51,7 @@ const SECTIONS = [
   },
   {
     heading: "Mode and place of processing",
-    body: `Data is processed using computers and IT-enabled tools, following organizational procedures strictly related to the purposes indicated above. Depending on your location, data transfers may involve transferring your data to a country other than your own — in particular to the United States, where the providers named above process data as described.`,
+    body: `Data is processed using computers and IT-enabled tools, following organizational procedures strictly related to the purposes indicated above. Depending on your location, data transfers may involve transferring your data to a country other than your own, in particular to the United States, where the providers named above process data as described.`,
   },
   {
     heading: "Retention time",
@@ -68,35 +67,27 @@ const SECTIONS = [
   },
 ];
 
+// Wording as published; only the layout changed (LegalPage). The two
+// em-dashes in "Handling payments" and "Mode and place of processing" were
+// replaced by a semicolon and a comma (punctuation only, no word changed).
 export default function Datenschutz() {
   return (
-    <div className="min-h-svh bg-background text-foreground px-6 py-16">
-      <div className="max-w-2xl mx-auto">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-10">
-          <ArrowLeft className="w-4 h-4" /> Back
-        </Link>
-
-        <h1 className="font-heading text-3xl tracking-wide mb-2">Privacy Policy</h1>
-        <p className="text-muted-foreground text-sm mb-8">Last updated: September 23, 2026</p>
-
-        <div className="mb-10">
-          <h2 className="font-heading text-lg tracking-wide mb-1.5">Owner and data controller</h2>
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            Simon Paretski, Aldebaranstraße 18, 12529 Schönefeld, Germany
-            <br />
-            Contact email: strivisofficial@gmail.com
-          </p>
-        </div>
-
-        <div className="space-y-8">
-          {SECTIONS.map((section) => (
-            <div key={section.heading}>
-              <h2 className="font-heading text-lg tracking-wide mb-1.5">{section.heading}</h2>
-              <p className="text-muted-foreground text-sm leading-relaxed">{section.body}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <LegalPage
+      title="Privacy Policy"
+      updated="September 23, 2026"
+      sections={[
+        {
+          heading: "Owner and data controller",
+          children: (
+            <p>
+              Simon Paretski, Aldebaranstraße 18, 12529 Schönefeld, Germany
+              <br />
+              Contact email: strivisofficial@gmail.com
+            </p>
+          ),
+        },
+        ...SECTIONS,
+      ]}
+    />
   );
 }
