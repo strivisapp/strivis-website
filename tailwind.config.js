@@ -54,12 +54,14 @@ module.exports = {
           foreground: 'hsl(var(--destructive-foreground))'
         },
         // The site's one near-black (#0B0D11), slightly blue-tinted instead
-        // of #000. surface-1/2 are the raised layers on top of it.
+        // of #000. surface-1/2 are the raised layers on top of it. Plain hex
+        // (mirrored as --surface-* in index.css) so opacity modifiers like
+        // bg-surface-2/95 work.
         ink: '#0B0D11',
         surface: {
-          0: 'var(--surface-0)',
-          1: 'var(--surface-1)',
-          2: 'var(--surface-2)',
+          0: '#0b0d11',
+          1: '#11141a',
+          2: '#171b22',
         },
         hairline: {
           DEFAULT: 'var(--hairline)',
