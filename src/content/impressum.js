@@ -1,26 +1,22 @@
-// TODO(owner): fill in every "[TODO: ...]" value below before launch
-// (13 October 2026); tests/launch.test.mjs fails from launch day on while
-// any placeholder is left. These are the operator's legal details for the
-// Impressum (German provider identification, § 5 DDG, and the person
-// responsible for editorial content, § 18 (2) MStV). They were deliberately
-// NOT filled in by the redesign: only the owner can supply them, and they
-// should be checked by someone qualified (this is not legal advice).
+// The operator's legal details for the Impressum (German provider
+// identification, § 5 DDG, and the person responsible for editorial content,
+// § 18 (2) MStV). Taken word for word from the privacy policy's "Owner and
+// data controller" section (src/pages/Datenschutz.jsx), so the two stay the
+// same; change both together. Have the wording checked by someone qualified
+// (this is not legal advice). tests/launch.test.mjs fails if a "[TODO: ...]"
+// placeholder ever comes back.
 //
-// Plain data (no JSX) so tests can read it. `phone` is optional: leave it
-// null to show no phone number.
+// Plain data (no JSX) so tests can read it. `phone` is optional: null shows
+// no phone number.
 export const IMPRESSUM = {
-  // Full name of the person (or company, with legal form) running Strivis.
-  name: "[TODO: full name of the operator]",
-  // Postal address where the operator can be served (no P.O. box).
-  street: "[TODO: street and house number]",
-  city: "[TODO: postcode and city]",
-  country: "[TODO: country]",
-  // An email address that is actually read, for fast electronic contact.
-  email: "[TODO: contact email]",
+  name: "Simon Paretski",
+  street: "Aldebaranstraße 18",
+  city: "12529 Schönefeld",
+  country: "Germany",
+  email: "strivisofficial@gmail.com",
   phone: null,
-  // Person responsible for the content (name and address, if different
-  // from the operator above).
-  responsible: "[TODO: name and address of the person responsible for the content]",
+  // Person responsible for the content (§ 18 (2) MStV).
+  responsible: "Simon Paretski, Aldebaranstraße 18, 12529 Schönefeld",
 };
 
 export const IMPRESSUM_PLACEHOLDER = /\[TODO:[^\]]*\]/;
