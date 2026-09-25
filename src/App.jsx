@@ -3,6 +3,7 @@ import Home from "@/pages/Home";
 import Support from "@/pages/Support";
 import Datenschutz from "@/pages/Datenschutz";
 import Agb from "@/pages/Agb";
+import Impressum from "@/pages/Impressum";
 import ComingSoon from "@/pages/ComingSoon";
 import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
 import OpenInApp from "@/pages/OpenInApp";
@@ -21,10 +22,11 @@ function App() {
       <Routes>
         <Route path="/" element={gated ? <ComingSoon /> : <Home />} />
         {/* Reachable regardless of the launch gate — App Store review and
-            real users need this before the site itself goes live. */}
+            real users need these before the site itself goes live. */}
         <Route path="/support" element={<Support />} />
         <Route path="/datenschutz" element={<Datenschutz />} />
         <Route path="/agb" element={<Agb />} />
+        <Route path="/impressum" element={<Impressum />} />
         {/* Native app OAuth handoff target — reachable regardless of the
             launch gate, same as the legal pages, since the native app needs
             this whether or not the public site has "launched" yet. */}

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { LegalLinks } from "@/components/site/LegalLinks";
 
 const SECTIONS = [
   {
@@ -96,6 +97,7 @@ export default function Datenschutz() {
             </div>
           ))}
         </div>
+        <LegalLinks className="mt-12 border-t border-border pt-4" linkClassName="text-muted-foreground hover:text-foreground focus-visible:ring-offset-background" />
       </div>
     </div>
   );
