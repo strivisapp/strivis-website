@@ -74,4 +74,18 @@ never in an iframe.
 - No redirect is built from a query parameter, and the SPA reads no
   `returnUrl`, `next` or `callback` parameters.
 - Auth parameters that land on the site are stripped
-  (`src/lib/stripAuthParams.js`).
+  (`src/lib/stripAuthParams.js`). The cleaned address keeps one leading
+  slash, so a crafted `strivis.app//host/?code=` link can't make
+  `history.replaceState` fail and leave the code in the address bar.
+
+## Served files
+
+- Vercel serves only the build output: no serverless functions, no
+  `api/`, no middleware. The one rewrite serves the fixed `/index.html`
+  for everything outside `/assets/`, so a missing asset is a 404.
+- Every page is a static import behind a fixed route; nothing loads a
+  module, page or content file by a URL value.
+- `public/` holds only images, the two self-destructing service workers
+  and the Apple app-site association. `tests/path-safety.test.mjs` fails
+  on anything else there, and on source maps, env or config files in
+  `dist/`.
