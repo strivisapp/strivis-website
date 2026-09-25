@@ -31,6 +31,19 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 1rem;
+
+    /* Launch design tokens (same values as the redesign branch), used by
+       the countdown: ink surfaces, hairlines, motion curves and timings. */
+    --surface-0: #0b0d11;
+    --surface-1: #11141a;
+    --surface-2: #171b22;
+    --hairline: rgb(255 255 255 / 0.08);
+    --hairline-strong: rgb(255 255 255 / 0.14);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --dur-press: 160ms;
+    --dur-ui: 220ms;
+    --dur-reveal: 280ms;
     --font-heading: 'Anton', ui-sans-serif, system-ui, sans-serif;
     --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
     --font-display: 'Anton', ui-sans-serif, system-ui, sans-serif;
@@ -80,5 +93,28 @@
   ::selection {
     background-color: hsl(var(--primary) / 0.25);
     color: hsl(var(--foreground));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@layer components {
+  /* Pressable feedback: buttons scale down a touch while pressed. */
+  .press {
+    transition-property: transform, background-color, border-color, color, opacity;
+    transition-duration: var(--dur-press);
+    transition-timing-function: var(--ease-out);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .press:active {
+      transform: none;
+    }
   }
 }
