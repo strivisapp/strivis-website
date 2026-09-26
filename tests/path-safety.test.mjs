@@ -146,11 +146,36 @@ test("dist/ (after a build): no source maps, env, config or server files", (t) =
 
 // ---- Pages and images are chosen by fixed names --------------------------------
 
-test("src/: no dynamic module loading — every page is a static import behind a fixed route", () => {
+// A lazy import() is fine when its specifier is a fixed string that resolves
+// to a module inside src/ (the App Store QR code is split out so the qrcode
+// library only loads on desktop); anything computed is not.
+const LITERAL_IMPORT = /\bimport\s*\(\s*"(@\/[A-Za-z0-9/_-]+)"\s*\)/g;
+const ANY_IMPORT_CALL = /\bimport\s*\(/g;
+
+function resolvesInsideSrc(specifier, src) {
+  const base = path.resolve(src, specifier.slice(2));
+  const hit = ["", ".js", ".jsx"].map((ext) => base + ext).find((f) => existsSync(f) && statSync(f).isFile());
+  return Boolean(hit) && hit.startsWith(src + path.sep) && /\.jsx?$/.test(hit);
+}
+
+test("src/: dynamic import() only for fixed modules inside src/", () => {
+  const src = path.join(ROOT, "src");
+  assert.equal(resolvesInsideSrc("@/../package", src), false);
+  assert.equal(resolvesInsideSrc("@/../vite.config", src), false);
+  for (const file of filesUnder(src).filter((f) => /\.(jsx?|tsx?)$/.test(f))) {
+    const text = readFileSync(path.join(src, file), "utf8");
+    const literals = [...text.matchAll(LITERAL_IMPORT)];
+    assert.equal(literals.length, (text.match(ANY_IMPORT_CALL) || []).length, `src/${file}: import() with a computed specifier`);
+    for (const [, specifier] of literals) {
+      assert.ok(resolvesInsideSrc(specifier, src), `src/${file}: import("${specifier}") must resolve to a .js/.jsx module inside src/`);
+    }
+  }
+});
+
+test("src/: no other dynamic module loading, and pages read no URL values", () => {
   const src = path.join(ROOT, "src");
   for (const file of filesUnder(src).filter((f) => /\.(jsx?|tsx?)$/.test(f))) {
     const text = readFileSync(path.join(src, file), "utf8");
-    assert.doesNotMatch(text, /\bimport\s*\(/, `src/${file}: dynamic import()`);
     assert.doesNotMatch(text, /import\.meta\.glob/, `src/${file}: import.meta.glob`);
     assert.doesNotMatch(text, /\brequire\s*\(/, `src/${file}: require()`);
     assert.doesNotMatch(text, /\b(useParams|useSearchParams)\b/, `src/${file}: a page reads a URL value (check it against a fixed map first)`);
