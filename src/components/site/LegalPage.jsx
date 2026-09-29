@@ -55,7 +55,9 @@ export function LegalPage({ title, updated, intro, sections }) {
             </nav>
           )}
 
-          <article className="max-w-[68ch] text-base leading-[1.65] text-white/80">
+          {/* No common ligatures: Manrope's would turn the "(c)" in legal
+              references such as "§ 512(c)(3)" or "Art. 6(1)(c)" into "©". */}
+          <article className="max-w-[68ch] text-base leading-[1.65] text-white/80 [font-variant-ligatures:no-common-ligatures]">
             {intro}
             {sections.map((s) => (
               <section key={s.heading} id={slug(s.heading)} className="scroll-mt-24 border-t border-hairline py-7 first:border-t-0 first:pt-0">

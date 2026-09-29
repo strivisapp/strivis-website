@@ -32,7 +32,7 @@ export function AppStoreBadge({ height = 48, className }) {
 //                     compact action and the nav's "Get the app".
 //   variant="compact" badge, or "Coming soon" + a "Notify me" link to the
 //                     page's full action (#download).
-export function DownloadAction({ variant = "full", source, anchor = false, className, badgeHeight, note }) {
+export function DownloadAction({ variant = "full", source, anchor = false, className, badgeHeight }) {
   if (APP_STORE_URL) {
     return (
       <div id={anchor ? "download" : undefined} className={cn("scroll-mt-28", className)}>
@@ -58,7 +58,7 @@ export function DownloadAction({ variant = "full", source, anchor = false, class
   return (
     <div id={anchor ? "download" : undefined} className={cn("scroll-mt-28", className)}>
       <p className="mb-3 font-heading uppercase text-xl text-white">Coming soon to the App Store</p>
-      <WaitlistForm source={source} note={note} />
+      <WaitlistForm source={source} />
     </div>
   );
 }

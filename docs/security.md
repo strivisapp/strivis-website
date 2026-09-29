@@ -10,11 +10,20 @@ deploy, `node scripts/check-live-headers.mjs` checks the live site.
 
 ## Cookies
 
-The site sets none: there is no `Set-Cookie` in any header block and no
-`document.cookie` in `src/`. The marketing-consent choice lives in
-localStorage (`src/lib/consent.js`). After consent, Meta's pixel sets its own
-`_fbp` measurement cookie. It is not a secret and not an authentication
-cookie. It is disclosed in the consent banner and the privacy policy.
+The site sets none: there is no `Set-Cookie` in any header block, and
+`document.cookie` appears only in `src/lib/consent.js`, where it is only
+ever assigned expired (`Max-Age=0`) strings. The marketing-consent choice
+lives in localStorage (`src/lib/consent.js`). After consent, Meta's pixel
+sets its own `_fbp` (and, after an ad click, `_fbc`) measurement cookie.
+They are not secrets and not authentication cookies, and they are disclosed
+in the consent banner and the privacy policy.
+
+Withdrawing consent ("Cookie settings" in every footer reopens the banner,
+then "Decline") stores "denied", calls `fbq("consent", "revoke")` if the
+pixel is loaded, and deletes `_fbp` and `_fbc` host-only and on every parent
+domain of the host (so `.strivis.app` too). The pixel is not loaded again
+until the visitor accepts again. `tests/consent.test.mjs` covers this, and
+`tests/security-headers.test.mjs` fails on any other `document.cookie` use.
 
 ## HTTPS
 

@@ -4,6 +4,7 @@ import Support from "@/pages/Support";
 import Datenschutz from "@/pages/Datenschutz";
 import Agb from "@/pages/Agb";
 import Impressum from "@/pages/Impressum";
+import Copyright from "@/pages/Copyright";
 import ComingSoon from "@/pages/ComingSoon";
 import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
 import OpenInApp from "@/pages/OpenInApp";
@@ -28,6 +29,9 @@ function App() {
         <Route path="/datenschutz" element={<Datenschutz />} />
         <Route path="/agb" element={<Agb />} />
         <Route path="/impressum" element={<Impressum />} />
+        {/* Rights holders and anyone reporting illegal content need this
+            without an account and before launch (DMCA, DSA notice and action). */}
+        <Route path="/copyright" element={<Copyright />} />
         {/* Native app OAuth handoff target — reachable regardless of the
             launch gate, same as the legal pages, since the native app needs
             this whether or not the public site has "launched" yet. */}
