@@ -84,9 +84,21 @@ test("cookies: the site sets none (auth lives in the app's Keychain; consent in 
   for (const block of vercel.headers) {
     for (const h of block.headers) assert.notEqual(h.key.toLowerCase(), "set-cookie", block.source);
   }
+  // The one exception is deleting: withdrawing Meta Pixel consent expires
+  // Meta's _fbp/_fbc cookies (src/lib/consent.js, tests/consent.test.mjs).
+  // No other file touches document.cookie, and there it is only ever
+  // assigned the Max-Age=0 strings from expiredMetaCookies().
   const src = new URL("src/", root);
   const files = readdirSync(src, { recursive: true }).filter((f) => /\.(jsx?|tsx?)$/.test(f));
-  for (const f of files) assert.doesNotMatch(readFileSync(new URL(f.replaceAll("\\", "/"), src), "utf8"), /document\.cookie/, f);
+  for (const f of files) {
+    const text = readFileSync(new URL(f.replaceAll("\\", "/"), src), "utf8");
+    if (f.replaceAll("\\", "/") === "lib/consent.js") {
+      assert.deepEqual(text.match(/document\.cookie.*/g), ["document.cookie = cookie;"], "consent.js only writes the expired cookie strings");
+      assert.match(text, /for \(const cookie of expiredMetaCookies\(/);
+    } else {
+      assert.doesNotMatch(text, /document\.cookie/, f);
+    }
+  }
 });
 
 test("other headers: nosniff, referrer policy, permissions policy", () => {

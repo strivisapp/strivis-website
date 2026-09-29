@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { getConsent, loadMetaPixel, setConsent } from "@/lib/consent";
+import { getConsent, loadMetaPixel, onOpenConsentSettings, setConsent } from "@/lib/consent";
 
 const BUTTON =
   "press h-11 rounded-full border border-hairline-strong bg-white/[0.05] px-5 text-small font-semibold text-white hover:bg-white/[0.1] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink";
@@ -12,9 +12,20 @@ const BUTTON =
 // make room: the countdown pads its footer so its links can be scrolled
 // clear of it, and the mobile download bar stays hidden. (The hero's and
 // the countdown's download actions sit above it on a 390 x 844 phone.)
+// "Cookie settings" in the footer reopens it (lib/consent.js,
+// openConsentSettings) with focus on it; either button closes it again, and
+// "Decline" then also withdraws an earlier "Accept".
 export default function ConsentBanner() {
   const location = useLocation();
   const [choice, setChoice] = useState(() => getConsent());
+  const [reopened, setReopened] = useState(false);
+  const panelRef = useRef(null);
+
+  useEffect(() => onOpenConsentSettings(() => setReopened(true)), []);
+
+  useEffect(() => {
+    if (reopened) panelRef.current?.focus();
+  }, [reopened]);
 
   useEffect(() => {
     if (choice === "granted") loadMetaPixel();
@@ -22,7 +33,7 @@ export default function ConsentBanner() {
 
   // Never shown on the native sign-in handoff page: nobody browses it, and
   // the pixel must not load there anyway.
-  const hidden = Boolean(choice) || location.pathname.startsWith("/oauth-native-callback");
+  const hidden = (Boolean(choice) && !reopened) || location.pathname.startsWith("/oauth-native-callback");
 
   useEffect(() => {
     const root = document.documentElement;
@@ -38,6 +49,7 @@ export default function ConsentBanner() {
   const decide = (value) => {
     setConsent(value);
     setChoice(value);
+    setReopened(false);
   };
 
   return (
@@ -46,7 +58,11 @@ export default function ConsentBanner() {
       aria-label="Cookie consent"
       className="pointer-events-none fixed inset-x-0 bottom-0 z-[55] flex justify-center p-2 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] sm:p-4"
     >
-      <div className="pointer-events-auto w-full max-w-2xl rounded-core bg-surface-2/95 p-3.5 text-white shadow-lift ring-1 ring-hairline-strong backdrop-blur-md animate-in fade-in slide-in-from-bottom-2 duration-ui ease-out motion-reduce:slide-in-from-bottom-0 sm:flex sm:items-center sm:gap-5 sm:p-4">
+      <div
+        ref={panelRef}
+        tabIndex={-1}
+        className="pointer-events-auto w-full max-w-2xl rounded-core bg-surface-2/95 p-3.5 text-white shadow-lift ring-1 ring-hairline-strong backdrop-blur-md animate-in fade-in slide-in-from-bottom-2 duration-ui ease-out motion-reduce:slide-in-from-bottom-0 outline-none focus-visible:ring-2 focus-visible:ring-primary sm:flex sm:items-center sm:gap-5 sm:p-4"
+      >
         <p className="text-xs leading-relaxed text-white/85 sm:flex-1">
           We'd like to use the Meta Pixel to measure our ads. It sets cookies and sends data to Meta Platforms. It only
           runs if you accept.{" "}

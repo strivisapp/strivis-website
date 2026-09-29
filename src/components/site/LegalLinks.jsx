@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { openConsentSettings } from "@/lib/consent";
 import { cn } from "@/lib/utils";
 
 const LINK =
@@ -6,7 +7,8 @@ const LINK =
 
 // Support and the legal pages, in the same order everywhere (footer,
 // countdown, legal pages). Impressum under its German name, as German law
-// and German visitors expect it.
+// and German visitors expect it. "Cookie settings" is a button, not a page:
+// it reopens the consent banner, so withdrawing is as easy as accepting.
 const LEGAL_LINKS = [
   { to: "/support", label: "Support" },
   { to: "/datenschutz", label: "Privacy" },
@@ -24,6 +26,9 @@ export function LegalLinks({ className, linkClassName }) {
           {l.label}
         </Link>
       ))}
+      <button type="button" onClick={openConsentSettings} className={cn(LINK, linkClassName)}>
+        Cookie settings
+      </button>
       <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className={cn(LINK, linkClassName)}>
         Instagram
       </a>

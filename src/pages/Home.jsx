@@ -12,6 +12,7 @@ import { Reveal } from "@/components/home/Reveal";
 import { useParallax } from "@/hooks/useParallax";
 import { useScrollPast } from "@/hooks/useScrollPast";
 import { APP_STORE_URL } from "@/lib/appStore";
+import { openConsentSettings } from "@/lib/consent";
 import { Sparkles, ListChecks, Utensils, TrendingUp, Dumbbell } from "lucide-react";
 
 const FEATURES = [
@@ -323,6 +324,8 @@ export default function Home() {
             <a href="/datenschutz" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">Datenschutz</a>
             <a href="/agb" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">AGB</a>
             <a href="/impressum" className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">Impressum</a>
+            {/* Reopens the consent banner: withdrawing is as easy as accepting. */}
+            <button type="button" onClick={openConsentSettings} className="hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">Cookie-Einstellungen</button>
           </nav>
         </div>
       </footer>

@@ -33,7 +33,7 @@ const SECTIONS = [
   },
   {
     heading: "This website",
-    body: `This website is hosted by Vercel Inc., which processes technical access data such as your IP address to deliver the pages. If you join the waitlist, we store your email address, your browser language, and the signup date in the Strivis database to notify you once at launch; you can ask us to delete it at any time. With your consent only, this website uses the Meta Pixel (Meta Platforms Ireland Ltd.) to measure our advertising; it sets cookies and sends usage data to Meta. You can withdraw that consent at any time by clearing this site's data in your browser, after which you will be asked again.`,
+    body: `This website is hosted by Vercel Inc., which processes technical access data such as your IP address to deliver the pages. The waitlist is for people aged 18 or older. If you join it, we store your email address, your browser language, the form you used, and when you signed up, consented and confirmed, in the Strivis database. We send the emails through Brevo (Sendinblue SAS, France): first one email asking you to confirm your address (double opt-in), and only after you confirm, the launch email. Every email has an unsubscribe link. The legal basis is your consent (Art. 6(1)(a) GDPR), which you can withdraw at any time through that link or by writing to us; after you unsubscribe, we keep your address only on a block list so that we never email you again. With your consent only, this website uses the Meta Pixel (Meta Platforms Ireland Ltd.) to measure our advertising; it sets the cookies _fbp and _fbc and sends usage data to Meta. You can withdraw that consent at any time with "Cookie settings" at the bottom of every page: choose "Decline". The pixel then stops, we delete the _fbp and _fbc cookies on strivis.app, and the pixel is not loaded again unless you accept again.`,
   },
   {
     heading: "Nutrition data lookups",
@@ -78,7 +78,7 @@ export default function Datenschutz() {
         </Link>
 
         <h1 className="font-heading text-3xl tracking-wide mb-2">Privacy Policy</h1>
-        <p className="text-muted-foreground text-sm mb-8">Last updated: September 23, 2026</p>
+        <p className="text-muted-foreground text-sm mb-8">Last updated: September 30, 2026</p>
 
         <div className="mb-10">
           <h2 className="font-heading text-lg tracking-wide mb-1.5">Owner and data controller</h2>

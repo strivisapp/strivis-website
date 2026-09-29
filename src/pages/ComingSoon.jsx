@@ -64,8 +64,7 @@ export default function ComingSoon() {
           <div id="download" className="mt-8 scroll-mt-8">
             <WaitlistForm
               source="coming_soon"
-              note="We'll email you once, right when it launches."
-              successText="We'll email you the moment we launch on October 13."
+              successText="Tap the link in the email we just sent. Then we'll email you the moment we launch on October 13."
             />
           </div>
 
