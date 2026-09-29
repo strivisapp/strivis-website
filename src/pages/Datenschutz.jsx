@@ -27,7 +27,7 @@ const SECTIONS = [
   },
   {
     heading: "Crash reports and app analytics",
-    body: `To find and fix errors, the app sends crash and error reports to Sentry (Functional Software, Inc.) through its EU data region. The app also records a small set of usage events (for example, that a workout was completed) with PostHog through its EU data region, without automatic click tracking or session recordings and without your health values.`,
+    body: `To find and fix errors, the app sends crash and error reports to Sentry (Functional Software, Inc.) through its EU data region. Only if you allow it in the app (Art. 6(1)(a) GDPR), the app also records a small set of usage events (for example, that a workout was completed) with PostHog through its EU data region, without cookies, automatic click tracking or session recordings and without your health values. Until you allow it, PostHog is not loaded and nothing is sent. You can withdraw your consent at any time in the app under Settings › Privacy › Share usage data (Einstellungen › Privatsphäre › Nutzungsdaten teilen).`,
   },
   {
     heading: "This website",
@@ -74,7 +74,7 @@ export default function Datenschutz() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="September 23, 2026"
+      updated="September 29, 2026"
       sections={[
         {
           heading: "Owner and data controller",
