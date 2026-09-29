@@ -1,16 +1,43 @@
-# React + Vite
+# strivis-website
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The marketing site at https://strivis.app: React + Vite + Tailwind, hosted
+on Vercel. Strivis itself is a native iOS app; this site only presents it
+and collects the launch waitlist.
 
-Currently, two official plugins are available:
+## Run it locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm ci
+npm run dev        # http://localhost:5173
+npm test           # node:test suites in tests/
+npm run lint       # oxlint
+npm run build      # production build into dist/
+```
 
-## React Compiler
+## Backend
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The waitlist form posts to `POST /api/waitlist` on strivis-backend
+(`src/lib/waitlist.js`). The backend URL comes from `src/lib/backend.js`:
+production by default, `VITE_BACKEND_URL` to point a local build elsewhere.
 
-## Expanding the Oxlint configuration
+## Deploy
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Vercel builds and deploys `main` on every push. Headers, the CSP and
+redirects live in `vercel.json`; `docs/security.md` explains them. After a
+deploy, check the live headers:
+
+```bash
+node scripts/check-live-headers.mjs https://strivis.app
+```
+
+## Branches
+
+- `main`: the live site (countdown and Impressum).
+- `redesign-2026-10-13`: the launch redesign. It has to be merged into
+  `main` before launch on 13 October 2026.
+
+## Docs
+
+- `docs/security.md`: CSP, headers, the waitlist endpoint
+- `docs/website-plan.html`, `docs/homepage-wireframe.html`,
+  `docs/homepage-copy.html`: plan, wireframe and copy of the redesign
