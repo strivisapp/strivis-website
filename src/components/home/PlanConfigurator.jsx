@@ -121,8 +121,8 @@ export function PlanConfigurator() {
           </motion.ol>
 
           <p className="mt-4 max-w-[70ch] text-small text-white/60">
-            A hand-picked example from the app's exercise library. In the app, the AI builds your actual plan from your goal,
-            level, equipment, training days and session length, and you can edit every day of it.
+            A hand-picked example from the app's exercise library. In the app you pick a ready-made program that matches your
+            goal, level and training days, build your own, or have one generated, and you can edit every day of it.
           </p>
 
           <div className="mt-6 flex flex-col gap-4 border-t border-hairline pt-6 sm:flex-row sm:items-center sm:justify-between">

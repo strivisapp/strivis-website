@@ -17,7 +17,7 @@ const STEPS = [
   },
   {
     title: "Get your plan",
-    body: "The AI builds a plan around your answers. Or put one together yourself. Every day of it stays editable.",
+    body: "Strivis recommends a program that fits your answers. Or let the AI build one, or put one together yourself. Every day of it stays editable.",
     shot: screenshot("Plan"),
   },
   {

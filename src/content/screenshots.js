@@ -3,10 +3,12 @@
 // placements. Every file is 780 x 1688 (or 480 x 1039), so the frame can
 // reserve the space before the image loads.
 //
-// dashboard, onboarding-focus-muscles, nutrition-day, food-detail and
-// progress-records are iPhone captures (25 Sep 2026): cropped to the frame's
-// aspect, with the iOS status bar (time, battery) painted over in the app's
-// background. The *-dark.png files are older German captures and stay out of
+// All are iPhone captures, cropped to the frame's aspect with the iOS
+// status bar (time, battery) painted over in the app's background, or faded
+// out where a picture sits behind it: onboarding-focus-muscles,
+// plan-preview, active-workout, exercise-library, exercise-detail and
+// food-detail from 30 Sep 2026 (the new app design); dashboard,
+// nutrition-day and progress-records from 25 Sep 2026. The *-dark.png files are older German captures and stay out of
 // the English site. Order here is the gallery's order.
 const shot = (name) => ({ src: `/screenshots/${name}.webp`, src480: `/screenshots/${name}-480.webp` });
 
@@ -27,28 +29,28 @@ export const SCREENSHOTS = [
     alt: "Onboarding question 6 of 10, Focus muscle groups?, with the chest selected on a front-view body figure",
   },
   {
-    ...shot("plan-detail"),
+    ...shot("plan-preview"),
     title: "Plan",
-    caption: "Every training day of your plan, with sets and reps.",
-    alt: "A Push Pull Legs plan day with Barbell Bench Press and Neutral Grip Pull Ups, 3 x 8-12 each",
+    caption: "Programs built for muscle gain: days per week, time per workout, weeks and who each one is for.",
+    alt: "The Golden Era Split plan: a five-day split for advanced lifters, 5 days per week, 65 minutes per workout, 8 weeks with a deload in week 8, and a Pick this plan button",
   },
   {
     ...shot("active-workout"),
     title: "Workout",
-    caption: "Weight, reps and effort per set, with the rest timer running.",
-    alt: "An active workout logging three sets of Barbell Bench Press with a 1:30 rest timer",
+    caption: "Warm-up sets, then weight, reps and effort per set, with the rest timer running.",
+    alt: "An active workout on Barbell Bench Press, exercise 1 of 8: two warm-up sets of 80 kg x 8 and 100 kg x 5, working sets of 125 kg x 7 and 125 kg x 6 at RIR 2, and a 2:24 rest timer",
+  },
+  {
+    ...shot("exercise-library"),
+    title: "Exercise library",
+    caption: "601 exercises to search and filter by muscle and equipment.",
+    alt: "The exercise library with a search field, filters for muscles and equipment, 601 exercises and a list starting with Ab Wheel Rollout, Air Bike and Archer Pull Ups",
   },
   {
     ...shot("exercise-detail"),
-    title: "Exercise library",
-    caption: "Target muscles, equipment and level for every exercise.",
-    alt: "Exercise detail for Barbell Bench Press: primary and secondary muscles and equipment",
-  },
-  {
-    ...shot("exercise-detail-execution"),
     title: "Execution",
-    caption: "Step-by-step instructions with start and end position.",
-    alt: "Execution tab of an exercise with illustrated positions and step-by-step instructions",
+    caption: "Start and end position with step-by-step instructions.",
+    alt: "Concentration Curl with illustrated start and end positions, biceps and brachialis, dumbbell, beginner, and five numbered steps under How to do it",
   },
   {
     ...shot("nutrition-day"),
@@ -60,7 +62,7 @@ export const SCREENSHOTS = [
     ...shot("food-detail"),
     title: "Food",
     caption: "Calories and macros per portion, against your daily goal.",
-    alt: "Adding Banana, raw: 100 g selected, 97 kcal and its protein, carbs and fat as rings against the daily goal, and a nutrition facts table per 100 g",
+    alt: "Adding Banana, raw to lunch: 100 g, 97 kcal with 0.7 g protein, 22.7 g carbs and 0.3 g fat, the day's protein, carbs and fat against their goals, and nutrition facts per 100 g",
   },
   {
     ...shot("progress-records"),
