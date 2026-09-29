@@ -36,6 +36,9 @@ function App() {
             (Universal Link), this page otherwise — also before launch, since
             app users share these as soon as the app is out. */}
         <Route path="/u/*" element={<OpenInApp />} />
+        {/* Shared post links (the app's community, docs/api/community.md H7):
+            same fallback, never the post itself. */}
+        <Route path="/p/*" element={<OpenInApp kind="post" />} />
         {/* Old links to the removed /login and /premium pages, typos: the
             countdown before launch, an honest 404 after. */}
         <Route path="*" element={gated ? <ComingSoon /> : <NotFound />} />

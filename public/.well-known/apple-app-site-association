@@ -9,7 +9,8 @@
         ],
         "paths": [
           "/oauth-native-callback*",
-          "/u/*"
+          "/u/*",
+          "/p/*"
         ]
       }
     ]

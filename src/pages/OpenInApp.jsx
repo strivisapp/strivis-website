@@ -2,7 +2,8 @@ import { SiteShell } from "@/components/site/SiteShell";
 import { DownloadAction } from "@/components/download/DownloadAction";
 import { AppStoreQr } from "@/components/home/AppStoreQr";
 
-// Fallback for shared profile links (strivis.app/u/<handle>). On an iPhone
+// Fallback for shared profile and post links (strivis.app/u/<handle>,
+// strivis.app/p/<id>). On an iPhone
 // with Strivis installed, iOS hands these straight to the app (Universal
 // Link, see public/.well-known/apple-app-site-association) and this page
 // never shows. It only renders when that can't happen (no app installed,
@@ -13,16 +14,19 @@ import { AppStoreQr } from "@/components/home/AppStoreQr";
 // profiles are only visible inside the app to signed-in users, and echoing
 // an attacker-chosen handle here would let a crafted link put its own text
 // on a strivis.app page.
-export default function OpenInApp() {
+const TITLES = { profile: "This profile lives in the app.", post: "This post lives in the app." };
+
+// kind: "profile" (/u/*) or "post" (/p/*); only the heading differs.
+export default function OpenInApp({ kind = "profile" }) {
   return (
     <SiteShell footerDownload="compact">
       <div className="mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-6 md:pb-28 md:pt-36">
-        <h1 className="font-heading uppercase text-h2-sm md:text-h2 text-balance">This profile lives in the app.</h1>
+        <h1 className="font-heading uppercase text-h2-sm md:text-h2 text-balance">{TITLES[kind] || TITLES.profile}</h1>
         <p className="mt-4 max-w-[46ch] text-body text-white/70 md:text-lead">
           Profiles, workouts and progress are only in Strivis. Install it on your iPhone, then open the link again.
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
-          <DownloadAction variant="full" source="profile_link" anchor />
+          <DownloadAction variant="full" source={kind === "post" ? "post_link" : "profile_link"} anchor />
           <AppStoreQr />
         </div>
       </div>
