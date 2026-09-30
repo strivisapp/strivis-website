@@ -38,6 +38,10 @@
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     },
     {
+      "source": "/newsletter/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
       "source": "/p/(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     },
