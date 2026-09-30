@@ -7,6 +7,7 @@ import Impressum from "@/pages/Impressum";
 import ComingSoon from "@/pages/ComingSoon";
 import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
 import OpenInApp from "@/pages/OpenInApp";
+import NewsletterConfirmed from "@/pages/NewsletterConfirmed";
 import ConsentBanner from "@/components/ConsentBanner";
 import { isPreLaunch } from "@/lib/launchDate";
 
@@ -31,6 +32,9 @@ function App() {
             launch gate, same as the legal pages, since the native app needs
             this whether or not the public site has "launched" yet. */}
         <Route path="/oauth-native-callback" element={<OAuthNativeCallback />} />
+        {/* Where the launch email's confirmation link lands (Brevo double
+            opt-in); reachable before launch, the waitlist runs now. */}
+        <Route path="/newsletter/confirmed" element={<NewsletterConfirmed />} />
         {/* Shared profile links: opened in the app on iPhones that have it
             (Universal Link), this page otherwise — also before launch, since
             app users share these as soon as the app is out. */}
