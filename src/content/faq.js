@@ -54,7 +54,7 @@ export const FAQ_GROUPS = [
       },
       {
         q: "What does Premium cost?",
-        a: "Premium is available monthly, yearly or as a one-time lifetime purchase. Prices depend on your country and come straight from the App Store; you see yours in the app before you buy. Subscriptions can be cancelled anytime in your device's subscription settings.",
+        a: "Premium is a weekly, monthly or yearly subscription. Prices depend on your country and come straight from the App Store; you see yours in the app before you buy. Subscriptions can be cancelled anytime in your device's subscription settings.",
       },
     ],
   },

@@ -25,8 +25,8 @@ const SECTIONS = [
     children: (
       <>
         <p>
-          Strivis Premium is a paid add-on with monthly or yearly subscriptions, or a one-time lifetime purchase, at the
-          prices shown in the App. Purchases are sold and billed by Apple through the App Store and charged to your
+          Strivis Premium is a paid add-on with weekly, monthly or yearly subscriptions, at the prices shown in the
+          App. Purchases are sold and billed by Apple through the App Store and charged to your
           Apple ID when you confirm the purchase.
         </p>
         <ul className={LIST}>
@@ -43,7 +43,6 @@ const SECTIONS = [
             at least 24 hours before the end of the trial. If notifications are allowed, the App reminds you two days
             before the trial ends.
           </li>
-          <li>The lifetime purchase is paid once and does not renew.</li>
           <li>Apple sends purchase receipts. Refunds are handled by Apple under Apple's terms.</li>
         </ul>
         <p>
@@ -137,5 +136,5 @@ const SECTIONS = [
 // subscription terms and Apple's standard EULA, changes announced in the
 // App); the other sections are worded as published, renumbered.
 export default function Agb() {
-  return <LegalPage title="Terms of Service" updated="September 30, 2026" sections={SECTIONS} />;
+  return <LegalPage title="Terms of Service" updated="October 2, 2026" sections={SECTIONS} />;
 }

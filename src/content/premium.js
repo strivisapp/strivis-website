@@ -28,5 +28,5 @@ export const PREMIUM_FEATURES = [
   "Advanced analytics: 1RM trend per exercise and training frequency over 8 weeks",
 ];
 
-// premiumPlans.js ids (monthly, yearly, lifetime); en.json settings.demoNotice.
-export const PREMIUM_BILLING = "Monthly, yearly or a one-time lifetime purchase. Prices in the App Store.";
+// The app's plans: lib/paywallOffer.js PLAN_ORDER (yearly, monthly, weekly).
+export const PREMIUM_BILLING = "Weekly, monthly or yearly subscription. Prices in the App Store.";
