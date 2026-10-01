@@ -7,8 +7,8 @@
 // status bar (time, battery) painted over in the app's background, or faded
 // out where a picture sits behind it: onboarding-focus-muscles,
 // plan-preview, active-workout, exercise-library, exercise-detail and
-// food-detail from 30 Sep 2026 (the new app design); dashboard,
-// nutrition-day and progress-records from 25 Sep 2026. The *-dark.png files are older German captures and stay out of
+// food-detail, dashboard, nutrition-day and progress-sets from 30 Sep 2026
+// (the new app design). The *-dark.png files are older German captures and stay out of
 // the English site. Order here is the gallery's order.
 const shot = (name) => ({ src: `/screenshots/${name}.webp`, src480: `/screenshots/${name}-480.webp` });
 
@@ -20,7 +20,7 @@ export const SCREENSHOTS = [
     ...shot("dashboard"),
     title: "Home",
     caption: "Today's workout, quick adds for water and meals, and your rings for the week and the day.",
-    alt: "The Strivis home screen: today is day 1 of 6, Push, with Barbell Bench Press and Incline Dumbbell Press, a Start workout button, +250 ml and Meal buttons, and rings for workouts this week, kcal left and water",
+    alt: "The Strivis home screen after today's workout: Strong, 2 min with 1,560 kg volume and a View summary button, +250 ml and Meal buttons, rings for 1 of 5 workouts this week, 2,107 kcal left and 1.5 L water, and the week strip",
   },
   {
     ...shot("onboarding-focus-muscles"),
@@ -56,7 +56,7 @@ export const SCREENSHOTS = [
     ...shot("nutrition-day"),
     title: "Nutrition",
     caption: "Calories left, macros, water and supplements for the day.",
-    alt: "The Nutrition screen for today: 2875 kcal left, rings for protein, carbs and fat, the macro split, micronutrients, water at 0.3 of 2.5 L and supplements",
+    alt: "The Nutrition screen for today: 2,107 kcal left of 3,560, protein, carbs and fat against their goals, water at 1.5 of 3.5 L, a creatine check-off and breakfast at 1,453 kcal",
   },
   {
     ...shot("food-detail"),
@@ -65,10 +65,10 @@ export const SCREENSHOTS = [
     alt: "Adding Banana, raw to lunch: 100 g, 97 kcal with 0.7 g protein, 22.7 g carbs and 0.3 g fat, the day's protein, carbs and fat against their goals, and nutrition facts per 100 g",
   },
   {
-    ...shot("progress-records"),
+    ...shot("progress-sets"),
     title: "Progress",
-    caption: "Personal records and how your training splits across muscle groups.",
-    alt: "Progress view with a new record for Banded Chest Stretch, 20 kg x 10 with an estimated 1RM of 27 kg, and all sets on the chest in the muscle-group split",
+    caption: "Sets per muscle this week against your plan, and how well you judge your effort.",
+    alt: "The Progress tab: sets per muscle this week against the plan, chest at 2 of 14 sets, and a card on how well you estimate RIR",
   },
 ];
 

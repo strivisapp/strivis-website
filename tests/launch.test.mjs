@@ -48,3 +48,12 @@ test("sharing a link shows a proper preview", () => {
   const image = /property="og:image" content="https:\/\/strivis\.app\/([^"]+)"/.exec(html)?.[1];
   assert.ok(image && existsSync(new URL(`../public/${image}`, import.meta.url)), `public/${image} missing`);
 });
+
+test("the full site is open before the app's launch; the launch day stays 13 October", async () => {
+  const { isPreLaunch, LAUNCH_DATE, SITE_OPENS } = await import("../src/lib/launchDate.js");
+  assert.equal(LAUNCH_DATE.getFullYear(), 2026);
+  assert.equal(LAUNCH_DATE.getMonth(), 9);
+  assert.equal(LAUNCH_DATE.getDate(), 13);
+  assert.ok(SITE_OPENS.getTime() < LAUNCH_DATE.getTime(), "the site opens before the app launches");
+  if (Date.now() >= SITE_OPENS.getTime()) assert.equal(isPreLaunch(), false);
+});

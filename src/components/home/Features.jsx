@@ -63,7 +63,7 @@ export function Features() {
           >
             <ScreenCrop
               shot={screenshot("Nutrition")}
-              alt="Today in the Nutrition tab: 2875 kcal left, rings for protein, carbs and fat, and the macro split"
+              alt="Today in the Nutrition tab: 2,107 kcal left of 3,560 and protein, carbs and fat against their goals"
               position="50% 33%"
               className="mx-6 aspect-[16/9] rounded-b-none md:mx-7"
             />
@@ -75,8 +75,8 @@ export function Features() {
             </div>
             <ScreenCrop
               shot={screenshot("Progress")}
-              alt="A new record for Banded Chest Stretch, 20 kg x 10 with an estimated 1RM of 27 kg, and the split of sets across muscle groups"
-              position="50% 12%"
+              alt="Sets per muscle this week against the plan: legs, shoulders, back, chest, calves, triceps and biceps"
+              position="50% 30%"
               className="mx-6 aspect-[4/3] rounded-b-none md:col-span-7 md:mx-0 md:mr-10 md:mt-8 md:aspect-[16/10]"
             />
           </Bezel>
