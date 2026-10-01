@@ -4,10 +4,12 @@ import Support from "@/pages/Support";
 import Datenschutz from "@/pages/Datenschutz";
 import Agb from "@/pages/Agb";
 import Impressum from "@/pages/Impressum";
+import Copyright from "@/pages/Copyright";
 import ComingSoon from "@/pages/ComingSoon";
 import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
 import OpenInApp from "@/pages/OpenInApp";
 import NewsletterConfirmed from "@/pages/NewsletterConfirmed";
+import NotFound from "@/pages/NotFound";
 import ConsentBanner from "@/components/ConsentBanner";
 import { isPreLaunch } from "@/lib/launchDate";
 
@@ -28,6 +30,9 @@ function App() {
         <Route path="/datenschutz" element={<Datenschutz />} />
         <Route path="/agb" element={<Agb />} />
         <Route path="/impressum" element={<Impressum />} />
+        {/* Rights holders and anyone reporting illegal content need this
+            without an account and before launch (DMCA, DSA notice and action). */}
+        <Route path="/copyright" element={<Copyright />} />
         {/* Native app OAuth handoff target — reachable regardless of the
             launch gate, same as the legal pages, since the native app needs
             this whether or not the public site has "launched" yet. */}
@@ -39,8 +44,12 @@ function App() {
             (Universal Link), this page otherwise — also before launch, since
             app users share these as soon as the app is out. */}
         <Route path="/u/*" element={<OpenInApp />} />
-        {/* Old links to the removed /login and /premium pages land here. */}
-        <Route path="*" element={gated ? <ComingSoon /> : <Home />} />
+        {/* Shared post links (the app's community, docs/api/community.md H7):
+            same fallback, never the post itself. */}
+        <Route path="/p/*" element={<OpenInApp kind="post" />} />
+        {/* Old links to the removed /login and /premium pages, typos: the
+            countdown before launch, an honest 404 after. */}
+        <Route path="*" element={gated ? <ComingSoon /> : <NotFound />} />
       </Routes>
       <ConsentBanner />
     </>

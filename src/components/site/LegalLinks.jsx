@@ -13,6 +13,7 @@ const LEGAL_LINKS = [
   { to: "/support", label: "Support" },
   { to: "/datenschutz", label: "Privacy" },
   { to: "/agb", label: "Terms" },
+  { to: "/copyright", label: "Copyright" },
   { to: "/impressum", label: "Impressum" },
 ];
 

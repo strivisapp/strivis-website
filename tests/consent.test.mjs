@@ -105,10 +105,16 @@ test("Cookie settings: in the shared legal links, and the banner reopens on it",
   const banner = read("src/components/ConsentBanner.jsx");
   assert.match(banner, /onOpenConsentSettings\(/);
   assert.match(banner, /\(Boolean\(choice\) && !reopened\)/, "a made choice hides the banner only until it is reopened");
+  assert.match(read("src/components/site/SiteFooter.jsx"), /<LegalLinks/);
   assert.match(read("src/pages/ComingSoon.jsx"), /<LegalLinks/);
-  for (const page of ["Datenschutz", "Agb", "Impressum", "Support"]) assert.match(read(`src/pages/${page}.jsx`), /<LegalLinks/, page);
-  // The German home page (after launch) has its own footer.
-  assert.match(read("src/pages/Home.jsx"), /<button type="button" onClick=\{openConsentSettings\}[^>]*>Cookie-Einstellungen</);
+  // Every other page reaches the footer (and so Cookie settings): home
+  // renders it directly, the rest through SiteShell or LegalPage (which
+  // wraps SiteShell).
+  assert.match(read("src/components/site/SiteShell.jsx"), /<SiteFooter/);
+  assert.match(read("src/components/site/LegalPage.jsx"), /<SiteShell/);
+  assert.match(read("src/pages/Home.jsx"), /<SiteFooter/);
+  for (const page of ["Datenschutz", "Agb", "Impressum", "Copyright"]) assert.match(read(`src/pages/${page}.jsx`), /<LegalPage/, page);
+  for (const page of ["Support", "NotFound", "OpenInApp"]) assert.match(read(`src/pages/${page}.jsx`), /<SiteShell/, page);
 });
 
 test("privacy policy: withdrawal through Cookie settings, no 'clear your browser data'", () => {
