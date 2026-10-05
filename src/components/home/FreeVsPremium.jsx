@@ -3,7 +3,7 @@ import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
 import { Bezel } from "@/components/ui/bezel";
 import { FREE_FEATURES, PREMIUM_FEATURES, PREMIUM_BILLING } from "@/content/premium";
-import { PLANS } from "@/content/plans";
+import { PREMIUM_PLANS, levelLabel } from "@/content/plans";
 
 function FeatureList({ items }) {
   return (
@@ -20,9 +20,9 @@ function FeatureList({ items }) {
 
 // Two shells built only from what the app really gates
 // (src/content/premium.js); Premium is marked by an orange hairline, not a
-// glow. The Plan Library's programs sit inside Premium as chips, each with
-// the level it is written for (this replaces the separate persona cards
-// and plan cards). No prices: they come from the App Store.
+// glow. The Plan Library's eight Premium programs sit inside Premium as
+// chips, each with its days and the level it is written for; the three free
+// ones are named in the Free list. No prices: they come from the App Store.
 export function FreeVsPremium() {
   return (
     <section id="premium" aria-labelledby="premium-title" className="scroll-mt-20 border-t border-hairline bg-surface-0 py-20 md:py-28">
@@ -30,7 +30,7 @@ export function FreeVsPremium() {
         <SectionHeader
           id="premium-title"
           title="Free to train. Premium for more."
-          lead="Everything you need to plan, log and track is free. Premium adds more AI, the curated programs and deeper analytics."
+          lead="Everything you need to plan, log and track is free. Premium adds more AI every week, eight more programs and deeper analytics."
         />
         <div className="mt-12 grid gap-4 md:grid-cols-2">
           <Bezel coreClassName="p-6 md:p-8">
@@ -45,11 +45,11 @@ export function FreeVsPremium() {
             <div className="mt-7 border-t border-hairline pt-5">
               <h4 className="text-small font-semibold text-white">In the Plan Library</h4>
               <ul className="mt-3 flex flex-wrap gap-2">
-                {PLANS.map((p) => (
+                {PREMIUM_PLANS.map((p) => (
                   <li key={p.key} className="rounded-full bg-white/[0.05] px-3.5 py-2 text-small ring-1 ring-hairline">
                     <span className="font-semibold text-white">{p.name}</span>
                     <span className="text-white/60">
-                      , {p.trainDays.length} days a week, {p.level.toLowerCase()}
+                      , {p.days} days a week, {levelLabel(p.levels)}
                     </span>
                   </li>
                 ))}

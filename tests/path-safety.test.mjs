@@ -86,10 +86,10 @@ test("vercel.json: missing files under /assets/ stay 404s instead of the SPA she
 });
 
 // Every file in public/ is deployed as is. Images, the two self-destructing
-// service workers and the Apple app-site association — no scripts beyond
-// those, no source maps, no config or env files.
+// service workers, the Apple app-site association, robots.txt and the
+// sitemap — no scripts beyond those, no source maps, no config or env files.
 const PUBLIC_EXTENSIONS = /\.(webp|png|jpg|svg)$/;
-const PUBLIC_EXACT = new Set(["sw.js", "service-worker.js", ".well-known/apple-app-site-association"]);
+const PUBLIC_EXACT = new Set(["sw.js", "service-worker.js", ".well-known/apple-app-site-association", "robots.txt", "sitemap.xml"]);
 const NEVER_SERVED = /(^|\/)(\.env(\..*)?|package(-lock)?\.json|vercel\.json|vite\.config\.[cm]?js|jsconfig\.json|\.git.*|.*\.(map|pem|key|p8|p12|mjs|cjs|ts|tsx|jsx|sh|cmd|exe|log))$/i;
 
 function servedFileAllowed(file) {

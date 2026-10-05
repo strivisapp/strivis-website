@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Strivis: training, nutrition and progress in one iPhone app</title>
-    <meta name="description" content="AI training plans, workout logging with PR detection, nutrition logging and 601 exercises that work offline. Free to start, on iPhone." />
+    <title>Strivis: Workout Tracker, Training Plans & Macros for iPhone</title>
+    <meta name="description" content="Training plans, workout logging with PR detection, calories and macros, and 601 exercises that work offline. One iPhone app, free to start." />
     <meta name="theme-color" content="#0B0D11" />
     <meta name="color-scheme" content="dark" />
     <link rel="canonical" href="https://strivis.app/" />
@@ -23,6 +23,20 @@
     <meta name="twitter:title" content="Strivis. Train. Track. Progress." />
     <meta name="twitter:description" content="One iPhone app for training, nutrition and progress. Free to start." />
     <meta name="twitter:image" content="https://strivis.app/og-image.png" />
+    <!-- What the app is, for search engines. No rating or price claims:
+         prices come from the App Store; "0" is the free download. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "Strivis",
+        "url": "https://strivis.app/",
+        "operatingSystem": "iOS",
+        "applicationCategory": "HealthApplication",
+        "description": "Training plans, workout logging with PR detection, calories and macros, and 601 exercises that work offline.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+      }
+    </script>
     <!-- Fonts are self-hosted (@fontsource, imported in src/main.jsx; the
          Anton file every first screen needs is preloaded by vite.config.js)
          and the Meta Pixel only loads after cookie consent

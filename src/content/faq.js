@@ -48,9 +48,8 @@ export const FAQ_GROUPS = [
     items: [
       {
         q: "Is Strivis free?",
-        // Barcode scanner and advanced analytics added: both are Premium in
-        // the app (settings.premiumFeatures), and the page says so elsewhere.
-        a: "Yes. Workout and nutrition logging, the exercise database and one free AI plan are all free to use. Premium unlocks further AI plans, the plan library, the barcode scanner and advanced analytics.",
+        // Same facts as content/premium.js (the app's real gating).
+        a: "Yes. Workout and nutrition logging, the exercise database, three programs from the Plan Library and two AI tries each for training plans and recipes are free. Premium adds more AI every week, eight more programs, the barcode scanner and deeper analytics.",
       },
       {
         q: "What does Premium cost?",

@@ -1,14 +1,28 @@
-// The curated programs in the app's Plan Library (a Premium feature). Source
-// of truth is strivis-backend/data/curatedPlans.json — the app no longer
-// bundles them (strivis/src/lib/curatedPlans.js). It has exactly these three:
-// starting_strength (beginner, 3 days), ppl (intermediate, 6 days) and
-// five_three_one (advanced, 4 days), each four weeks long. Update this list
-// together with that file. `trainDays` is only how the card lays the
-// sessions out over a week; the programs themselves just number their days.
+// The programs in the app's Plan Library. Source of truth is
+// strivis-backend/data/curatedPlans.json (name_en, tier, levels,
+// days_per_week); update this list together with that file. Three are free,
+// eight are Premium. Own names only: no third-party program names.
 export const PLANS = [
-  { key: "starting_strength", name: "Starting Strength", level: "Beginner", weeks: 4, trainDays: [0, 2, 4] },
-  { key: "ppl", name: "Push Pull Legs", level: "Intermediate", weeks: 4, trainDays: [0, 1, 2, 3, 4, 5] },
-  { key: "five_three_one", name: "5/3/1 Strength Focus", level: "Experienced", weeks: 4, trainDays: [0, 1, 3, 4] },
+  { key: "first_rep", name: "First Rep", tier: "free", levels: ["beginner"], days: 3 },
+  { key: "comeback", name: "Comeback", tier: "free", levels: ["beginner"], days: 2 },
+  { key: "hold_strong", name: "Hold Strong", tier: "free", levels: ["beginner", "intermediate", "advanced"], days: 2 },
+  { key: "build_phase", name: "Build Phase", tier: "premium", levels: ["intermediate"], days: 3 },
+  { key: "upper_lower_standard", name: "Upper Lower Standard", tier: "premium", levels: ["intermediate"], days: 4 },
+  { key: "push_pull_legs", name: "Push Pull Legs", tier: "premium", levels: ["intermediate", "advanced"], days: 6 },
+  { key: "iron_and_mass", name: "Iron & Mass", tier: "premium", levels: ["intermediate", "advanced"], days: 4 },
+  { key: "golden_era_split", name: "Golden Era Split", tier: "premium", levels: ["advanced"], days: 5 },
+  { key: "arm_race", name: "Arm Race", tier: "premium", levels: ["advanced"], days: 4 },
+  { key: "leg_legacy", name: "Leg Legacy", tier: "premium", levels: ["advanced"], days: 4 },
+  { key: "express_45", name: "Express 45", tier: "premium", levels: ["intermediate"], days: 3 },
 ];
+
+export const PREMIUM_PLANS = PLANS.filter((p) => p.tier === "premium");
+
+// "advanced", "intermediate and up", "every level".
+export function levelLabel(levels) {
+  if (levels.length >= 3) return "every level";
+  if (levels.length === 2) return `${levels[0]} and up`;
+  return levels[0];
+}
 
 export const planAnchor = (key) => `plan-${key.replace(/_/g, "-")}`;
