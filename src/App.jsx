@@ -12,6 +12,7 @@ import NewsletterConfirmed from "@/pages/NewsletterConfirmed";
 import NotFound from "@/pages/NotFound";
 import ConsentBanner from "@/components/ConsentBanner";
 import { isPreLaunch } from "@/lib/launchDate";
+import { usePageMeta } from "@/lib/pageMeta";
 
 function App() {
   // Strivis is native-only: the site has no accounts of its own (login and
@@ -19,6 +20,8 @@ function App() {
   // to everyone before LAUNCH_DATE (src/lib/launchDate.js) and the real site
   // takes over on its own on launch day, no manual step required.
   const gated = isPreLaunch();
+  // Title, description and canonical of the current route (lib/pageMeta.js).
+  usePageMeta({ gated });
 
   return (
     <>
