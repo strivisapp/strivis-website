@@ -7,7 +7,8 @@ import { SectionHeader } from "@/components/home/SectionHeader";
 // - offline: exerciseDb.js downloads the catalog + images into IndexedDB
 // - delete: SettingsAccount.jsx deleteAccount -> DELETE /api/account, which
 //   removes the data and the login itself (strivis-backend deleteAccount.ts)
-// - food data: lib/openFoodFacts.js, lib/usdaFoodData.js
+// - food data: lib/foodSearch.js (BLS and Swiss database, on the device),
+//   lib/openFoodFacts.js (packaged food, barcodes)
 // - billing: en.json settings.demoNotice (Apple ID, cancel in device settings)
 // "Not there yet" names only what the FAQ already says; no dates.
 // TODO(Simon): the AI coach (app: Coach.jsx is a "coming soon" stub) goes
@@ -15,7 +16,7 @@ import { SectionHeader } from "@/components/home/SectionHeader";
 const SOLID = [
   { title: "Works offline", body: "After a one-time download, the whole exercise library, images and instructions included, works without a connection." },
   { title: "Delete it all, in the app", body: "Delete your account in the app's settings at any time. Your data goes with it, permanently." },
-  { title: "Real food data", body: "Nutrition values come from OpenFoodFacts and the USDA database, not from estimates." },
+  { title: "Real food data", body: "Nutrition values come from the German and Swiss nutrient databases and Open Food Facts, not from estimates." },
   { title: "Billed by Apple", body: "Premium is paid through your Apple ID and can be cancelled anytime in your device settings." },
 ];
 

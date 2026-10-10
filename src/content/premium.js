@@ -10,8 +10,8 @@ export const FREE_FEATURES = [
   "Three programs from the Plan Library: First Rep, Comeback and Hold Strong",
   // ActiveWorkout.jsx, Exercises.jsx (history, estimated 1RM): not gated.
   "Workout logging with full history and PR detection",
-  // AddFoodSheet.jsx: text search is free, only the barcode scanner is Premium.
-  "Nutrition logging by food search",
+  // AddFoodSheet.jsx: search and the barcode scanner are free (since 2026-10-07).
+  "Nutrition logging by food search and barcode scanner",
   // strivis-backend lib/aiEntitlement.ts FREE_AI_GENERATIONS = 2 per kind.
   "Two AI tries each for training plans and recipes",
   // The exercise catalog (601 entries), cached on the device.
@@ -26,8 +26,9 @@ export const PREMIUM_FEATURES = [
   "More AI training plans and recipes every week",
   // curatedPlans.json: tier "premium" (content/plans.js).
   "Eight more programs in the Plan Library",
-  // AddFoodSheet.jsx: the scan button opens the paywall without Premium.
-  "Barcode scanner for nutrition",
+  // lib/adaptiveEnergy.js, settings.nutrition.adaptiveGoal (the server
+  // answers 402 without Premium).
+  "A calorie goal that adapts every week to your weight trend and training",
   // lib/analysisRange.js: 6 months, a year and all time, plus the plateau
   // and block comparison cards.
   "Progress over 6 months, a year or all time, with plateau detection and block comparison",

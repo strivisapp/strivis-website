@@ -11,7 +11,8 @@ import { cn } from "@/lib/utils";
 // the row heights (text plus a 16:9 crop); the plan crop only fills what is
 // left, so no cell is taller than its content. Replaces the four
 // full-screen chapters (blurred screenshots, scroll-driven tilt). Copy only
-// names what the app does today; the barcode scanner is Premium and says so.
+// names what the app does today; the barcode scanner is free since the app's
+// 2026-10-07 build.
 function Cell({ title, body, children, className, textClassName }) {
   return (
     <Bezel as="li" className={className} coreClassName="flex flex-col overflow-hidden">
@@ -58,7 +59,7 @@ export function Features() {
           </Cell>
           <Cell
             title="Logged, not guessed"
-            body="Calories, macros and water for the day. Search real food data from OpenFoodFacts and USDA. Scan barcodes with Premium."
+            body="Calories, macros and water for the day. Search German and Swiss food data, built in and offline, or scan a barcode."
             className="md:col-span-5"
           >
             <ScreenCrop

@@ -38,7 +38,7 @@ export const FAQ_GROUPS = [
       },
       {
         q: "Where does the nutrition data come from?",
-        a: "OpenFoodFacts and the USDA database: real, publicly maintained food data, not estimates.",
+        a: "Basic foods come from the German Nutrient Database (BLS) and the Swiss Food Composition Database, built into the app and available offline. Packaged foods and barcodes come from Open Food Facts. Real, publicly maintained food data, not estimates.",
       },
     ],
   },
@@ -49,7 +49,7 @@ export const FAQ_GROUPS = [
       {
         q: "Is Strivis free?",
         // Same facts as content/premium.js (the app's real gating).
-        a: "Yes. Workout and nutrition logging, the exercise database, three programs from the Plan Library and two AI tries each for training plans and recipes are free. Premium adds more AI every week, eight more programs, the barcode scanner and deeper analytics.",
+        a: "Yes. Workout and nutrition logging with the barcode scanner, the exercise database, three programs from the Plan Library and two AI tries each for training plans and recipes are free. Premium adds a calorie goal that adapts to your weight trend and training, more AI every week, eight more programs and deeper analytics.",
       },
       {
         q: "What does Premium cost?",
