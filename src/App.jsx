@@ -1,15 +1,19 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "@/pages/Home";
-import Support from "@/pages/Support";
-import Datenschutz from "@/pages/Datenschutz";
-import Agb from "@/pages/Agb";
-import Impressum from "@/pages/Impressum";
-import Copyright from "@/pages/Copyright";
-import ComingSoon from "@/pages/ComingSoon";
-import OAuthNativeCallback from "@/pages/OAuthNativeCallback";
-import OpenInApp from "@/pages/OpenInApp";
-import NewsletterConfirmed from "@/pages/NewsletterConfirmed";
-import NotFound from "@/pages/NotFound";
+
+// Only the home page ships in the main bundle; every other page loads when
+// it is opened, so the first visit downloads less before the first paint.
+const Support = lazy(() => import("@/pages/Support"));
+const Datenschutz = lazy(() => import("@/pages/Datenschutz"));
+const Agb = lazy(() => import("@/pages/Agb"));
+const Impressum = lazy(() => import("@/pages/Impressum"));
+const Copyright = lazy(() => import("@/pages/Copyright"));
+const ComingSoon = lazy(() => import("@/pages/ComingSoon"));
+const OAuthNativeCallback = lazy(() => import("@/pages/OAuthNativeCallback"));
+const OpenInApp = lazy(() => import("@/pages/OpenInApp"));
+const NewsletterConfirmed = lazy(() => import("@/pages/NewsletterConfirmed"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 import ConsentBanner from "@/components/ConsentBanner";
 import { isPreLaunch } from "@/lib/launchDate";
 import { usePageMeta } from "@/lib/pageMeta";
@@ -25,6 +29,7 @@ function App() {
 
   return (
     <>
+      <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={gated ? <ComingSoon /> : <Home />} />
         {/* Reachable regardless of the launch gate — App Store review and
@@ -54,6 +59,7 @@ function App() {
             countdown before launch, an honest 404 after. */}
         <Route path="*" element={gated ? <ComingSoon /> : <NotFound />} />
       </Routes>
+      </Suspense>
       <ConsentBanner />
     </>
   );

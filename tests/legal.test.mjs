@@ -27,7 +27,7 @@ const terms = flat("src/pages/Agb.jsx");
 
 test("/copyright: routed outside the launch gate and linked like the other legal pages", () => {
   const app = read("src/App.jsx");
-  assert.match(app, /import Copyright from "@\/pages\/Copyright";/);
+  assert.match(app, /const Copyright = lazy\(\(\) => import\("@\/pages\/Copyright"\)\);/);
   assert.match(app, /<Route path="\/copyright" element=\{<Copyright \/>\} \/>/);
   assert.match(read("src/components/site/LegalLinks.jsx"), /\{ to: "\/copyright", label: "Copyright" \}/);
   assert.match(copyright, /<LegalPage/);
