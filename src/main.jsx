@@ -1,11 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import '@fontsource/anton/400.css'
-import '@fontsource/manrope/400.css'
-import '@fontsource/manrope/500.css'
-import '@fontsource/manrope/600.css'
-import '@fontsource/manrope/700.css'
+// Latin only: the site is English (German later), and the full files add
+// 27 @font-face rules for cyrillic, greek and vietnamese to the CSS.
+import '@fontsource/anton/latin-400.css'
+import '@fontsource/manrope/latin-400.css'
+import '@fontsource/manrope/latin-500.css'
+import '@fontsource/manrope/latin-600.css'
+import '@fontsource/manrope/latin-700.css'
 import './index.css'
 import App from './App.jsx'
 import { stripAuthParams } from './lib/stripAuthParams.js'

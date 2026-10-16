@@ -24,6 +24,7 @@ export function Hero({ ref, actionRef }) {
           height="2400"
           alt=""
           decoding="async"
+          fetchPriority="low"
           className="h-full w-full object-cover opacity-25"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-surface-0 via-surface-0/70 to-surface-0/40" />

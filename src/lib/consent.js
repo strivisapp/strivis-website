@@ -18,8 +18,10 @@ const OPEN_EVENT = "strivis:consent-settings";
 export const META_COOKIES = ["_fbp", "_fbc"];
 
 // The native app's sign-in emails land on this path with a one-time code in
-// the URL; no third-party script may run there, consent or not.
-const PIXEL_BLOCKED_PATHS = ["/oauth-native-callback"];
+// the URL; no third-party script may run there, consent or not. Shared
+// profile and post links and the newsletter confirmation neither: a
+// PageView there would tell Meta which Strivis user someone looked at.
+const PIXEL_BLOCKED_PATHS = ["/oauth-native-callback", "/u/", "/p/", "/newsletter/"];
 
 export function getConsent() {
   try {
