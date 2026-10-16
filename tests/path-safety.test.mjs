@@ -60,7 +60,17 @@ test("withoutAuthParams: nothing to strip, or the Universal Link target, is left
 
 // ---- What Vercel serves -------------------------------------------------------
 
-test("vercel.json: no serverless functions or custom routes, rewrites only to the SPA shell", () => {
+// The pages are prerendered (scripts/prerender.mjs): each known route is
+// rewritten to its own fixed HTML file, the app's handoff pages to the empty
+// shell, and everything else is a real 404 (Vercel serves dist/404.html).
+const PRERENDERED = ["/support", "/datenschutz", "/agb", "/impressum", "/copyright", "/de", "/de/support"];
+const SHELL = "/app-shell.html";
+
+// A Vercel rewrite source ("/u/(.*)" or a literal path) as a RegExp.
+const sourceRe = (source) => new RegExp(`^${source.replace(/\//g, "\\/")}$`);
+const rewriteFor = (p) => vercel.rewrites.find((r) => sourceRe(r.source).test(p));
+
+test("vercel.json: no serverless functions or custom routes, rewrites only to fixed files", () => {
   for (const key of ["functions", "routes", "builds", "cleanUrls", "trailingSlash"]) {
     assert.ok(!(key in vercel), `${key} would add request-driven file handling; review it here first`);
   }
@@ -68,21 +78,35 @@ test("vercel.json: no serverless functions or custom routes, rewrites only to th
     assert.ok(!existsSync(path.join(ROOT, dir)), `${dir}: Vercel would deploy it as server code`);
   }
   assert.ok(vercel.rewrites.length > 0);
+  const allowed = new Set([...PRERENDERED.map((p) => `${p}/index.html`), SHELL]);
   for (const r of vercel.rewrites) {
-    assert.equal(r.destination, "/index.html", "a rewrite only ever serves the fixed SPA shell");
-    assert.doesNotMatch(r.destination, /:|\$/, "no destination built from the request");
+    assert.ok(allowed.has(r.destination), `${r.destination}: a rewrite only ever serves a prerendered page or the app shell`);
+    assert.doesNotMatch(r.destination, /:|\$|\(/, "no destination built from the request");
     assert.equal(r.has, undefined, "not keyed on request values");
   }
+  // Each prerendered page by its own fixed source, nothing broader.
+  for (const p of PRERENDERED) assert.deepEqual(vercel.rewrites.find((r) => r.source === p), { source: p, destination: `${p}/index.html` });
 });
 
-test("vercel.json: missing files under /assets/ stay 404s instead of the SPA shell", () => {
-  const [spa] = vercel.rewrites;
-  const re = new RegExp(`^${spa.source.replace(/^\//, "\\/")}$`);
-  assert.ok(re.test("/support"));
-  assert.ok(re.test("/u/someone"));
-  assert.ok(!re.test("/assets/index-abc123.js"));
-  assert.ok(!re.test("/assets/missing.js"), "the shell is never served for asset paths");
-  assert.ok(!re.test("/assets/.env"));
+test("vercel.json: only known routes and the app's links reach a page; assets and unknown paths stay 404s", () => {
+  assert.equal(rewriteFor("/support").destination, "/support/index.html");
+  assert.equal(rewriteFor("/de/support").destination, "/de/support/index.html");
+  for (const p of ["/u/someone", "/p/123", "/oauth-native-callback", "/newsletter/confirmed"]) assert.equal(rewriteFor(p)?.destination, SHELL, p);
+  for (const p of [
+    "/assets/index-abc123.js",
+    "/assets/missing.js",
+    "/assets/.env",
+    "/login",
+    "/premium",
+    "/de/login",
+    "/support/extra",
+    "/supportx",
+    "/de/datenschutz",
+    "/u",
+    "/oauth-native-callback/x",
+  ]) {
+    assert.equal(rewriteFor(p), undefined, `${p} must stay a 404 (dist/404.html), not a page`);
+  }
 });
 
 // Every file in public/ is deployed as is. Images, the two self-destructing
@@ -137,11 +161,14 @@ test("public/ allow-list refuses traversal and unexpected file types", () => {
 test("dist/ (after a build): no source maps, env, config or server files", (t) => {
   const dist = path.join(ROOT, "dist");
   if (!existsSync(dist)) return t.skip("not built");
+  const pages = new Set(["index.html", "404.html", "app-shell.html", ...PRERENDERED.map((p) => `${p.slice(1)}/index.html`)]);
   for (const file of filesUnder(dist)) {
     assert.doesNotMatch(file, NEVER_SERVED, `dist/${file} must not be deployed`);
-    const ok = /^assets\/[\w.-]+\.(js|css|woff2?|webp|png|jpg|svg)$/.test(file) || file === "index.html" || servedFileAllowed(file);
+    const ok = /^assets\/[\w.-]+\.(js|css|woff2?|webp|png|jpg|svg)$/.test(file) || pages.has(file) || servedFileAllowed(file);
     assert.ok(ok, `dist/${file} is an unexpected deployed file`);
   }
+  for (const page of pages) assert.ok(existsSync(path.join(dist, page)), `dist/${page} missing (prerender)`);
+  assert.ok(!existsSync(path.join(ROOT, "dist-ssr")), "dist-ssr/ (the build-time renderer) is removed after prerendering");
 });
 
 // ---- Pages and images are chosen by fixed names --------------------------------

@@ -82,6 +82,10 @@ never in an iframe.
   (same path, keyed on the host) and Vercel's http → https.
 - No redirect is built from a query parameter, and the SPA reads no
   `returnUrl`, `next` or `callback` parameters.
+- No redirect by browser language. Someone who picked German with the
+  language switch (stored in localStorage) is sent from the bare home
+  address `/` to `/de` in the browser (`history.replaceState`, same
+  origin, fixed path); nothing else moves them.
 - Auth parameters that land on the site are stripped
   (`src/lib/stripAuthParams.js`). The cleaned address keeps one leading
   slash, so a crafted `strivis.app//host/?code=` link can't make
@@ -90,8 +94,17 @@ never in an iframe.
 ## Served files
 
 - Vercel serves only the build output: no serverless functions, no
-  `api/`, no middleware. The one rewrite serves the fixed `/index.html`
-  for everything outside `/assets/`, so a missing asset is a 404.
+  `api/`, no middleware. Every page is prerendered into its own HTML file
+  at build time (`scripts/prerender.mjs`). The rewrites map each known
+  route to its fixed file (`/support` to `/support/index.html`, also the
+  German `/de` and `/de/support`) and the app's own links (`/u/*`, `/p/*`,
+  `/oauth-native-callback`, `/newsletter/*`) to the empty
+  `/app-shell.html`. Everything else, a missing asset included, gets
+  Vercel's `404.html` with status 404.
+- The prerendered HTML carries no inline script and no `style` attribute
+  (the build fails otherwise). Structured data is JSON-LD in
+  `<script type="application/ld+json">`, a data block the browser never
+  runs, so `script-src` stays `'self'`.
 - Every page is a static import behind a fixed route; nothing loads a
   module, page or content file by a URL value.
 - `public/` holds only images, the two self-destructing service workers

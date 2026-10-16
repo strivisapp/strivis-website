@@ -20,11 +20,12 @@ test("Premium is never called unlimited (the app caps AI plans per day)", () => 
   for (const line of PREMIUM_FEATURES) assert.doesNotMatch(line, /unlimited/i, line);
 });
 
-test("no hard-coded prices in the home page's components or content", () => {
-  for (const dir of ["src/components/home", "src/content"]) {
-    for (const file of readdirSync(new URL(`../${dir}`, import.meta.url))) {
-      const text = readFileSync(new URL(`../${dir}/${file}`, import.meta.url), "utf8");
-      assert.doesNotMatch(text, /[€£]\s?\d|\$\d/, `${dir}/${file}`);
+test("no hard-coded prices in the home page's components, content or texts (both languages)", () => {
+  for (const dir of ["src/components/home", "src/content", "src/i18n"]) {
+    for (const file of readdirSync(new URL(`../${dir}`, import.meta.url), { recursive: true })) {
+      if (!/\.(jsx?|mjs)$/.test(file)) continue;
+      const text = readFileSync(new URL(`../${dir}/${file.replaceAll("\\", "/")}`, import.meta.url), "utf8");
+      assert.doesNotMatch(text, /[€£]\s?\d|\$\d|\d\s?€/, `${dir}/${file}`);
     }
   }
 });

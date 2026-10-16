@@ -101,7 +101,10 @@ test("Cookie settings: openConsentSettings reaches the banner's listener", () =>
 
 test("Cookie settings: in the shared legal links, and the banner reopens on it", () => {
   const links = read("src/components/site/LegalLinks.jsx");
-  assert.match(links, /<button type="button" onClick=\{openConsentSettings\}[^>]*>\s*Cookie settings\s*</);
+  assert.match(links, /<button type="button" onClick=\{openConsentSettings\}[^>]*>\s*\{t\.footer\.cookieSettings\}\s*</);
+  // The label in both languages (src/i18n/en.js, de.js).
+  assert.match(read("src/i18n/en.js"), /cookieSettings: "Cookie settings"/);
+  assert.match(read("src/i18n/de.js"), /cookieSettings: "Cookie-Einstellungen"/);
   const banner = read("src/components/ConsentBanner.jsx");
   assert.match(banner, /onOpenConsentSettings\(/);
   assert.match(banner, /\(Boolean\(choice\) && !reopened\)/, "a made choice hides the banner only until it is reopened");

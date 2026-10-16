@@ -4,7 +4,8 @@ import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
 import { DownloadAction } from "@/components/download/DownloadAction";
 import { Bezel } from "@/components/ui/bezel";
-import { GOALS, DAYS_PER_WEEK, EQUIPMENT, buildExampleWeek } from "@/content/planExamples";
+import { DAYS_PER_WEEK, buildExampleWeek } from "@/content/planExamples";
+import { useLanguage } from "@/i18n/context";
 import { cn } from "@/lib/utils";
 
 // A segmented control built from native radio buttons: Tab reaches the
@@ -49,14 +50,32 @@ function Segmented({ legend, name, options, value, onChange, itemMinWidth = "min
 
 export function PlanConfigurator() {
   const uid = useId();
+  const { lang, t } = useLanguage();
+  const c = t.configurator;
   const [goal, setGoal] = useState("build_muscle");
   const [days, setDays] = useState(3);
   const [equipment, setEquipment] = useState("gym");
+  // The first week is plain markup (prerendered, no inline style); only a
+  // week the visitor picks fades in.
+  const [picked, setPicked] = useState(false);
   const reduceMotion = useReducedMotion();
+  const pick = (set) => (value) => {
+    setPicked(true);
+    set(value);
+  };
 
-  const week = buildExampleWeek({ goal, days, equipment });
-  const goalLabel = GOALS.find((g) => g.id === goal).label;
-  const equipmentLabel = EQUIPMENT.find((e) => e.id === equipment).label;
+  const week = buildExampleWeek({ goal, days, equipment, lang });
+  const goalLabel = c.goals.find((g) => g.id === goal).label;
+  const equipmentLabel = c.equipmentOptions.find((e) => e.id === equipment).label;
+  const animate = picked && !reduceMotion;
+  const WeekList = animate ? motion.ol : "ol";
+  const weekMotion = animate
+    ? {
+        initial: { opacity: 0, filter: "blur(2px)" },
+        animate: { opacity: 1, filter: "blur(0px)" },
+        transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
+      }
+    : {};
 
   return (
     <section id="try-it" aria-labelledby={`${uid}-title`} className="scroll-mt-20 border-t border-hairline bg-surface-0 py-20 md:py-28">
@@ -64,41 +83,35 @@ export function PlanConfigurator() {
         <Reveal>
           <SectionHeader
             id={`${uid}-title`}
-            title="Sketch your week."
-            lead="Pick a goal, how often you train and what you train with, and see what a week could look like."
+            title={c.title}
+            lead={c.lead}
           />
         </Reveal>
 
         <div className="mt-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr_1.1fr]">
-          <Segmented legend="Goal" name={`${uid}-goal`} options={GOALS} value={goal} onChange={setGoal} />
+          <Segmented legend={c.goal} name={`${uid}-goal`} options={c.goals} value={goal} onChange={pick(setGoal)} />
           <Segmented
-            legend="Days a week"
+            legend={c.days}
             name={`${uid}-days`}
             options={DAYS_PER_WEEK.map((d) => ({ id: d, label: String(d) }))}
             value={days}
-            onChange={setDays}
+            onChange={pick(setDays)}
             itemMinWidth="min-w-[2.75rem]"
           />
-          <Segmented legend="Equipment" name={`${uid}-equipment`} options={EQUIPMENT} value={equipment} onChange={setEquipment} />
+          <Segmented legend={c.equipment} name={`${uid}-equipment`} options={c.equipmentOptions} value={equipment} onChange={pick(setEquipment)} />
         </div>
 
         <Bezel className="mt-10" coreClassName="p-5 md:p-8">
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
             <h3 className="font-heading uppercase text-h3" aria-live="polite">
-              {goalLabel}, {days} days, {equipmentLabel}
+              {c.heading(goalLabel, days, equipmentLabel)}
             </h3>
-            <p className="text-small text-white/60">Example week, not your plan.</p>
+            <p className="text-small text-white/60">{c.example}</p>
           </div>
 
           {/* The new week fades in over the old one at once (180 ms, a 2 px
               blur bridging the swap) instead of waiting for it to leave. */}
-          <motion.ol
-            key={`${goal}-${days}-${equipment}`}
-            initial={reduceMotion ? false : { opacity: 0, filter: "blur(2px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
-            className="mt-6 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3"
-          >
+          <WeekList key={`${goal}-${days}-${equipment}`} {...weekMotion} className="mt-6 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
             {week.map((day) => (
               <li key={`${day.weekday}-${day.name}`} className="border-t border-hairline py-5">
                 <div className="mb-3 flex items-baseline justify-between gap-2">
@@ -118,15 +131,12 @@ export function PlanConfigurator() {
                 </ul>
               </li>
             ))}
-          </motion.ol>
+          </WeekList>
 
-          <p className="mt-4 max-w-[70ch] text-small text-white/60">
-            A hand-picked example from the app's exercise library. In the app you pick a ready-made program that matches your
-            goal, level and training days, build your own, or have one generated, and you can edit every day of it.
-          </p>
+          <p className="mt-4 max-w-[70ch] text-small text-white/60">{c.note}</p>
 
           <div className="mt-6 flex flex-col gap-4 border-t border-hairline pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="font-heading uppercase text-xl">Get your real plan in the app.</p>
+            <p className="font-heading uppercase text-xl">{c.cta}</p>
             <DownloadAction variant="compact" />
           </div>
         </Bezel>

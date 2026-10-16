@@ -1,47 +1,15 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { ORIGIN, metaFor } from "./seo.js";
 
-// Title, description and canonical per route. index.html carries the home
-// page's; without this every page of the single-page app reported those and
-// a canonical pointing at the home page, so search engines read the legal
-// pages as copies of it. Unknown paths and the app's handoff pages get
-// noindex (the server already sends X-Robots-Tag for /u, /p, /newsletter).
-
-const ORIGIN = "https://strivis.app";
-
-export const HOME_META = {
-  title: "Strivis: Workout Tracker, Training Plans & Macros for iPhone",
-  description: "Training plans, workout logging with PR detection, calories and macros, and 601 exercises that work offline. One iPhone app, free to start.",
-};
-
-export const PAGE_META = {
-  "/": HOME_META,
-  "/support": { title: "Support | Strivis", description: "Help with Strivis: cancelling Premium, restoring a purchase, deleting your account, and how to reach us." },
-  "/datenschutz": { title: "Privacy Policy | Strivis", description: "What data the Strivis app and strivis.app process, why, for how long, and your rights under the GDPR." },
-  "/agb": { title: "Terms of Service | Strivis", description: "The terms for using the Strivis app, including Premium subscriptions, community rules and the minimum age of 18." },
-  "/impressum": { title: "Impressum | Strivis", description: "Legal notice for Strivis under § 5 DDG: operator, address and contact." },
-  "/copyright": { title: "Copyright and Content Reports | Strivis", description: "How to report content in Strivis that infringes your rights or is illegal, with or without an account." },
-};
-
-const NOT_FOUND = { title: "Page not found | Strivis", description: HOME_META.description, noindex: true };
-
-// Pages for the app's own links: real pages, but nothing to find in search.
-const HANDOFF = [
-  { test: (p) => p.startsWith("/u/") || p.startsWith("/p/"), title: "Open in Strivis" },
-  { test: (p) => p === "/newsletter/confirmed", title: "You're on the list | Strivis" },
-  { test: (p) => p === "/oauth-native-callback", title: "Strivis" },
-];
-
-export function metaFor(pathname, { gated = false } = {}) {
-  const path = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
-  const known = PAGE_META[path];
-  if (known) return { ...known, canonical: `${ORIGIN}${path === "/" ? "/" : path}`, noindex: false };
-  const handoff = HANDOFF.find((h) => h.test(path));
-  if (handoff) return { title: handoff.title, description: HOME_META.description, canonical: null, noindex: true };
-  // Before launch an unknown path shows the countdown, like the home page.
-  if (gated) return { ...HOME_META, canonical: `${ORIGIN}/`, noindex: true };
-  return { ...NOT_FOUND, canonical: null };
-}
+// Title, description, canonical, hreflang and <html lang> per route, while
+// the app navigates. The prerendered HTML of each page already carries its
+// own (scripts/prerender.mjs, from the same src/lib/seo.js); without this,
+// moving between pages in the app would keep the first page's head.
+// Unknown paths and the app's handoff pages get noindex (the server also
+// answers unknown paths with 404 and sends X-Robots-Tag for /u, /p,
+// /newsletter).
+export { ORIGIN, HOME_META, PAGE_META, metaFor, alternatesFor } from "./seo.js";
 
 function setMeta(selector, create, value) {
   let el = document.head.querySelector(selector);
@@ -63,14 +31,30 @@ const property = (key) => () => {
   return el;
 };
 
+function setAlternates(alternates) {
+  for (const el of document.head.querySelectorAll('link[rel="alternate"][hreflang]')) el.remove();
+  for (const a of alternates) {
+    const el = Object.assign(document.createElement("link"), { rel: "alternate", href: a.href });
+    el.hreflang = a.hreflang;
+    document.head.appendChild(el);
+  }
+}
+
 export function usePageMeta({ gated = false } = {}) {
   const { pathname } = useLocation();
   useEffect(() => {
     const meta = metaFor(pathname, { gated });
+    document.documentElement.lang = meta.lang;
     document.title = meta.title;
     setMeta('meta[name="description"]', named("description"), meta.description);
     setMeta('link[rel="canonical"]', () => Object.assign(document.createElement("link"), { rel: "canonical" }), meta.canonical);
     setMeta('meta[property="og:url"]', property("og:url"), meta.canonical || `${ORIGIN}/`);
+    setMeta('meta[property="og:title"]', property("og:title"), meta.ogTitle);
+    setMeta('meta[property="og:description"]', property("og:description"), meta.ogDescription);
+    setMeta('meta[property="og:locale"]', property("og:locale"), meta.lang === "de" ? "de_DE" : "en_US");
+    setMeta('meta[name="twitter:title"]', named("twitter:title"), meta.ogTitle);
+    setMeta('meta[name="twitter:description"]', named("twitter:description"), meta.ogDescription);
     setMeta('meta[name="robots"]', named("robots"), meta.noindex ? "noindex" : null);
+    setAlternates(meta.alternates);
   }, [pathname, gated]);
 }

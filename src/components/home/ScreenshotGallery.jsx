@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PhoneFrame } from "@/components/home/PhoneFrame";
 import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
-import { SCREENSHOTS } from "@/content/screenshots";
+import { useT } from "@/i18n/context";
 import { cn } from "@/lib/utils";
 
 const NAV_BUTTON =
@@ -14,6 +14,8 @@ const NAV_BUTTON =
 // points, so touch swiping just works; prev/next buttons and the arrow keys
 // (while the rail has focus) step one screen at a time. Never moves by itself.
 export function ScreenshotGallery() {
+  const t = useT();
+  const shots = t.screenshots;
   const railRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
   const [edges, setEdges] = useState({ start: true, end: false });
@@ -61,13 +63,13 @@ export function ScreenshotGallery() {
     <section id="screens" aria-labelledby="screens-title" className="scroll-mt-20 overflow-hidden border-t border-hairline bg-surface-0 py-20 text-white md:py-28">
       <div className="mx-auto flex max-w-6xl flex-wrap items-end justify-between gap-6 px-5 sm:px-6">
         <Reveal>
-          <SectionHeader id="screens-title" title="Every screen, as it is." lead="Real screenshots from the iPhone app. No mock-ups." />
+          <SectionHeader id="screens-title" title={t.screens.title} lead={t.screens.lead} />
         </Reveal>
         <div className="flex gap-2">
-          <button type="button" className={NAV_BUTTON} onClick={() => step(-1)} disabled={edges.start} aria-controls="screens-rail" aria-label="Previous screenshot">
+          <button type="button" className={NAV_BUTTON} onClick={() => step(-1)} disabled={edges.start} aria-controls="screens-rail" aria-label={t.screens.previous}>
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <button type="button" className={NAV_BUTTON} onClick={() => step(1)} disabled={edges.end} aria-controls="screens-rail" aria-label="Next screenshot">
+          <button type="button" className={NAV_BUTTON} onClick={() => step(1)} disabled={edges.end} aria-controls="screens-rail" aria-label={t.screens.next}>
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
@@ -79,7 +81,7 @@ export function ScreenshotGallery() {
           ref={railRef}
           tabIndex={0}
           role="region"
-          aria-label="App screenshots. Use the arrow keys to browse."
+          aria-label={t.screens.railLabel}
           onKeyDown={onKeyDown}
           className={cn(
             "relative overflow-x-auto snap-x snap-mandatory scroll-px-5 sm:scroll-px-6 rounded-tile",
@@ -88,12 +90,12 @@ export function ScreenshotGallery() {
           )}
         >
           <ul className="flex w-max gap-5 px-5 pb-6 pt-2 sm:px-6 md:gap-6">
-          {SCREENSHOTS.map((s, i) => (
+          {shots.map((s, i) => (
             <li key={s.src} className="relative snap-start shrink-0 w-[220px] md:w-[240px]">
               <PhoneFrame shot={s} sizes="240px" className="w-full" />
               <div className="mt-4 px-1">
                 <h3 className="text-small font-semibold text-white">
-                  <span className="sr-only">{`${i + 1} of ${SCREENSHOTS.length}: `}</span>
+                  <span className="sr-only">{t.screens.position(i + 1, shots.length)}</span>
                   {s.title}
                 </h3>
                 <p className="mt-1 text-small text-white/65">{s.caption}</p>

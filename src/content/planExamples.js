@@ -1,4 +1,5 @@
 import { EXERCISES } from "./exercises.js";
+import { EXERCISE_NAMES as NAMES_DE, muscleLabel as muscleDe } from "./de/exercises.js";
 
 // The "try it" configurator's static example weeks. Hand-written, no AI and
 // no network: the visitor's three choices pick a week template and an
@@ -22,6 +23,20 @@ export const EQUIPMENT = [
   { id: "none", label: "No equipment" },
   { id: "home", label: "At home" },
   { id: "gym", label: "Gym" },
+];
+
+// The same choices with the app's German labels (de.json
+// onboarding.options.goals / equipment).
+export const GOALS_DE = [
+  { id: "build_muscle", label: "Muskeln aufbauen" },
+  { id: "lose_weight", label: "Abnehmen" },
+  { id: "general_fitness", label: "Allgemein fit" },
+];
+
+export const EQUIPMENT_DE = [
+  { id: "none", label: "Kein Equipment" },
+  { id: "home", label: "Zuhause" },
+  { id: "gym", label: "Fitnessstudio" },
 ];
 
 // One exercise per movement slot and equipment. `null` = no sensible
@@ -95,7 +110,25 @@ const DAY = {
   legs: { name: "Legs", slots: ["legs", "hinge", "lunge", "core"] },
 };
 
-const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const WEEKDAYS = {
+  en: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  de: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+};
+
+const DAY_NAMES_DE = {
+  fullA: "Ganzkörper A",
+  fullB: "Ganzkörper B",
+  fullC: "Ganzkörper C",
+  upperA: "Oberkörper A",
+  lowerA: "Unterkörper A",
+  upperB: "Oberkörper B",
+  lowerB: "Unterkörper B",
+  upper: "Oberkörper",
+  lower: "Unterkörper",
+  push: "Push",
+  pull: "Pull",
+  legs: "Beine",
+};
 
 const TEMPLATES = {
   2: { days: [0, 3], split: ["fullA", "fullB"] },
@@ -115,10 +148,16 @@ const SCHEME = {
 // Held positions are done for time, not reps.
 const HOLDS = new Set(["plank", "reverse-plank"]);
 
-const exercise = (id, sets) => ({ id, name: EXERCISES[id].name, muscle: EXERCISES[id].muscle, sets: HOLDS.has(id) ? "3 × 30-45 s" : sets });
+const exercise = (id, sets, lang) => ({
+  id,
+  name: lang === "de" ? NAMES_DE[id] : EXERCISES[id].name,
+  muscle: lang === "de" ? muscleDe(EXERCISES[id].muscle) : EXERCISES[id].muscle,
+  sets: HOLDS.has(id) ? "3 × 30-45 s" : sets,
+});
 
-// Returns the example week for one combination, or null if a choice is unknown.
-export function buildExampleWeek({ goal, days, equipment }) {
+// Returns the example week for one combination, or null if a choice is
+// unknown. `lang` only changes the names ("de": the app's German ones).
+export function buildExampleWeek({ goal, days, equipment, lang = "en" }) {
   const scheme = SCHEME[goal];
   const template = TEMPLATES[days];
   const pool = POOLS[equipment];
@@ -126,8 +165,9 @@ export function buildExampleWeek({ goal, days, equipment }) {
 
   return template.split.map((key, i) => {
     const ids = DAY[key].slots.map((slot) => pool[slot]).filter(Boolean);
-    const exercises = ids.map((id) => exercise(id, scheme.sets));
-    if (scheme.finisher) exercises.push(exercise(pool.conditioning, "3 × 30 s"));
-    return { weekday: WEEKDAYS[template.days[i]], name: DAY[key].name, exercises };
+    const exercises = ids.map((id) => exercise(id, scheme.sets, lang));
+    if (scheme.finisher) exercises.push(exercise(pool.conditioning, "3 × 30 s", lang));
+    const weekdays = WEEKDAYS[lang] ?? WEEKDAYS.en;
+    return { weekday: weekdays[template.days[i]], name: lang === "de" ? DAY_NAMES_DE[key] : DAY[key].name, exercises };
   });
 }

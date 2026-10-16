@@ -23,6 +23,7 @@ test("Impressum: no placeholders left from launch day on", () => {
 
 test("Impressum: routed, and linked from the countdown and the shared legal links", () => {
   assert.match(read("src/App.jsx"), /path="\/impressum"/);
-  assert.match(read("src/components/site/LegalLinks.jsx"), /to: "\/impressum"/);
+  for (const dict of ["src/i18n/en.js", "src/i18n/de.js"]) assert.match(read(dict), /\{ to: "\/impressum", label: "Impressum" \}/, dict);
+  assert.match(read("src/components/site/LegalLinks.jsx"), /t\.footer\.legal\.map/);
   assert.match(read("src/pages/ComingSoon.jsx"), /<LegalLinks/);
 });

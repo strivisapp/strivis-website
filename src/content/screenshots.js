@@ -10,7 +10,7 @@
 // food-detail, dashboard, nutrition-day and progress-sets from 30 Sep 2026
 // (the new app design). The *-dark.png files are older German captures and stay out of
 // the English site. Order here is the gallery's order.
-const shot = (name) => ({ src: `/screenshots/${name}.webp`, src480: `/screenshots/${name}-480.webp` });
+const shot = (name) => ({ id: name, src: `/screenshots/${name}.webp`, src480: `/screenshots/${name}-480.webp` });
 
 export const SCREEN_WIDTH = 780;
 export const SCREEN_HEIGHT = 1688;
@@ -73,3 +73,7 @@ export const SCREENSHOTS = [
 ];
 
 export const screenshot = (title) => SCREENSHOTS.find((s) => s.title === title);
+
+// By file name, from a list in either language (src/i18n/en.js and de.js
+// carry SCREENSHOTS with their own titles, captions and alt texts).
+export const shotById = (list, id) => list.find((s) => s.id === id);

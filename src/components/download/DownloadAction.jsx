@@ -1,5 +1,6 @@
 import { APP_STORE_URL } from "@/lib/appStore";
 import { WaitlistForm } from "@/components/download/WaitlistForm";
+import { useT } from "@/i18n/context";
 import { cn } from "@/lib/utils";
 
 // Apple's official "Download on the App Store" badge (black, en-us), from
@@ -11,13 +12,16 @@ import { cn } from "@/lib/utils";
 export const APP_STORE_BADGE = "/badges/download-on-the-app-store-black-en-us.svg";
 const BADGE_RATIO = 119.66407 / 40;
 
+// The badge image is the English one on both languages (no German file in
+// public/badges/); its alt text follows the page.
 export function AppStoreBadge({ height = 48, className }) {
+  const t = useT();
   return (
     <a
       href={APP_STORE_URL}
       className={cn("press inline-block shrink-0 rounded-[9px] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink", className)}
     >
-      <img src={APP_STORE_BADGE} alt="Download on the App Store" width={Math.round(height * BADGE_RATIO)} height={height} className="block" />
+      <img src={APP_STORE_BADGE} alt={t.download.badgeAlt} width={Math.round(height * BADGE_RATIO)} height={height} className="block" />
     </a>
   );
 }

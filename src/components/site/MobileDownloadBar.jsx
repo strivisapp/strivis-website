@@ -1,6 +1,7 @@
 import { useInView } from "@/hooks/useInView";
 import { DownloadAction } from "@/components/download/DownloadAction";
 import { APP_STORE_URL } from "@/lib/appStore";
+import { useT } from "@/i18n/context";
 import { cn } from "@/lib/utils";
 
 // Phones only (below md): once the hero's download action has scrolled away,
@@ -10,6 +11,7 @@ import { cn } from "@/lib/utils";
 // (html[data-consent-open], set by ConsentBanner). Slides up from where it
 // sits: 220 ms in, 160 ms out.
 export function MobileDownloadBar({ heroActionRef, finalRef, footerRef }) {
+  const t = useT();
   const hero = useInView(heroActionRef);
   const final = useInView(finalRef, { initial: false });
   const footer = useInView(footerRef, { initial: false });
@@ -29,7 +31,7 @@ export function MobileDownloadBar({ heroActionRef, finalRef, footerRef }) {
       <div className="flex items-center justify-between gap-3 rounded-core bg-surface-2/95 py-2 pl-4 pr-2 shadow-lift ring-1 ring-hairline-strong backdrop-blur-md">
         <p className="min-w-0 text-small leading-tight">
           <span className="block font-heading uppercase text-base text-white">Strivis</span>
-          <span className="block text-white/65">{APP_STORE_URL ? "Free on iPhone" : "Coming soon to the App Store"}</span>
+          <span className="block text-white/65">{APP_STORE_URL ? t.download.freeOnIphone : "Coming soon to the App Store"}</span>
         </p>
         {/* The compact action's own "Coming soon" line is already said on the left. */}
         <DownloadAction variant="compact" badgeHeight={40} className="shrink-0 [&>p]:hidden" />
