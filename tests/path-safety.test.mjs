@@ -109,11 +109,12 @@ test("vercel.json: only known routes and the app's links reach a page; assets an
   }
 });
 
-// Every file in public/ is deployed as is. Images, the two self-destructing
-// service workers, the Apple app-site association, robots.txt and the
-// sitemap — no scripts beyond those, no source maps, no config or env files.
+// Every file in public/ is deployed as is. Images, favicon.ico, the two
+// self-destructing service workers, the Apple app-site association,
+// robots.txt and the sitemap — no scripts beyond those, no source maps, no
+// config or env files.
 const PUBLIC_EXTENSIONS = /\.(webp|png|jpg|svg)$/;
-const PUBLIC_EXACT = new Set(["sw.js", "service-worker.js", ".well-known/apple-app-site-association", "robots.txt", "sitemap.xml"]);
+const PUBLIC_EXACT = new Set(["favicon.ico", "sw.js","service-worker.js", ".well-known/apple-app-site-association", "robots.txt", "sitemap.xml"]);
 const NEVER_SERVED = /(^|\/)(\.env(\..*)?|package(-lock)?\.json|vercel\.json|vite\.config\.[cm]?js|jsconfig\.json|\.git.*|.*\.(map|pem|key|p8|p12|mjs|cjs|ts|tsx|jsx|sh|cmd|exe|log))$/i;
 
 function servedFileAllowed(file) {
