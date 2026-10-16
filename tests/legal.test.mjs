@@ -29,7 +29,11 @@ test("/copyright: routed outside the launch gate and linked like the other legal
   const app = read("src/App.jsx");
   assert.match(app, /const Copyright = lazy\(\(\) => import\("@\/pages\/Copyright"\)\);/);
   assert.match(app, /<Route path="\/copyright" element=\{<Copyright \/>\} \/>/);
-  assert.match(read("src/components/site/LegalLinks.jsx"), /\{ to: "\/copyright", label: "Copyright" \}/);
+  // Footer links come from the dictionaries, one per language (src/i18n/).
+  for (const dict of ["src/i18n/en.js", "src/i18n/de.js"]) {
+    assert.match(read(dict), /\{ to: "\/copyright", label: "Copyright" \}/, dict);
+  }
+  assert.match(read("src/components/site/LegalLinks.jsx"), /t\.footer\.legal\.map/);
   assert.match(copyright, /<LegalPage/);
   assert.match(copyright, /updated="September 30, 2026"/);
 });

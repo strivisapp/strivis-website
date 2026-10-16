@@ -43,8 +43,10 @@ export function PhoneFrame({ shot, src, rotate, alt, className, screenClassName,
 // the frame's width and `position` picks which part shows. The image sits
 // absolutely inside the frame, so the frame's size comes only from its own
 // classes (an aspect ratio, or flex-1 filling a cell) and never from the
-// screenshot's full 780 x 1688 height.
-export function ScreenCrop({ shot, alt, className, position = "50% 0%", sizes = "(min-width: 768px) 480px, 90vw" }) {
+// screenshot's full 780 x 1688 height. `positionClassName` is a Tailwind
+// object-position class (object-[50%_4%]), not an inline style: the page is
+// prerendered, and the CSP blocks style attributes in served HTML.
+export function ScreenCrop({ shot, alt, className, positionClassName = "object-top", sizes = "(min-width: 768px) 480px, 90vw" }) {
   return (
     <div className={cn("relative overflow-hidden rounded-tile bg-ink ring-1 ring-hairline", className)}>
       <img
@@ -56,8 +58,7 @@ export function ScreenCrop({ shot, alt, className, position = "50% 0%", sizes = 
         alt={alt ?? shot.alt}
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 block h-full w-full object-cover"
-        style={{ objectPosition: position }}
+        className={cn("absolute inset-0 block h-full w-full object-cover", positionClassName)}
       />
     </div>
   );

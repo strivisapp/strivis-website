@@ -99,6 +99,13 @@ module.exports = {
         press: 'var(--dur-press)',
         ui: 'var(--dur-ui)',
         reveal: 'var(--dur-reveal)',
+        // The hero phone's entrance (a CSS animation, Hero.jsx).
+        entrance: '320ms',
+      },
+      // Named, not arbitrary: tailwindcss-animate reads these too, and an
+      // arbitrary delay-[50ms] would be ambiguous between the two plugins.
+      transitionDelay: {
+        entrance: '50ms',
       },
       boxShadow: {
         // Depth comes from an inner highlight plus an offset, blurred,

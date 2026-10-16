@@ -14,20 +14,16 @@ import { StraightTalk } from "@/components/home/StraightTalk";
 import { FounderStory } from "@/components/home/FounderStory";
 import { CtaRepeat } from "@/components/home/CtaRepeat";
 import { Faq } from "@/components/home/Faq";
-
-const NAV_LINKS = [
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#features", label: "Features" },
-  { href: "#premium", label: "Premium" },
-  { href: "#faq", label: "FAQ" },
-];
+import { useT } from "@/i18n/context";
 
 // Eleven sections, each its own layout: what it is (hero) -> how it works
 // -> what it does (bento) -> the real screens -> try it -> the library ->
 // what it costs -> what's solid and what isn't -> download -> questions
 // -> footer. The download action sits in the hero, the final section and
-// (phones) a bar in between.
+// (phones) a bar in between. The same page at "/" (English) and "/de"
+// (German): every text comes from src/i18n/en.js or de.js.
 export default function Home() {
+  const t = useT();
   const heroRef = useRef(null);
   const heroActionRef = useRef(null);
   const finalRef = useRef(null);
@@ -36,7 +32,7 @@ export default function Home() {
   return (
     <div className="bg-surface-0 text-foreground">
       <SkipLink />
-      <SiteNav links={NAV_LINKS} heroRef={heroRef} />
+      <SiteNav links={t.nav.links} heroRef={heroRef} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero ref={heroRef} actionRef={heroActionRef} />
         <HowItWorks />

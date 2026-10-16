@@ -1,13 +1,15 @@
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { useT } from "@/i18n/context";
 
 export function SkipLink() {
+  const t = useT();
   return (
     <a
       href="#main"
       className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-white"
     >
-      Skip to content
+      {t.skipLink}
     </a>
   );
 }

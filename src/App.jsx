@@ -15,9 +15,14 @@ const OpenInApp = lazy(() => import("@/pages/OpenInApp"));
 const NewsletterConfirmed = lazy(() => import("@/pages/NewsletterConfirmed"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 import ConsentBanner from "@/components/ConsentBanner";
+import { LanguageProvider, PageHydrated } from "@/i18n/LanguageProvider";
 import { isPreLaunch } from "@/lib/launchDate";
 import { usePageMeta } from "@/lib/pageMeta";
 
+// Rendered by the browser (src/main.jsx) and, at build time, by
+// scripts/prerender.mjs (src/entry-server.jsx) into one static HTML file per
+// page. The two must render the same markup, so nothing here may read the
+// browser (storage, window size, time of day) during render.
 function App() {
   // Strivis is native-only: the site has no accounts of its own (login and
   // the /premium web checkout were removed), so the coming-soon page is shown
@@ -28,10 +33,14 @@ function App() {
   usePageMeta({ gated });
 
   return (
-    <>
+    <LanguageProvider>
       <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={gated ? <ComingSoon /> : <Home />} />
+        {/* German twins (src/i18n/lang.js LOCALIZED_PAGES). The legal pages
+            exist once and are linked from both languages. */}
+        <Route path="/de" element={<Home />} />
+        <Route path="/de/support" element={<Support />} />
         {/* Reachable regardless of the launch gate — App Store review and
             real users need these before the site itself goes live. */}
         <Route path="/support" element={<Support />} />
@@ -56,12 +65,14 @@ function App() {
             same fallback, never the post itself. */}
         <Route path="/p/*" element={<OpenInApp kind="post" />} />
         {/* Old links to the removed /login and /premium pages, typos: the
-            countdown before launch, an honest 404 after. */}
+            countdown before launch, an honest 404 after (German under /de/;
+            the server answers these paths with status 404, vercel.json). */}
         <Route path="*" element={gated ? <ComingSoon /> : <NotFound />} />
       </Routes>
+      <PageHydrated />
       </Suspense>
       <ConsentBanner />
-    </>
+    </LanguageProvider>
   );
 }
 

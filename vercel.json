@@ -62,6 +62,16 @@
     }
   ],
   "rewrites": [
-    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+    { "source": "/support", "destination": "/support/index.html" },
+    { "source": "/datenschutz", "destination": "/datenschutz/index.html" },
+    { "source": "/agb", "destination": "/agb/index.html" },
+    { "source": "/impressum", "destination": "/impressum/index.html" },
+    { "source": "/copyright", "destination": "/copyright/index.html" },
+    { "source": "/de", "destination": "/de/index.html" },
+    { "source": "/de/support", "destination": "/de/support/index.html" },
+    { "source": "/u/(.*)", "destination": "/app-shell.html" },
+    { "source": "/p/(.*)", "destination": "/app-shell.html" },
+    { "source": "/oauth-native-callback", "destination": "/app-shell.html" },
+    { "source": "/newsletter/(.*)", "destination": "/app-shell.html" }
   ]
 }

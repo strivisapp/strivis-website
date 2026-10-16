@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getConsent, loadMetaPixel, onOpenConsentSettings, setConsent } from "@/lib/consent";
+import { useT } from "@/i18n/context";
 
 const BUTTON =
   "press h-11 rounded-full border border-hairline-strong bg-white/[0.05] px-5 text-small font-semibold text-white hover:bg-white/[0.1] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink";
@@ -15,8 +16,15 @@ const BUTTON =
 // "Cookie settings" in the footer reopens it (lib/consent.js,
 // openConsentSettings) with focus on it; either button closes it again, and
 // "Decline" then also withdraws an earlier "Accept".
+// The pages are prerendered without the banner (nobody's choice is known at
+// build time), so it only appears once React runs in the browser: while
+// hydrating `inBrowser` is false and the markup matches the HTML.
+const noSubscription = () => () => {};
+
 export default function ConsentBanner() {
   const location = useLocation();
+  const t = useT();
+  const inBrowser = useSyncExternalStore(noSubscription, () => true, () => false);
   const [choice, setChoice] = useState(() => getConsent());
   const [reopened, setReopened] = useState(false);
   const panelRef = useRef(null);
@@ -33,7 +41,7 @@ export default function ConsentBanner() {
 
   // Never shown on the native sign-in handoff page: nobody browses it, and
   // the pixel must not load there anyway.
-  const hidden = (Boolean(choice) && !reopened) || location.pathname.startsWith("/oauth-native-callback");
+  const hidden = !inBrowser || (Boolean(choice) && !reopened) || location.pathname.startsWith("/oauth-native-callback");
 
   useEffect(() => {
     const root = document.documentElement;
@@ -55,7 +63,7 @@ export default function ConsentBanner() {
   return (
     <div
       role="dialog"
-      aria-label="Cookie consent"
+      aria-label={t.consent.label}
       className="pointer-events-none fixed inset-x-0 bottom-0 z-[55] flex justify-center p-2 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] sm:p-4"
     >
       <div
@@ -64,18 +72,17 @@ export default function ConsentBanner() {
         className="pointer-events-auto w-full max-w-2xl rounded-core bg-surface-2/95 p-3.5 text-white shadow-lift ring-1 ring-hairline-strong backdrop-blur-md animate-in fade-in slide-in-from-bottom-2 duration-ui ease-out motion-reduce:slide-in-from-bottom-0 outline-none focus-visible:ring-2 focus-visible:ring-primary sm:flex sm:items-center sm:gap-5 sm:p-4"
       >
         <p className="text-xs leading-relaxed text-white/85 sm:flex-1">
-          We'd like to use the Meta Pixel to measure our ads. It sets cookies and sends data to Meta Platforms. It only
-          runs if you accept.{" "}
+          {t.consent.text}{" "}
           <Link to="/datenschutz" className="text-white underline">
-            Privacy Policy
+            {t.consent.privacy}
           </Link>
         </p>
         <div className="mt-2.5 grid shrink-0 grid-cols-2 gap-2 sm:mt-0 sm:w-64">
           <button type="button" onClick={() => decide("denied")} className={BUTTON}>
-            Decline
+            {t.consent.decline}
           </button>
           <button type="button" onClick={() => decide("granted")} className={BUTTON}>
-            Accept
+            {t.consent.accept}
           </button>
         </div>
       </div>

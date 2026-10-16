@@ -2,12 +2,14 @@
 // real files (the single-page app's rewrite answered both with the home
 // page), every public route has its own title, description and canonical,
 // and the app's handoff pages and unknown paths are noindex. The home page
-// and the Free vs Premium copy promise only what the app does.
+// and the Free vs Premium copy promise only what the app does. Prerendering
+// and the German pages: tests/i18n.test.mjs.
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { metaFor, PAGE_META, HOME_META } from "../src/lib/pageMeta.js";
+import { appStructuredData, sitemapXml } from "../src/lib/seo.js";
 import { FREE_FEATURES, PREMIUM_FEATURES } from "../src/content/premium.js";
 import { PLANS, PREMIUM_PLANS, levelLabel } from "../src/content/plans.js";
 import { FAQ_ITEMS } from "../src/content/faq.js";
@@ -21,9 +23,14 @@ test("robots.txt allows crawling and names the sitemap", () => {
   assert.doesNotMatch(robots, /Disallow: \/$/m);
 });
 
-test("the sitemap lists exactly the public pages", () => {
-  const locs = [...file("public/sitemap.xml").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+// Generated at build time (scripts/prerender.mjs writes dist/sitemap.xml).
+test("the sitemap lists exactly the public pages, in both languages", () => {
+  const xml = sitemapXml();
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   assert.deepEqual(locs.sort(), Object.keys(PAGE_META).map((p) => `https://strivis.app${p === "/" ? "/" : p}`).sort());
+  assert.ok(locs.includes("https://strivis.app/de") && locs.includes("https://strivis.app/de/support"));
+  assert.match(xml, /xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/);
+  assert.ok(!existsSync(new URL("../public/sitemap.xml", import.meta.url)), "public/sitemap.xml would go stale next to the generated one");
 });
 
 test("every public page: own title (at most 60 characters), description, self canonical", () => {
@@ -51,14 +58,23 @@ test("unknown paths and the app's own links are noindex, without a canonical", (
   assert.deepEqual([metaFor("/nope", { gated: true }).title, metaFor("/nope", { gated: true }).noindex], [HOME_META.title, true]);
 });
 
-test("index.html carries the home page's title and description and the app's structured data", () => {
+test("index.html carries the home page's title and description; the app's structured data has no invented claims", () => {
   const html = file("index.html");
   assert.ok(html.includes(`<title>${HOME_META.title}</title>`));
   assert.ok(html.includes(`<meta name="description" content="${HOME_META.description}" />`));
-  const ld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
-  assert.equal(ld["@type"], "MobileApplication");
-  assert.equal(ld.operatingSystem, "iOS");
-  assert.equal(ld.aggregateRating, undefined, "no invented rating");
+  assert.match(html, /<!-- page-head:start[\s\S]*<!-- page-head:end -->/, "the block scripts/prerender.mjs replaces per page");
+  for (const lang of ["en", "de"]) {
+    const ld = appStructuredData(lang);
+    assert.equal(ld["@type"], "MobileApplication");
+    assert.equal(ld.operatingSystem, "iOS");
+    assert.equal(ld.installUrl, "https://apps.apple.com/app/id6809217490");
+    assert.equal(ld.downloadUrl, "https://apps.apple.com/app/id6809217490");
+    assert.match(ld.image, /^https:\/\/strivis\.app\/[\w.-]+\.png$/);
+    assert.ok(existsSync(new URL(`../public/${ld.image.split("/").pop()}`, import.meta.url)), ld.image);
+    assert.equal(ld.aggregateRating, undefined, "no invented rating");
+    assert.equal(ld.review, undefined, "no invented reviews");
+    assert.equal(ld.offers.price, "0", "only the free download, no Premium prices");
+  }
   assert.match(file("src/App.jsx"), /usePageMeta\(\{ gated \}\);/);
 });
 
@@ -74,8 +90,10 @@ test("no third-party program names and no lifetime purchase anywhere on the site
     ...FAQ_ITEMS.map((i) => `${i.q} ${i.a}`),
     file("index.html"),
     file("src/pages/Agb.jsx"),
-    file("src/components/home/Features.jsx"),
-    file("src/components/home/HowItWorks.jsx"),
+    file("src/i18n/en.js"),
+    file("src/i18n/de.js"),
+    file("src/content/de/faq.js"),
+    file("src/content/de/premium.js"),
   ];
   for (const text of sources) assert.doesNotMatch(text, THIRD_PARTY, text.slice(0, 80));
 });

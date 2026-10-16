@@ -1,19 +1,18 @@
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
-import { FAQ_GROUPS } from "@/content/faq";
+import { useT } from "@/i18n/context";
 import { useOpenSet } from "@/hooks/useOpenSet";
 import { cn } from "@/lib/utils";
 
-const EASE_OUT = [0.23, 1, 0.32, 1];
-
-// One question and its answer. Opens in 220 ms, closes faster (160 ms);
+// One question and its answer. Every answer is always in the page (the
+// prerendered HTML too, so search engines and find-in-page see it); a closed
+// one is collapsed to zero height and inert, which takes it out of the tab
+// order and the accessibility tree. Opens in 220 ms, closes faster (160 ms);
 // with reduced motion it only fades. Several can be open at once: a reader
 // comparing two answers shouldn't lose the first one. Also used on /support.
 export function FaqItem({ id, item, isOpen, onToggle, headingLevel: H = "h4" }) {
-  const reduceMotion = useReducedMotion();
   return (
     <div className="border-b border-hairline">
       <H>
@@ -29,48 +28,48 @@ export function FaqItem({ id, item, isOpen, onToggle, headingLevel: H = "h4" }) 
           <Plus aria-hidden="true" className={cn("h-4 w-4 shrink-0 text-primary transition-transform duration-200 ease-out", isOpen && "rotate-45")} />
         </button>
       </H>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            id={`${id}-a`}
-            role="region"
-            aria-labelledby={`${id}-q`}
-            initial={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
-            animate={reduceMotion ? { opacity: 1 } : { height: "auto", opacity: 1, transition: { duration: 0.22, ease: EASE_OUT } }}
-            exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0, transition: { duration: 0.16, ease: EASE_OUT } }}
-            className="overflow-hidden"
-          >
-            <p className="max-w-[65ch] pb-5 pr-6 text-body text-white/70">
-              {item.a}
-              {item.link && (
-                <>
-                  {" "}
-                  <Link to={item.link.to} className="rounded-sm text-white underline hover:text-primary outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                    {item.link.label}
-                  </Link>
-                  .
-                </>
-              )}
-            </p>
-          </motion.div>
+      <div
+        id={`${id}-a`}
+        role="region"
+        aria-labelledby={`${id}-q`}
+        inert={!isOpen}
+        className={cn(
+          "grid ease-out transition-[grid-template-rows,opacity] motion-reduce:transition-opacity",
+          isOpen ? "grid-rows-[1fr] opacity-100 duration-ui" : "grid-rows-[0fr] opacity-0 duration-press"
         )}
-      </AnimatePresence>
+      >
+        <div className="overflow-hidden">
+          <p className="max-w-[65ch] pb-5 pr-6 text-body text-white/70">
+            {item.a}
+            {item.link && (
+              <>
+                {" "}
+                <Link to={item.link.to} className="rounded-sm text-white underline hover:text-primary outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                  {item.link.label}
+                </Link>
+                .
+              </>
+            )}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
 // One column, three small groups with quiet labels (not orange capitals).
 export function Faq() {
+  const t = useT();
   const [open, toggle] = useOpenSet(["app-0"]);
 
   return (
     <section id="faq" aria-labelledby="faq-title" className="scroll-mt-20 border-t border-hairline bg-surface-0 py-20 md:py-28">
       <div className="mx-auto max-w-2xl px-5 sm:px-6">
         <Reveal>
-          <SectionHeader id="faq-title" title="Questions." />
+          <SectionHeader id="faq-title" title={t.faq.title} />
         </Reveal>
         <div className="mt-10 space-y-12">
-          {FAQ_GROUPS.map((group) => (
+          {t.faq.groups.map((group) => (
             <div key={group.id}>
               <h3 className="mb-1 text-small font-semibold text-white/60">{group.title}</h3>
               {group.items.map((item, i) => {
