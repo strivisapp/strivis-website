@@ -184,6 +184,21 @@ export default {
     body: "The link may be old or mistyped. Strivis lives in the iPhone app.",
     back: "Back to the home page",
   },
+  // The Instagram link page (/links, pages/Links.jsx).
+  links: {
+    lead: "Training plans, every set and your macros. Free to start.",
+    devices: "iPhone · Apple Watch",
+    shotsLabel: "A look inside the app",
+    moreLabel: "More from Strivis",
+    website: "Website",
+    support: "Support & contact",
+    supportSub: "Help, Premium, your account",
+    legal: [
+      { to: "/impressum", label: "Impressum" },
+      { to: "/datenschutz", label: "Privacy" },
+      { to: "/agb", label: "Terms" },
+    ],
+  },
   download: {
     badgeAlt: "Download on the App Store",
     freeOnIphone: "Free on iPhone",

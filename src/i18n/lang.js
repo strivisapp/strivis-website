@@ -9,7 +9,7 @@ export const LANGS = ["en", "de"];
 export const DEFAULT_LANG = "en";
 
 // English path of every page that has a German twin under /de.
-export const LOCALIZED_PAGES = ["/", "/support"];
+export const LOCALIZED_PAGES = ["/", "/support", "/links"];
 
 // "/support/" and "/support" are the same page; "/" stays "/".
 export function normalizePath(pathname) {

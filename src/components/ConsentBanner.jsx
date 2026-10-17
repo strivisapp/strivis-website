@@ -20,6 +20,7 @@ const BUTTON =
 // build time), so it only appears once React runs in the browser: while
 // hydrating `inBrowser` is false and the markup matches the HTML.
 const noSubscription = () => () => {};
+const NO_BANNER = ["/oauth-native-callback", "/links", "/de/links"];
 
 export default function ConsentBanner() {
   const location = useLocation();
@@ -39,9 +40,10 @@ export default function ConsentBanner() {
     if (choice === "granted") loadMetaPixel();
   }, [choice, location.pathname]);
 
-  // Never shown on the native sign-in handoff page: nobody browses it, and
-  // the pixel must not load there anyway.
-  const hidden = !inBrowser || (Boolean(choice) && !reopened) || location.pathname.startsWith("/oauth-native-callback");
+  // Never shown on the native sign-in handoff page (nobody browses it) nor
+  // on the Instagram link page (it promises no cookies); the pixel must not
+  // load on either anyway (lib/consent.js).
+  const hidden = !inBrowser || (Boolean(choice) && !reopened) || NO_BANNER.some((p) => location.pathname.startsWith(p));
 
   useEffect(() => {
     const root = document.documentElement;

@@ -36,6 +36,8 @@ export const PAGE_META = {
   "/copyright": { lang: "en", title: "Copyright and Content Reports | Strivis", description: "How to report content in Strivis that infringes your rights or is illegal, with or without an account." },
   "/de": { lang: "de", ...HOME_META_DE },
   "/de/support": { lang: "de", title: "Hilfe und Support | Strivis", description: "Hilfe zu Strivis: Premium kündigen, einen Kauf wiederherstellen, dein Konto löschen und so erreichst du uns." },
+  "/links": { lang: "en", title: "Strivis Links: App Store, Website, Support", description: "Get Strivis on the App Store, visit strivis.app or reach support. Impressum, privacy policy and terms." },
+  "/de/links": { lang: "de", title: "Strivis Links: App Store, Website, Hilfe", description: "Strivis im App Store laden, strivis.app besuchen oder den Support erreichen. Impressum, Datenschutz und AGB." },
 };
 
 const NOT_FOUND = {

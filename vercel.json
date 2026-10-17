@@ -69,6 +69,8 @@
     { "source": "/copyright", "destination": "/copyright/index.html" },
     { "source": "/de", "destination": "/de/index.html" },
     { "source": "/de/support", "destination": "/de/support/index.html" },
+    { "source": "/links", "destination": "/links/index.html" },
+    { "source": "/de/links", "destination": "/de/links/index.html" },
     { "source": "/u/(.*)", "destination": "/app-shell.html" },
     { "source": "/p/(.*)", "destination": "/app-shell.html" },
     { "source": "/oauth-native-callback", "destination": "/app-shell.html" },
