@@ -10,7 +10,7 @@ const APPLE_EULA_URL = "https://www.apple.com/legal/internet-services/itunes/dev
 const SECTIONS = [
   {
     heading: "1. Scope",
-    body: `These Terms of Service apply to use of the Strivis app (the "App") in both its free and paid (Premium) versions. You accept them when you create your account, by ticking the box for them.`,
+    body: `These Terms of Service apply to use of the Strivis app (the "App") in both its free and paid (Premium) versions. You accept them when you create your account: the registration refers to them before you continue.`,
   },
   {
     heading: "2. Description of service",
@@ -136,5 +136,5 @@ const SECTIONS = [
 // subscription terms and Apple's standard EULA, changes announced in the
 // App); the other sections are worded as published, renumbered.
 export default function Agb() {
-  return <LegalPage title="Terms of Service" updated="October 2, 2026" sections={SECTIONS} />;
+  return <LegalPage title="Terms of Service" updated="October 17, 2026" sections={SECTIONS} />;
 }

@@ -53,7 +53,7 @@ const SECTIONS = [
   },
   {
     heading: "Your consent to processing health data",
-    body: `Health data is a special category of personal data (Art. 9 GDPR). We process it only with your explicit consent (Art. 9(2)(a) GDPR), which you give when you create your account by ticking a separate box, apart from accepting the Terms. We record when you gave it and which version of the consent text you saw. You can withdraw it at any time in the app's privacy settings (Settings › Privacy). Withdrawing does not affect processing that happened before. Because Strivis cannot calculate your plans and targets without these data, the app then takes you to delete your health data or your account.`,
+    body: `Health data is a special category of personal data (Art. 9 GDPR). We process it only with your explicit consent (Art. 9(2)(a) GDPR), which you give when you create your account by tapping "Agree and continue" under its own consent text, apart from accepting the Terms. We record when you gave it and which version of the consent text you saw. You can withdraw it at any time in the app's privacy settings (Settings › Privacy). Withdrawing does not affect processing that happened before. Because Strivis cannot calculate your plans and targets without these data, the app then takes you to delete your health data or your account.`,
   },
   {
     heading: "Account registration",
