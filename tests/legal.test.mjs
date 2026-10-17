@@ -121,7 +121,7 @@ test("privacy: names every recipient the app, backend and website contact", () =
 });
 
 test("privacy: the launch facts are stated", () => {
-  assert.match(privacy, /updated="September 30, 2026"/);
+  assert.match(privacy, /updated="October 17, 2026"/);
   assert.match(privacy, /IP address and the search term/, "Open Food Facts is queried from the device");
   assert.doesNotMatch(privacy, /queried anonymously/);
   assert.match(privacy, /pseudonymous/, "PostHog events carry the account ID");
@@ -171,4 +171,22 @@ test("legal pages keep the 'not legal advice, have it reviewed' note", () => {
 
 test("legal pages: '(c)' in legal references is never drawn as the © ligature", () => {
   assert.match(read("src/components/site/LegalPage.jsx"), /<article className="[^"]*\[font-variant-ligatures:no-common-ligatures\]/);
+});
+
+test("privacy: Apple Health as it ships (saving workouts, body weight, cardio), what is read and what never", () => {
+  const privacy = readFileSync(new URL("../src/pages/Datenschutz.jsx", import.meta.url), "utf8");
+  assert.doesNotMatch(privacy, /If and when Strivis introduces/);
+  assert.match(privacy, /heading: "Apple Health and Apple Watch"/);
+  for (const part of [
+    "Saving workouts",
+    "Body weight",
+    "Cardio: Strivis reads endurance workouts",
+    "kind, start time, duration and distance",
+    "does not read heart rate, routes",
+    "Art. 9(2)(a) GDPR",
+    "Sharing › Apps › Strivis",
+    "cardio sessions (kind, start time, duration and, if you add it, distance)",
+  ]) {
+    assert.ok(privacy.includes(part), part);
+  }
 });

@@ -49,7 +49,7 @@ const SECTIONS = [
   },
   {
     heading: "Health and fitness data",
-    body: `To provide personalized training and nutrition plans, Strivis collects data you enter directly: body metrics (weight, height, age, gender, target weight), injuries and allergies you report, dietary preferences and nutrition goals, logged workouts (exercises, sets, reps, and weight lifted), logged meals, supplement intake and water intake, and progress photos you choose to upload. Your onboarding answers are kept on your device until you create your account and are then saved to it. This data is used solely to generate and track your personal training and nutrition plans and is linked to your account. It is not shared with third parties for advertising or marketing purposes.`,
+    body: `To provide personalized training and nutrition plans, Strivis collects data you enter directly: body metrics (weight, height, age, gender, target weight), injuries and allergies you report, dietary preferences and nutrition goals, logged workouts (exercises, sets, reps, and weight lifted), cardio sessions (kind, start time, duration and, if you add it, distance) and how many cardio sessions a week you aim for, logged meals, supplement intake and water intake, and progress photos you choose to upload. Your onboarding answers are kept on your device until you create your account and are then saved to it. This data is used solely to generate and track your personal training and nutrition plans and is linked to your account. It is not shared with third parties for advertising or marketing purposes.`,
   },
   {
     heading: "Your consent to processing health data",
@@ -134,8 +134,8 @@ const SECTIONS = [
     ),
   },
   {
-    heading: "Apple Health and wearable integrations",
-    body: `If and when Strivis introduces optional integration with Apple Health or Apple Watch, the App will request your explicit permission before reading or writing any health or fitness data (such as steps, heart rate, or logged workouts) through Apple's HealthKit. This data will only be used to provide the features you enable and will not be used for advertising or shared with third parties for their own purposes. You can revoke this permission at any time in your device's Health app settings.`,
+    heading: "Apple Health and Apple Watch",
+    body: `On iPhone, Strivis can exchange data with Apple Health (HealthKit). Each part is off until you switch it on in the app (Settings › Apple Health), and iOS then asks for your permission: (1) Saving workouts: when you finish a workout, Strivis writes it to Apple Health as a strength training with its start, end and name. (2) Body weight: Strivis reads your body weight from Apple Health and adds it to your weight history in Strivis for days that have no weight of their own. (3) Cardio: Strivis reads endurance workouts from Apple Health, such as runs, walks, hikes, rides, rows, swims, stair and HIIT workouts of at least 10 minutes, and saves their kind, start time, duration and distance to your Strivis account, where they count toward your weekly cardio goal and your streak. Strivis does not read heart rate, routes or any other Health data, and never reads back the workouts it wrote itself. When you switch on body weight or cardio, Strivis looks back 30 days and then checks for new entries each time you open the app. Data read from Apple Health is processed on the basis of your consent (Art. 9(2)(a) GDPR), used only for these features, stored with your other fitness data as described above, never used for advertising or marketing and never sold or shared with third parties for their purposes. You can switch each part off in the app, revoke Strivis' access in the Health app (Sharing › Apps › Strivis), and delete taken-over cardio sessions in the app's calendar; removing a session from Strivis does not change Apple Health. If you use the Strivis app on Apple Watch, your iPhone sends the workout in progress (exercise, sets, rest timer) to your watch and receives your taps from it; this stays between your devices.`,
   },
   {
     heading: "Equal protection of user data",
@@ -178,11 +178,13 @@ const SECTIONS = [
 // (every recipient the code uses, community visibility, server logs, 18+,
 // explicit Art. 9 consent, double opt-in waitlist, withdrawing the Meta
 // Pixel); the owner block and the rest of the wording are as published.
+// Revised on 2026-10-17: Apple Health (saving workouts, body weight,
+// cardio) and the Apple Watch app as they ship in app version 1.0.1+.
 export default function Datenschutz() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="September 30, 2026"
+      updated="October 17, 2026"
       sections={[
         {
           heading: "Owner and data controller",
