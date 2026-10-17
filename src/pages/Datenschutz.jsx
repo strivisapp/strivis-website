@@ -130,8 +130,18 @@ const SECTIONS = [
           "Decline". The pixel then stops, we delete the _fbp and _fbc cookies on strivis.app, and the pixel is not
           loaded again unless you accept again.
         </p>
+        <p>
+          <span className="font-semibold text-white">Link page.</span> strivis.app/links (and /de/links), the page
+          linked from our Instagram profile, sets no cookies, loads no Meta Pixel and shows no consent banner. Its App
+          Store button uses Apple's campaign link: Apple then tells us in App Store Connect only how many App Store
+          views and downloads came through that link, as totals without any personal data.
+        </p>
       </>
     ),
+  },
+  {
+    heading: "Our Instagram profile",
+    body: `We run the Instagram profile @strivisofficial (Meta Platforms Ireland Ltd., Merrion Road, Dublin 4, Ireland). When you visit it, Meta processes your data under its own privacy policy (https://privacycenter.instagram.com/policy), including through cookies and similar technologies, and may transfer data to Meta Platforms, Inc. in the United States. For the page statistics ("Insights") that Meta compiles from these visits and shows us, Strivis and Meta Platforms Ireland Ltd. are joint controllers (Art. 26 GDPR) under Meta's Page Insights Controller Addendum (https://www.facebook.com/legal/terms/page_controller_addendum); Meta is primarily responsible for these data and for answering requests about them. We only see aggregated statistics and cannot identify individual visitors from them. If you message us or comment, we process what you write to answer you, based on our legitimate interest in communicating with people interested in Strivis (Art. 6(1)(f) GDPR). You can exercise your rights with Meta or with us.`,
   },
   {
     heading: "Apple Health and Apple Watch",
@@ -179,7 +189,8 @@ const SECTIONS = [
 // explicit Art. 9 consent, double opt-in waitlist, withdrawing the Meta
 // Pixel); the owner block and the rest of the wording are as published.
 // Revised on 2026-10-17: Apple Health (saving workouts, body weight,
-// cardio) and the Apple Watch app as they ship in app version 1.0.1+.
+// cardio) and the Apple Watch app as they ship in app version 1.0.1+; the
+// Instagram profile and the link page (/links).
 export default function Datenschutz() {
   return (
     <LegalPage

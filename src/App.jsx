@@ -14,6 +14,7 @@ const OAuthNativeCallback = lazy(() => import("@/pages/OAuthNativeCallback"));
 const OpenInApp = lazy(() => import("@/pages/OpenInApp"));
 const NewsletterConfirmed = lazy(() => import("@/pages/NewsletterConfirmed"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
+const Links = lazy(() => import("@/pages/Links"));
 import ConsentBanner from "@/components/ConsentBanner";
 import { LanguageProvider, PageHydrated } from "@/i18n/LanguageProvider";
 import { isPreLaunch } from "@/lib/launchDate";
@@ -41,6 +42,10 @@ function App() {
             exist once and are linked from both languages. */}
         <Route path="/de" element={<Home />} />
         <Route path="/de/support" element={<Support />} />
+        {/* The Instagram bio's link page (pages/Links.jsx): live with the
+            app, so outside the launch gate. */}
+        <Route path="/links" element={<Links />} />
+        <Route path="/de/links" element={<Links />} />
         {/* Reachable regardless of the launch gate — App Store review and
             real users need these before the site itself goes live. */}
         <Route path="/support" element={<Support />} />

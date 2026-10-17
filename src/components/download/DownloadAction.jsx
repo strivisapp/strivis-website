@@ -1,6 +1,6 @@
 import { APP_STORE_URL } from "@/lib/appStore";
 import { WaitlistForm } from "@/components/download/WaitlistForm";
-import { useT } from "@/i18n/context";
+import { useLanguage } from "@/i18n/context";
 import { cn } from "@/lib/utils";
 
 // Apple's official "Download on the App Store" badge (black, en-us), from
@@ -10,18 +10,21 @@ import { cn } from "@/lib/utils";
 // always links straight to the App Store listing. Callers keep the clear
 // space with their gaps (>= 12 px next to a 48 px badge).
 export const APP_STORE_BADGE = "/badges/download-on-the-app-store-black-en-us.svg";
+// The German one ("Laden im App Store", de-de, 2026-10-17), same source and
+// rules, same size.
+export const APP_STORE_BADGE_DE = "/badges/download-on-the-app-store-black-de-de.svg";
 const BADGE_RATIO = 119.66407 / 40;
 
-// The badge image is the English one on both languages (no German file in
-// public/badges/); its alt text follows the page.
-export function AppStoreBadge({ height = 48, className }) {
-  const t = useT();
+// The badge in the page's language, its alt text too. `href`: the listing,
+// or one of its campaign links (lib/appStore.js).
+export function AppStoreBadge({ height = 48, className, href = APP_STORE_URL }) {
+  const { lang, t } = useLanguage();
   return (
     <a
-      href={APP_STORE_URL}
+      href={href}
       className={cn("press inline-block shrink-0 rounded-[9px] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink", className)}
     >
-      <img src={APP_STORE_BADGE} alt={t.download.badgeAlt} width={Math.round(height * BADGE_RATIO)} height={height} className="block" />
+      <img src={lang === "de" ? APP_STORE_BADGE_DE : APP_STORE_BADGE} alt={t.download.badgeAlt} width={Math.round(height * BADGE_RATIO)} height={height} className="block" />
     </a>
   );
 }

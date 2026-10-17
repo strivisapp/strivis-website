@@ -63,7 +63,7 @@ test("withoutAuthParams: nothing to strip, or the Universal Link target, is left
 // The pages are prerendered (scripts/prerender.mjs): each known route is
 // rewritten to its own fixed HTML file, the app's handoff pages to the empty
 // shell, and everything else is a real 404 (Vercel serves dist/404.html).
-const PRERENDERED = ["/support", "/datenschutz", "/agb", "/impressum", "/copyright", "/de", "/de/support"];
+const PRERENDERED = ["/support", "/datenschutz", "/agb", "/impressum", "/copyright", "/de", "/de/support", "/links", "/de/links"];
 const SHELL = "/app-shell.html";
 
 // A Vercel rewrite source ("/u/(.*)" or a literal path) as a RegExp.

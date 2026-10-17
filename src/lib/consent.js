@@ -17,11 +17,13 @@ const OPEN_EVENT = "strivis:consent-settings";
 // Meta's first-party cookies (browser ID and click ID).
 export const META_COOKIES = ["_fbp", "_fbc"];
 
+// The Instagram link page (/links, /de/links) neither: it promises no cookies,
+// and the App Store campaign link measures it instead (pages/Links.jsx).
 // The native app's sign-in emails land on this path with a one-time code in
 // the URL; no third-party script may run there, consent or not. Shared
 // profile and post links and the newsletter confirmation neither: a
 // PageView there would tell Meta which Strivis user someone looked at.
-const PIXEL_BLOCKED_PATHS = ["/oauth-native-callback", "/u/", "/p/", "/newsletter/"];
+const PIXEL_BLOCKED_PATHS = ["/oauth-native-callback", "/u/", "/p/", "/newsletter/", "/links", "/de/links"];
 
 export function getConsent() {
   try {

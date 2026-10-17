@@ -144,7 +144,8 @@ test("privacy: the launch facts are stated", () => {
 // ---- Terms -------------------------------------------------------------------------
 
 test("terms: 18+, community rules, licence, copyright, subscriptions, changes in the app", () => {
-  assert.match(terms, /updated="October 2, 2026"/);
+  assert.match(terms, /updated="October 17, 2026"/);
+  assert.match(terms, /the registration refers to them before you continue/);
   assert.match(terms, /weekly, monthly or yearly subscriptions/);
   assert.doesNotMatch(terms, /lifetime/i, "lifetime is no longer sold");
   assert.match(terms, /18 or older to use Strivis, in every country, including the United States/);

@@ -184,6 +184,21 @@ export default {
     body: "Der Link ist vielleicht alt oder vertippt. Strivis gibt es als iPhone-App.",
     back: "Zur Startseite",
   },
+  // Die Linkseite für Instagram (/de/links, pages/Links.jsx).
+  links: {
+    lead: "Trainingsplan, jeder Satz und deine Makros. Kostenlos zum Einstieg.",
+    devices: "iPhone · Apple Watch",
+    shotsLabel: "Ein Blick in die App",
+    moreLabel: "Mehr von Strivis",
+    website: "Website",
+    support: "Support & Kontakt",
+    supportSub: "Hilfe, Premium, dein Konto",
+    legal: [
+      { to: "/impressum", label: "Impressum" },
+      { to: "/datenschutz", label: "Datenschutz" },
+      { to: "/agb", label: "AGB" },
+    ],
+  },
   download: {
     badgeAlt: "Laden im App Store",
     freeOnIphone: "Kostenlos fürs iPhone",
