@@ -90,6 +90,10 @@ const SECTIONS = [
     body: `When you request an AI training or nutrition plan, and once automatically right after you create your account if you have Premium (your first nutrition plan, from your onboarding answers), Strivis sends the information needed for that plan (such as your goal, experience level, training days, equipment, body weight, reported injuries, dietary preferences, allergies, disliked foods, nutrition targets, and the names of custom exercises you created) to Anthropic, PBC (United States), which generates the plan. Your name and email address are not sent. Anthropic processes this data only to generate the response and does not use it to train its models.`,
   },
   {
+    heading: "Meals added from a photo",
+    body: `When you add a meal from a photo, the app first reduces the photo in size and removes its location and other metadata on your device. It then sends the photo and your optional note to Anthropic, PBC (United States), which recognises the foods and estimates their amounts; the nutrition values come from Strivis' own food databases. This happens only after your consent to the AI features, for the version of that consent that names photos (Art. 6(1)(a) GDPR, and Art. 9(2)(a) GDPR insofar as the photo reveals information about your diet). Strivis does not store the photo, neither on its servers nor with the meal; we only record that an analysis took place, to count it against the usage limit. Please don't photograph people. You can withdraw the consent at any time in the app (Settings › Privacy).`,
+  },
+  {
     heading: "Crash reports and app analytics",
     body: `To find and fix errors, the app and the backend send crash and error reports to Sentry (Functional Software, Inc., United States) through its EU data region. Only if you allow it in the app (Art. 6(1)(a) GDPR), the app also records a small set of usage events (for example, that a workout was completed) with PostHog (PostHog, Inc., United States) through its EU data region, without cookies, automatic click tracking or session recordings and without your health values. These events are linked to your Strivis account ID, not to your name or email address, so they are pseudonymous rather than anonymous. We record whether and when you gave or withdrew this consent. Until you allow it, PostHog is not loaded and nothing is sent. You can withdraw your consent at any time in the app under Settings › Privacy › Share usage data (Einstellungen › Privatsphäre › Nutzungsdaten teilen).`,
   },
@@ -190,7 +194,7 @@ const SECTIONS = [
 // Pixel); the owner block and the rest of the wording are as published.
 // Revised on 2026-10-17: Apple Health (saving workouts, body weight,
 // cardio) and the Apple Watch app as they ship in app version 1.0.1+; the
-// Instagram profile and the link page (/links).
+// Instagram profile and the link page (/links); meals added from a photo.
 export default function Datenschutz() {
   return (
     <LegalPage
