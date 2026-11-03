@@ -28,7 +28,7 @@ const getServerSnapshot = () => null;
 
 // The language of the page being shown. A page under /de is German, its
 // English twin English, whatever the visitor chose before. Pages that exist
-// once (legal, 404, the app's handoff pages) follow the remembered choice,
+// once (copyright, Impressum, 404, the app's handoff pages) follow the remembered choice,
 // but only once the page has fully hydrated (<PageHydrated /> below): the
 // prerendered HTML is English, and switching the language while React still
 // takes over a lazily loaded page would not match that HTML.

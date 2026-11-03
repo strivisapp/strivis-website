@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getConsent, loadMetaPixel, onOpenConsentSettings, setConsent } from "@/lib/consent";
-import { useT } from "@/i18n/context";
+import { useLanguage } from "@/i18n/context";
+import { localizedPath } from "@/i18n/lang";
 
 const BUTTON =
   "press h-11 rounded-full border border-hairline-strong bg-white/[0.05] px-5 text-small font-semibold text-white hover:bg-white/[0.1] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink";
@@ -24,7 +25,7 @@ const NO_BANNER = ["/oauth-native-callback", "/links", "/de/links"];
 
 export default function ConsentBanner() {
   const location = useLocation();
-  const t = useT();
+  const { lang, t } = useLanguage();
   const inBrowser = useSyncExternalStore(noSubscription, () => true, () => false);
   const [choice, setChoice] = useState(() => getConsent());
   const [reopened, setReopened] = useState(false);
@@ -75,7 +76,7 @@ export default function ConsentBanner() {
       >
         <p className="text-xs leading-relaxed text-white/85 sm:flex-1">
           {t.consent.text}{" "}
-          <Link to="/datenschutz" className="text-white underline">
+          <Link to={localizedPath("/datenschutz", lang)} className="text-white underline">
             {t.consent.privacy}
           </Link>
         </p>

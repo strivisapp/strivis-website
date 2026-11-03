@@ -103,7 +103,7 @@ export default function Links() {
         <footer className={cn("mt-auto pt-6 text-center delay-300 [@media(max-height:620px)]:pt-3", ENTER)}>
           <nav aria-label={t.footer.legalLabel} className="flex flex-wrap justify-center gap-x-5">
             {l.legal.map((item) => (
-              <Link key={item.to} to={item.to} className={cn("inline-flex min-h-11 items-center rounded-sm text-small text-white/75 hover:text-white", FOCUS)}>
+              <Link key={item.to} to={localizedPath(item.to, lang)} className={cn("inline-flex min-h-11 items-center rounded-sm text-small text-white/75 hover:text-white", FOCUS)}>
                 {item.label}
               </Link>
             ))}

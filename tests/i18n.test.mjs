@@ -33,13 +33,18 @@ const read = (p) => readFileSync(new URL(`../${p}`, import.meta.url), "utf8");
 
 // ---- Paths and the remembered choice ----------------------------------------
 
-test("paths: German under /de, legal pages once, the switch goes to the same page", () => {
+test("paths: German under /de, copyright and Impressum once, the switch goes to the same page", () => {
   assert.equal(langOfPath("/"), "en");
   assert.equal(langOfPath("/support/"), "en");
   assert.equal(langOfPath("/de"), "de");
   assert.equal(langOfPath("/de/support"), "de");
   assert.equal(langOfPath("/de/nope"), "de");
-  assert.equal(langOfPath("/datenschutz"), null, "legal pages exist once");
+  assert.equal(langOfPath("/datenschutz"), "en", "privacy and terms have German twins");
+  assert.equal(langOfPath("/agb"), "en");
+  assert.equal(langOfPath("/de/datenschutz"), "de");
+  assert.equal(langOfPath("/de/agb"), "de");
+  assert.equal(langOfPath("/impressum"), null, "exists once");
+  assert.equal(langOfPath("/copyright"), null, "exists once");
   assert.equal(langOfPath("/deutsch"), null, "only the /de segment, not a prefix of a word");
 
   assert.equal(switchPath("/", "de"), "/de");
@@ -47,10 +52,17 @@ test("paths: German under /de, legal pages once, the switch goes to the same pag
   assert.equal(switchPath("/support", "de"), "/de/support");
   assert.equal(switchPath("/de/support/", "en"), "/support");
   assert.equal(switchPath("/de/support", "de"), "/de/support");
-  assert.equal(switchPath("/agb", "de"), "/agb", "a legal page stays where it is");
+  assert.equal(switchPath("/agb", "de"), "/de/agb");
+  assert.equal(switchPath("/de/agb", "en"), "/agb");
+  assert.equal(switchPath("/datenschutz", "de"), "/de/datenschutz");
+  assert.equal(switchPath("/de/datenschutz/", "en"), "/datenschutz");
+  assert.equal(switchPath("/impressum", "de"), "/impressum", "a page that exists once stays where it is");
   assert.equal(switchPath("/de/nope", "en"), "/");
 
-  assert.equal(localizedPath("/datenschutz", "de"), "/datenschutz");
+  assert.equal(localizedPath("/datenschutz", "de"), "/de/datenschutz");
+  assert.equal(localizedPath("/agb", "de"), "/de/agb");
+  assert.equal(localizedPath("/datenschutz", "en"), "/datenschutz");
+  assert.equal(localizedPath("/copyright", "de"), "/copyright");
   assert.equal(localizedPath("/support", "de"), "/de/support");
 });
 
@@ -260,4 +272,64 @@ test("dist: 404 page is noindex, the app shell is empty and noindex, the sitemap
   assert.match(sitemap, /hreflang="x-default" href="https:\/\/strivis\.app\/"/);
   assert.equal(prerenderedPage("/de/nope"), "404:de", "a German 404 renders in the browser in German");
   assert.equal(prerenderedPage("/u/someone"), null);
+});
+
+// ---- The German legal pages (owner decision 2026-11-03) -------------------------
+
+test("every link to privacy and terms that a German visitor follows goes through localizedPath", () => {
+  assert.match(read("src/components/site/LegalLinks.jsx"), /to=\{localizedPath\(l\.to, lang\)\}/);
+  assert.match(read("src/pages/Links.jsx"), /to=\{localizedPath\(item\.to, lang\)\}/);
+  assert.match(read("src/components/home/Faq.jsx"), /to=\{localizedPath\(item\.link\.to, lang\)\}/);
+  assert.match(read("src/components/ConsentBanner.jsx"), /to=\{localizedPath\("\/datenschutz", lang\)\}/);
+  const app = read("src/App.jsx");
+  assert.match(app, /<Route path="\/de\/datenschutz" element=\{<DatenschutzDe \/>\} \/>/);
+  assert.match(app, /<Route path="\/de\/agb" element=\{<AgbDe \/>\} \/>/);
+});
+
+test("dist: German privacy policy and terms, prerendered, with hreflang pairs and the key sections", (t) => {
+  if (!built) return t.skip("not built");
+  const pairs = [
+    ["/datenschutz", "/de/datenschutz", "Privacy Policy", "Datenschutzerklärung", ["Inhaber und Verantwortlicher", "Gesundheits- und Fitnessdaten", "Deine Einwilligung in die Verarbeitung von Gesundheitsdaten", "Automatische Prüfung von Community-Fotos", "Erfolge", "Monats-Challenge", "Jahresrückblick", "Kraftstufen und Rekorde", "Plattformdienste und Hosting", "Übermittlung in Drittländer", "Speicherdauer", "Deine Rechte nach der DSGVO"]],
+    ["/agb", "/de/agb", "Terms of Service", "Allgemeine Geschäftsbedingungen", ["1. Geltungsbereich", "3. Registrierung, Konto und Mindestalter", "4. Premium-Abo", "6. Community-Regeln", "10. Haftungsbeschränkung", "14. Anwendbares Recht"]],
+  ];
+  for (const [enRoute, deRoute, enTitle, deTitle, sections] of pairs) {
+    const html = page(fileFor(deRoute));
+    assert.match(html, /<html lang="de"/, deRoute);
+    const visible = text(html);
+    assert.ok(visible.includes(deTitle), `${deRoute}: title`);
+    assert.ok(visible.includes("Zuletzt aktualisiert: 3. November 2026"), `${deRoute}: date`);
+    assert.ok(visible.includes("Auf dieser Seite"), `${deRoute}: table of contents in German`);
+    assert.ok(!visible.includes("Last updated"), deRoute);
+    assert.ok(!visible.includes("On this page"), deRoute);
+    for (const heading of sections) assert.ok(html.includes(`>${heading}</h2>`), `${deRoute}: ${heading}`);
+    const en = page(fileFor(enRoute));
+    assert.ok(text(en).includes(enTitle), enRoute);
+    assert.ok(text(en).includes("Last updated: November 3, 2026"), enRoute);
+    for (const doc of [html, en]) {
+      assert.ok(doc.includes(`<link rel="alternate" hreflang="en" href="https://strivis.app${enRoute}" />`), enRoute);
+      assert.ok(doc.includes(`<link rel="alternate" hreflang="de" href="https://strivis.app${deRoute}" />`), deRoute);
+      assert.ok(doc.includes(`<link rel="alternate" hreflang="x-default" href="https://strivis.app${enRoute}" />`), enRoute);
+    }
+    assert.match(en, new RegExp(`<a[^>]*href="${deRoute}"[^>]*hrefLang="de"|<a[^>]*hrefLang="de"[^>]*href="${deRoute}"`, "i"), "the switch goes to the German twin");
+    assert.match(html, new RegExp(`<a[^>]*href="${enRoute}"[^>]*hrefLang="en"|<a[^>]*hrefLang="en"[^>]*href="${enRoute}"`, "i"), "and back");
+    const sitemap = page("sitemap.xml");
+    assert.ok(sitemap.includes(`<loc>https://strivis.app${deRoute}</loc>`), `sitemap: ${deRoute}`);
+    assert.ok(sitemap.includes(`hreflang="de" href="https://strivis.app${deRoute}"`), `sitemap: ${deRoute} alternate`);
+  }
+});
+
+test("dist: German pages link the German privacy policy and terms, English pages the English ones", (t) => {
+  if (!built) return t.skip("not built");
+  for (const route of ["/de", "/de/support", "/de/links", "/de/datenschutz", "/de/agb"]) {
+    const html = page(fileFor(route)).replace(/<a[^>]*hrefLang="en"[^>]*>/gi, "");
+    assert.doesNotMatch(html, /href="\/datenschutz"/, `${route}: English privacy link`);
+    assert.doesNotMatch(html, /href="\/agb"/, `${route}: English terms link`);
+    assert.ok(html.includes('href="/de/datenschutz"'), route);
+    assert.ok(html.includes('href="/de/agb"'), route);
+  }
+  for (const route of ["/", "/support", "/links", "/datenschutz", "/agb"]) {
+    const html = page(fileFor(route)).replace(/<a[^>]*hrefLang="de"[^>]*>/gi, "");
+    assert.doesNotMatch(html, /href="\/de\/(datenschutz|agb)"/, route);
+    assert.ok(html.includes('href="/datenschutz"'), route);
+  }
 });

@@ -4,8 +4,9 @@ The marketing site at https://strivis.app: React + Vite + Tailwind, hosted
 on Vercel. Strivis itself is a native iOS app; this site only presents it
 and collects the launch waitlist.
 
-English at `/`, German at `/de` (home and support; the legal pages exist
-once and are linked from both).
+English at `/`, German at `/de` (home, support, links, privacy policy and
+terms; the copyright page and the Impressum exist once and are linked from
+both).
 
 ## Run it locally
 
@@ -25,7 +26,11 @@ pages show lives in `src/i18n/en.js` and `src/i18n/de.js` (same keys,
 `src/content/de/`). German wording follows the app's German texts and App
 Store description. `src/i18n/lang.js` maps paths to languages; the
 switch (`src/components/site/LanguageSwitch.jsx`) links to the same page in
-the other language and remembers the choice in localStorage.
+the other language and remembers the choice in localStorage. The privacy
+policy and the terms have their text in the page itself, one file per
+language (`src/pages/Datenschutz.jsx` and `src/pages/de/Datenschutz.jsx`,
+`src/pages/Agb.jsx` and `src/pages/de/Agb.jsx`): same sections, same facts,
+change both together.
 
 ## Build and prerendering
 

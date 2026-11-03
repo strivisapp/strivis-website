@@ -85,10 +85,12 @@ const SECTIONS = [
         </p>
         <p>
           Photos you share in the community (post photos and profile photos) are also checked automatically by an AI
-          model for nudity, sexual content, violence and hate. A photo that clearly breaks these rules is removed
+          model for nudity, sexual content, violence and hate. The App asks for your consent to this once before your
+          first such photo; without it you can't add photos to the community. A photo that clearly breaks these rules is removed
           automatically while the post stays. You are told the reason in the App and can appeal for 30 days; a person
           then decides. An unclear photo stays online until a person has looked at it. Two removals within 30 days lock
-          adding photos for 30 days.
+          adding photos for 30 days. Photos already online from people without this consent are not checked this way and
+          remain subject to reports and manual moderation.
         </p>
       </>
     ),
@@ -144,7 +146,8 @@ const SECTIONS = [
 // App); the other sections are worded as published, renumbered.
 // Revised on 2026-11-03 for app version 1.1: the service description, the
 // automatic photo check (Art. 14 DSA) and the limits of photo estimates and
-// strength levels.
+// strength levels; the consent to the photo check. The German text
+// (src/pages/de/Agb.jsx) has the same sections and facts; change both together.
 export default function Agb() {
   return <LegalPage title="Terms of Service" updated="November 3, 2026" sections={SECTIONS} />;
 }

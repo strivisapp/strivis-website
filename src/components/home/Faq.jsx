@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
-import { useT } from "@/i18n/context";
+import { useLanguage, useT } from "@/i18n/context";
+import { localizedPath } from "@/i18n/lang";
 import { useOpenSet } from "@/hooks/useOpenSet";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +14,7 @@ import { cn } from "@/lib/utils";
 // with reduced motion it only fades. Several can be open at once: a reader
 // comparing two answers shouldn't lose the first one. Also used on /support.
 export function FaqItem({ id, item, isOpen, onToggle, headingLevel: H = "h4" }) {
+  const { lang } = useLanguage();
   return (
     <div className="border-b border-hairline">
       <H>
@@ -44,7 +46,7 @@ export function FaqItem({ id, item, isOpen, onToggle, headingLevel: H = "h4" }) 
             {item.link && (
               <>
                 {" "}
-                <Link to={item.link.to} className="rounded-sm text-white underline hover:text-primary outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                <Link to={localizedPath(item.link.to, lang)} className="rounded-sm text-white underline hover:text-primary outline-none focus-visible:ring-2 focus-visible:ring-primary">
                   {item.link.label}
                 </Link>
                 .
