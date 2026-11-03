@@ -172,6 +172,10 @@ test("legal pages keep the 'not legal advice, have it reviewed' note", () => {
   }
 });
 
+test("legal pages: a long URL breaks, it never widens the page on a phone", () => {
+  assert.match(read("src/components/site/LegalPage.jsx"), /<article className="min-w-0 [^"]*break-words/);
+});
+
 test("legal pages: '(c)' in legal references is never drawn as the © ligature", () => {
   assert.match(read("src/components/site/LegalPage.jsx"), /<article className="[^"]*\[font-variant-ligatures:no-common-ligatures\]/);
 });
