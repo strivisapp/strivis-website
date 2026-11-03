@@ -197,7 +197,7 @@ test("privacy: Apple Health as it ships (saving workouts, body weight, cardio), 
 test("privacy: who sees achievements, as strivis-backend lib/achievementVisibility.ts decides", () => {
   assert.match(privacy, /heading: "Achievements"/);
   assert.match(privacy, /Training and community achievements are visible to everyone who may see your profile/);
-  assert.match(privacy, /nutrition achievements, body achievements .* and six personal ones/);
+  assert.match(privacy, /nutrition achievements, body achievements .* and eight personal ones/);
   assert.match(privacy, /new gold or rare achievement in training or community, a post about it goes to your followers/);
   assert.match(privacy, /Settings › Privacy › Share achievements automatically/);
   assert.match(privacy, /at least 1,000 active users/);
