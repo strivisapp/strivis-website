@@ -15,6 +15,13 @@ const QUESTIONS = [
   "Does the exercise database work offline?",
   "What if I train on more than one device?",
   "Where does the nutrition data come from?",
+  // App version 1.1.
+  "Can I train with just my Apple Watch?",
+  "How do meals from a photo work?",
+  "What are achievements?",
+  "How does the monthly challenge work?",
+  "What are strength levels?",
+  "Who can see my achievements?",
 ];
 
 test("FAQ: three titled groups, none empty", () => {

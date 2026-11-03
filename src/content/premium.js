@@ -1,6 +1,7 @@
 // Free vs Premium, as the app actually gates it (strivis repo). Only what the
 // code shows; no prices (they come from the App Store and vary by country)
-// and no AI counts (the Premium quota is weekly and set on the server).
+// and no AI plan counts (the Premium quota is weekly and set on the server).
+// The food photo numbers are the ones the app itself shows (foodPhoto.limitBody).
 // Keep in sync with the app's paywall list (en.json premium.features) and
 // the App Store description.
 export const FREE_FEATURES = [
@@ -12,12 +13,19 @@ export const FREE_FEATURES = [
   "Workout logging with full history and PR detection",
   // AddFoodSheet.jsx: search and the barcode scanner are free (since 2026-10-07).
   "Nutrition logging by food search and barcode scanner",
+  // strivis-backend lib/foodPhoto.ts FREE_FOOD_PHOTOS = 5, period "total".
+  "Five meals from a photo",
   // strivis-backend lib/aiEntitlement.ts FREE_AI_GENERATIONS = 2 per kind.
   "Two AI tries each for training plans and recipes",
   // The exercise catalog (601 entries), cached on the device.
   "All 601 exercises, offline after a one-time download",
   // Progress.jsx (progress photos), SettingsAccount.jsx exportAllData (CSV).
   "Progress photos and a data export",
+  // docs/api/achievements.md, gamification decision: nothing here is gated.
+  "All 76 achievements, the monthly challenge, the year review, strength levels and records",
+  // Community, Watch, cardio, complaints: no Premium check in the app or backend.
+  "The community, with posts, one photo per post and reactions",
+  "The Apple Watch app, cardio and plans that work around aches",
 ];
 
 export const PREMIUM_FEATURES = [
@@ -26,6 +34,8 @@ export const PREMIUM_FEATURES = [
   "More AI training plans and recipes every week",
   // curatedPlans.json: tier "premium" (content/plans.js).
   "Eight more programs in the Plan Library",
+  // strivis-backend lib/foodPhoto.ts PREMIUM_FOOD_PHOTOS_PER_DAY = 15.
+  "Up to 15 meals a day from a photo",
   // lib/adaptiveEnergy.js, settings.nutrition.adaptiveGoal (the server
   // answers 402 without Premium).
   "A calorie goal that adapts every week to your weight trend and training",

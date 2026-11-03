@@ -37,3 +37,18 @@ test("founder story: hidden while empty, and never placeholder text", async () =
   const component = readFileSync(new URL("../src/components/home/FounderStory.jsx", import.meta.url), "utf8");
   assert.match(component, /if \(paragraphs\.length === 0\) return null;/, "FounderStory must render nothing without a story");
 });
+
+test("app 1.1: achievements are free, food photo numbers as in the backend, photos are no longer 'not there yet'", async () => {
+  assert.ok(FREE_FEATURES.some((f) => /All 76 achievements/.test(f)));
+  assert.ok(FREE_FEATURES.some((f) => /Five meals from a photo/.test(f)));
+  assert.ok(PREMIUM_FEATURES.some((f) => /Up to 15 meals a day from a photo/.test(f)));
+  assert.ok(!PREMIUM_FEATURES.some((f) => /achievement|challenge|year review|strength level/i.test(f)));
+  const { default: en } = await import("../src/i18n/en.js");
+  const { default: de } = await import("../src/i18n/de.js");
+  for (const t of [en, de]) {
+    assert.ok(!t.straight.notYet.some((i) => /photo|foto/i.test(i.title)));
+    assert.equal(t.features.more.length, 6);
+  }
+  assert.doesNotMatch(JSON.stringify(en.straight.solid), /not from estimates/);
+  assert.doesNotMatch(JSON.stringify(de.straight.solid), /nicht aus Schätzungen/);
+});

@@ -41,15 +41,15 @@ const PROVIDERS = [
 const SECTIONS = [
   {
     heading: "Type of data we collect",
-    body: `Among the types of Personal Data that Strivis collects, by itself or through third parties, there are: name, email address, password, IP address, device information, usage data, user ID, purchase history, the health and fitness data described below, the content you share in the community, and records of the consents you give.`,
+    body: `Among the types of Personal Data that Strivis collects, by itself or through third parties, there are: name, email address, password, IP address, device information, usage data, user ID, purchase history, the health and fitness data described below, your achievements and monthly challenge entries, the content you share in the community, and records of the consents you give.`,
   },
   {
     heading: "Minimum age",
-    body: `Strivis is only for people aged 18 or older, in every country, including the United States. During onboarding we ask for your date of birth to check this. We do not store your date of birth: we keep your age (for your calorie and macro targets) and the fact that you confirmed you are 18 or older, with the time. If the date shows you are under 18, nothing is saved: the onboarding answers on your device are deleted, an account already started with Apple or Google is deleted, and for 24 hours the device shows that Strivis is for adults instead of asking again. Existing accounts are asked once to confirm their age; an account whose user turns out to be under 18 is suspended, its profile and posts are hidden from the community at once, and it is deleted after 30 days. The waitlist on this website is also for adults only. If you believe a person under 18 has given us personal data, contact us and we will delete it.`,
+    body: `Strivis is only for people aged 18 or older, in every country, including the United States. During onboarding we ask for your date of birth to check this. We do not store your date of birth: we keep your age (for your calorie and macro targets) and the fact that you confirmed you are 18 or older, with the time. If the date shows you are under 18, nothing is saved: the onboarding answers on your device are deleted, an account already started with Apple or Google is deleted, and for 24 hours the device shows that Strivis is for adults instead of asking again. Existing accounts are asked once to confirm their age; an account whose user turns out to be under 18 is suspended, its profile and posts are hidden from the community at once, and it is deleted after 30 days. If you believe a person under 18 has given us personal data, contact us and we will delete it.`,
   },
   {
     heading: "Health and fitness data",
-    body: `To provide personalized training and nutrition plans, Strivis collects data you enter directly: body metrics (weight, height, age, gender, target weight), injuries and allergies you report, dietary preferences and nutrition goals, logged workouts (exercises, sets, reps, and weight lifted), cardio sessions (kind, start time, duration and, if you add it, distance) and how many cardio sessions a week you aim for, logged meals, supplement intake and water intake, and progress photos you choose to upload. Your onboarding answers are kept on your device until you create your account and are then saved to it. This data is used solely to generate and track your personal training and nutrition plans and is linked to your account. It is not shared with third parties for advertising or marketing purposes.`,
+    body: `To provide personalized training and nutrition plans, Strivis collects data you enter directly: body metrics (weight, height, age, gender, target weight), injuries and allergies you report, complaints you report (the area, such as knee or lower back, and whether to go easy on it or leave it out), dietary preferences and nutrition goals, logged workouts (exercises, sets, reps, and weight lifted), cardio sessions (kind, start time, duration and, if you add it, distance) and how many cardio sessions a week you aim for, logged meals, supplement intake and water intake, and progress photos you choose to upload. Your onboarding answers are kept on your device until you create your account and are then saved to it. Your calorie and macro targets are calculated from these data, including your body weight and goal. This data is used solely to generate and track your personal training and nutrition plans and for the features built on them (achievements, strength levels, the monthly challenge and the year review, described below), and is linked to your account. It is not shared with third parties for advertising or marketing purposes.`,
   },
   {
     heading: "Your consent to processing health data",
@@ -61,7 +61,103 @@ const SECTIONS = [
   },
   {
     heading: "Community and public content",
-    body: `Strivis has a community. Your profile (name, username, profile photo and bio) and the posts, comments and achievements you share are visible to other Strivis users. By default your profile is public, new posts are visible to everyone in the community, and achievements are shared automatically. In the app's settings you can make your profile private, choose who sees your posts (everyone, your followers, or only you), and turn off automatic sharing. Progress photos stay private. Links to profiles and posts (strivis.app/u/… and strivis.app/p/…) open in the app; this website never shows the content itself. We process community content to provide the community you signed up for (Art. 6(1)(b) GDPR).`,
+    children: (
+      <>
+        <p>
+          Strivis has a community. Your profile (name, username, profile photo and bio) and the posts, comments,
+          reactions and achievements you share are visible to other Strivis users. You choose a name and username
+          before you first post, comment, react or follow. Other users can find you by name or username, also when your
+          profile is private: a private profile still shows your name, username, photo and bio, and the rest only to
+          accepted followers.
+        </p>
+        <p>
+          By default your profile is public, new posts are visible to everyone in the community, and new gold and rare
+          achievements are shared with your followers automatically (see Achievements below). In Settings › Privacy you
+          can make your profile private, so that new followers need your approval and your posts, achievements and
+          training numbers are for accepted followers only, and choose who sees new posts (everyone, your followers, or
+          only you). Anyone can follow a public profile. Progress photos stay private.
+        </p>
+        <p>
+          <span className="font-semibold text-white">What a post shows.</span> A post can have a title, a caption and
+          one photo. A workout post shows its duration, volume, the number of exercises and sets, your records from that
+          workout with weight and reps, and the muscle groups you trained; opened, it lists the exercises with their sets
+          and reps, without weights. People who can see such a post can copy its exercises, sets and reps into a plan of
+          their own (you are told), and can save a copy of a recipe you post. A saved copy stays with them if you later
+          delete your post. Your body weight never appears in posts or on your profile.
+        </p>
+        <p>
+          <span className="font-semibold text-white">Training numbers on your profile.</span> Your workouts, weeks in a
+          row, the last 12 weeks and your three heaviest lifts are visible to others only if you switch on "Show stats
+          publicly" on your profile. It is off by default.
+        </p>
+        <p>
+          <span className="font-semibold text-white">Weekly highlights.</span> The top of the feed shows people with a
+          record in a public post in the last 7 days, public profiles that confirmed their name in the last 7 days, and
+          training streaks of two weeks or more of people with a public profile who switched on "Show stats publicly".
+          The official Strivis account
+          posts a weekly review on Sundays with totals only (workouts, records, new members). Private profiles never
+          appear in the highlights.
+        </p>
+        <p>
+          Notifications about community activity name the other person, and one about a comment contains its text; they
+          are delivered through Apple's push service. Links to profiles and posts (strivis.app/u/… and strivis.app/p/…)
+          open in the app; this website never shows the content itself. We process community content to provide the
+          community you signed up for (Art. 6(1)(b) GDPR).
+        </p>
+      </>
+    ),
+  },
+  {
+    heading: "Automatic check of community photos",
+    body: `Every photo you show in the community (a post photo or a profile photo) goes online at once. Right after that, our server sends the photo to Anthropic, PBC (United States), whose model sorts it as fine, unclear, or a clear violation (nudity, sexual content, violence, hate). Your name and email address are not sent, and the app removes location and other metadata from the photo on your device before the upload. This check is part of showing a photo in the community: it does not depend on your consent to the AI features, and it also covered photos that were already online when it started. Progress photos and meal photos are not part of it. If you don't want a photo checked, don't share it in the community. A clear violation is removed automatically: the post stays without the photo, you get a notice in the app with the reason, and you can appeal for 30 days; a person then decides. We keep a removed photo privately for those 30 days and then delete it. Two removals within 30 days lock adding photos for 30 days. An unclear photo stays online and goes to our moderation list, where a person decides; the same applies if a check still fails after several tries. We then get an email through Brevo (Sendinblue SAS, France) that says only what happened and gives the check's ID, without the photo, a name or anything you wrote. The legal basis is our legitimate interest in keeping the community free of illegal and objectionable content and in meeting our duties as a hosting provider (Art. 6(1)(f) GDPR). You can object at any time; see Your rights below.`,
+  },
+  {
+    heading: "Achievements",
+    children: (
+      <>
+        <p>
+          Strivis has 76 achievements in four tiers (bronze, silver, gold, rare); some are secret until you earn them.
+          Our server decides whether you earned one, from what is already in your account: workouts, cardio, records,
+          meals, water, weight entries, measurements, the fact and date of progress photos, your community activity and
+          monthly challenges, and for achievements about time of day and dates, your workout times and time zone. We
+          store which achievements you earned, when, and whether you have seen them.
+        </p>
+        <p>
+          <span className="font-semibold text-white">Who sees them.</span> Training and community achievements are
+          visible to everyone who may see your profile; with a private profile, to your accepted followers. These
+          stay with you alone: nutrition achievements, body achievements (progress photos, measurements, weight entries)
+          and six personal ones, three about when you train and three about how much you lift against your body weight.
+        </p>
+        <p>
+          <span className="font-semibold text-white">Automatic posts.</span> When you earn a new gold or rare achievement
+          in training or community, a post about it goes to your followers (to you alone if your default for new posts is
+          "only me"). You can switch this off in Settings › Privacy › Share achievements automatically. Everything else
+          is shared only when you share it yourself. A story image is made on your device and goes through your iPhone's
+          share sheet to the app you pick.
+        </p>
+        <p>
+          "Also earned by" shows what share of active users has an achievement, as a percentage without names, once there
+          are at least 1,000 active users.
+        </p>
+        <p>
+          We process these data to provide the feature (Art. 6(1)(b) GDPR) and, where they rest on health data such as
+          body weight or nutrition, on your consent (Art. 9(2)(a) GDPR). "Reset data" in the app does not remove earned
+          achievements or challenge entries; deleting your account does.
+        </p>
+      </>
+    ),
+  },
+  {
+    heading: "Monthly challenge",
+    body: `You take part only if you tap "Join". We then store the month, your personal goal (calculated from your weekly training goal), when you joined and when you completed it. Your progress is the number of days you trained that month, counted from your workouts and cardio. A shared counter shows the community's totals (participants, workouts, target) and appears only from 20 participants on, so that a moving number can't tell anyone when one person trained. It never shows names, and others can't see whether you joined this month. Completed challenges can earn community achievements, which are visible on your profile as described above. The legal basis is Art. 6(1)(b) GDPR and, for your training data, your consent (Art. 9(2)(a) GDPR).`,
+  },
+  {
+    heading: "Year review",
+    body: `From 1 December to 31 January the app can show your Strivis year: workouts, cardio sessions, volume, your most frequent exercise, your longest streak, records and achievements. Our server calculates it on request from your own data and keeps the result in memory for at most a day. Only you see it, unless you share its image through your iPhone's share sheet. The legal basis is Art. 6(1)(b) GDPR and, for your training data, your consent (Art. 9(2)(a) GDPR).`,
+  },
+  {
+    heading: "Strength levels and records",
+    body: `For six main lifts, Strivis compares your estimated one-rep maximum with your body weight on the date of the set and shows a level from Beginner to Elite. To choose the men's or women's standard it uses the gender in your profile; if that is "other" or empty, you choose a standard yourself, and we store your choice in your settings. The app calculates the level on your device, and our server calculates it from the same data (sets, weight entries, gender or chosen standard) to check the achievements that depend on it. Others don't see your level or your body weight, with one exception: the achievements for reaching "Strong" or "Elite" on a main lift are training achievements and therefore visible on your profile. The records per exercise are calculated from your logged sets. The legal basis is your consent to the processing of health data (Art. 9(2)(a) GDPR).`,
   },
   {
     heading: "Handling payments",
@@ -87,11 +183,11 @@ const SECTIONS = [
   },
   {
     heading: "AI-generated plans",
-    body: `When you request an AI training or nutrition plan, and once automatically right after you create your account if you have Premium (your first nutrition plan, from your onboarding answers), Strivis sends the information needed for that plan (such as your goal, experience level, training days, equipment, body weight, reported injuries, dietary preferences, allergies, disliked foods, nutrition targets, and the names of custom exercises you created) to Anthropic, PBC (United States), which generates the plan. Your name and email address are not sent. Anthropic processes this data only to generate the response and does not use it to train its models.`,
+    body: `When you request an AI training or nutrition plan, and once automatically right after you create your account if you have Premium (your first nutrition plan, from your onboarding answers), Strivis sends the information needed for that plan (such as your goal, experience level, training days, equipment, body weight, reported injuries and complaints, dietary preferences, allergies, disliked foods, nutrition targets, and the names of custom exercises you created) to Anthropic, PBC (United States), which generates the plan. Your name and email address are not sent. Anthropic processes this data only to generate the response and does not use it to train its models.`,
   },
   {
     heading: "Meals added from a photo",
-    body: `When you add a meal from a photo, the app first reduces the photo in size and removes its location and other metadata on your device. It then sends the photo and your optional note to Anthropic, PBC (United States), which recognises the foods and estimates their amounts; the nutrition values come from Strivis' own food databases. This happens only after your consent to the AI features, for the version of that consent that names photos (Art. 6(1)(a) GDPR, and Art. 9(2)(a) GDPR insofar as the photo reveals information about your diet). Strivis does not store the photo, neither on its servers nor with the meal; we only record that an analysis took place, to count it against the usage limit. Please don't photograph people. You can withdraw the consent at any time in the app (Settings › Privacy).`,
+    body: `When you add a meal from a photo, the app first reduces the photo in size and removes its location and other metadata on your device. It then sends the photo and your optional note to Anthropic, PBC (United States), which recognises the foods and estimates their amounts; the nutrition values come from Strivis' own food databases, and only a dish none of them knows uses the model's estimate, marked as estimated in the app. This happens only after your consent to the AI features, for the version of that consent that names photos (Art. 6(1)(a) GDPR, and Art. 9(2)(a) GDPR insofar as the photo reveals information about your diet). Strivis does not store the photo, neither on its servers nor with the meal; we only record that an analysis took place, to count it against the usage limit and for one nutrition achievement that only you see. Please don't photograph people. You can withdraw the consent at any time in the app (Settings › Privacy).`,
   },
   {
     heading: "Crash reports and app analytics",
@@ -111,19 +207,20 @@ const SECTIONS = [
           described above.
         </p>
         <p>
-          <span className="font-semibold text-white">Waitlist and launch email.</span> The waitlist is for people aged
-          18 or older. If you join it, we store your email address, your browser language, the form you used, and
-          when you signed up, consented and confirmed, in the Strivis database. We send the emails through Brevo
-          (Sendinblue SAS, France): first one email asking you to confirm your address (double opt-in), and only after
-          you confirm, the launch email. Every email has an unsubscribe link. The legal basis is your consent (Art.
-          6(1)(a) GDPR), which you can withdraw at any time through that link or by writing to us. After you
-          unsubscribe, we keep your address only on a block list so that we never email you again.
+          <span className="font-semibold text-white">Former waitlist and launch email.</span> The waitlist closed with
+          the app's launch, and this website no longer collects addresses. If you signed up before that, we store your
+          email address, your browser language, the form you used, and when you signed up, consented and confirmed, in
+          the Strivis database. The emails go through Brevo (Sendinblue SAS, France): one email asking you to confirm
+          your address (double opt-in), and only after you confirmed, the launch email. Every email has an unsubscribe
+          link. The legal basis is your consent (Art. 6(1)(a) GDPR), which you can withdraw at any time through that
+          link or by writing to us. After you unsubscribe, we keep your address only on a block list so that we never
+          email you again.
         </p>
         <p>
           <span className="font-semibold text-white">Meta Pixel.</span> Only with your consent (Art. 6(1)(a) GDPR and
           § 25(1) TDDDG), this website uses the Meta Pixel (Meta Platforms Ireland Ltd.) to measure our advertising.
           It sets the cookies _fbp and _fbc and sends Meta the page address, the referring page, your IP address,
-          information about your browser, and the events "page view" and "waitlist signup". We do not send Meta your
+          information about your browser, and the event "page view" (while the waitlist was open, also "waitlist signup"). We do not send Meta your
           email address. For collecting and transmitting these data, Strivis and Meta Platforms Ireland Ltd. are joint
           controllers (Art. 26 GDPR) under Meta's Controller Addendum; Meta alone is responsible for what it does with
           the data afterwards, including transfers to Meta Platforms, Inc. in the United States. You can exercise your
@@ -149,7 +246,7 @@ const SECTIONS = [
   },
   {
     heading: "Apple Health and Apple Watch",
-    body: `On iPhone, Strivis can exchange data with Apple Health (HealthKit). Each part is off until you switch it on in the app (Settings › Apple Health), and iOS then asks for your permission: (1) Saving workouts: when you finish a workout, Strivis writes it to Apple Health as a strength training with its start, end and name. (2) Body weight: Strivis reads your body weight from Apple Health and adds it to your weight history in Strivis for days that have no weight of their own. (3) Cardio: Strivis reads endurance workouts from Apple Health, such as runs, walks, hikes, rides, rows, swims, stair and HIIT workouts of at least 10 minutes, and saves their kind, start time, duration and distance to your Strivis account, where they count toward your weekly cardio goal and your streak. On iPhone, Strivis does not read heart rate, routes or any other Health data, and never reads back the workouts it wrote itself. When you switch on body weight or cardio, Strivis looks back 30 days and then checks for new entries each time you open the app. Data read from Apple Health is processed on the basis of your consent (Art. 9(2)(a) GDPR), used only for these features, stored with your other fitness data as described above, never used for advertising or marketing and never sold or shared with third parties for their purposes. You can switch each part off in the app, revoke Strivis' access in the Health app (Sharing › Apps › Strivis), and delete taken-over cardio sessions in the app's calendar; removing a session from Strivis does not change Apple Health. If you install the Strivis app on your Apple Watch, your iPhone sends it what the watch shows: your next planned workout (exercises, sets, suggested weights and reps), today's progress and goals (workouts this week, calories, protein, water), your language and weight unit, and a workout in progress. The watch keeps this on the watch, also for its complications, so that you can train there without your iPhone. When you start a workout on the watch, or the watch records one you started on your iPhone, watchOS asks once for permission: during the workout the watch reads your heart rate and active calories from Apple Health to show them, and at the end it saves the workout to Apple Health as a strength training with its calories. Heart rate and calories stay on your watch and in Apple Health; Strivis does not send them to your iPhone app or to our servers and does not store them in your account. The watch sends to your iPhone, directly between your devices, the sets you log on it, a workout you finished on it (exercises, sets, weights, reps, date and duration) and the water you add; the iPhone app saves these to your Strivis account like entries made on the phone. If the watch saved a workout to Apple Health, the iPhone does not save it there a second time. When you sign out on your iPhone, the watch and its complications remove your data. You can revoke the watch's Health access in the Health app on your iPhone (Sharing › Apps › Strivis) and remove the watch app in the Watch app on your iPhone.`,
+    body: `On iPhone, Strivis can exchange data with Apple Health (HealthKit). Each part is off until you switch it on in the app (Settings › Apple Health), and iOS then asks for your permission: (1) Saving workouts: when you finish a workout, Strivis writes it to Apple Health as a strength training with its start, end and name. (2) Body weight: Strivis reads your body weight from Apple Health and adds it to your weight history in Strivis for days that have no weight of their own. (3) Cardio: Strivis reads endurance workouts from Apple Health, such as runs, walks, hikes, rides, rows, swims, stair and HIIT workouts of at least 10 minutes, and saves their kind, start time, duration and distance to your Strivis account, where they count toward your weekly cardio goal and your streak. On iPhone, Strivis does not read heart rate, routes or any other Health data, and never reads back the workouts it wrote itself. When you switch on body weight or cardio, Strivis looks back 30 days and then checks for new entries each time you open the app. Data read from Apple Health is processed on the basis of your consent (Art. 9(2)(a) GDPR), used only for these features, stored with your other fitness data as described above, never used for advertising or marketing and never sold or shared with third parties for their purposes. You can switch each part off in the app, revoke Strivis' access in the Health app (Sharing › Apps › Strivis), and delete taken-over cardio sessions in the app's calendar; removing a session from Strivis does not change Apple Health. If you install the Strivis app on your Apple Watch, your iPhone sends it what the watch shows: your next planned workout (exercises, sets, suggested weights and reps), today's progress and goals (workouts this week, calories, protein, water), your language and weight unit, and a workout in progress. The watch keeps this on the watch, also for its complications, so that you can train there without your iPhone. When you start a workout on the watch, or the watch records one you started on your iPhone, watchOS asks once for permission: during the workout the watch reads your heart rate and active calories from Apple Health to show them, and at the end it saves the workout to Apple Health as a strength training with its calories. Heart rate and calories stay on your watch and in Apple Health; Strivis does not send them to your iPhone app or to our servers and does not store them in your account. The watch sends to your iPhone, directly between your devices, the sets you log on it, a workout you finished on it (exercises, sets, weights, reps, date and duration) and the water you add; the iPhone app saves these to your Strivis account like entries made on the phone, and a workout finished on the watch is marked as such, which can earn an achievement. If the watch saved a workout to Apple Health, the iPhone does not save it there a second time. When you sign out on your iPhone, the watch and its complications remove your data. You can revoke the watch's Health access in the Health app on your iPhone (Sharing › Apps › Strivis) and remove the watch app in the Watch app on your iPhone.`,
   },
   {
     heading: "Equal protection of user data",
@@ -165,7 +262,7 @@ const SECTIONS = [
   },
   {
     heading: "Retention time",
-    body: `We store your account data for as long as your account exists. If you request account deletion, through the App's settings or by contacting us, we delete your profile and associated personal data within a few days, unless a legal retention obligation requires us to keep specific records for longer. We keep records of your consents for as long as we rely on them and may need to prove them. We keep your waitlist address until you unsubscribe or ask us to delete it, and no longer than we need it to send the launch email, apart from the block list described above.`,
+    body: `We store your account data for as long as your account exists. If you request account deletion, through the App's settings or by contacting us, we delete your profile and associated personal data within a few days, unless a legal retention obligation requires us to keep specific records for longer. We keep records of your consents for as long as we rely on them and may need to prove them. A photo removed by the automatic check is kept privately for 30 days and then deleted. We keep an address from the former waitlist until you unsubscribe or ask us to delete it, and no longer than we need it to send the launch email, apart from the block list described above.`,
   },
   {
     heading: "Your rights under the GDPR",
@@ -197,11 +294,16 @@ const SECTIONS = [
 // Instagram profile and the link page (/links); meals added from a photo.
 // Revised on 2026-10-24: the Apple Watch app of app version 1.1 (its own
 // workouts with heart rate and calories, complications, water).
+// Revised on 2026-11-03 for app version 1.1: achievements and who sees them,
+// the monthly challenge, the year review, strength levels, community v2
+// (what a post shows, profile numbers, highlights, the automatic photo
+// check); the waitlist is closed, so that paragraph now covers stored
+// signups only (strivis-backend routes/waitlist.ts answers 410).
 export default function Datenschutz() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="October 24, 2026"
+      updated="November 3, 2026"
       sections={[
         {
           heading: "Owner and data controller",

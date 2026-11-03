@@ -121,7 +121,7 @@ test("privacy: names every recipient the app, backend and website contact", () =
 });
 
 test("privacy: the launch facts are stated", () => {
-  assert.match(privacy, /updated="October 17, 2026"/);
+  assert.match(privacy, /updated="November 3, 2026"/);
   assert.match(privacy, /IP address and the search term/, "Open Food Facts is queried from the device");
   assert.doesNotMatch(privacy, /queried anonymously/);
   assert.match(privacy, /pseudonymous/, "PostHog events carry the account ID");
@@ -144,7 +144,7 @@ test("privacy: the launch facts are stated", () => {
 // ---- Terms -------------------------------------------------------------------------
 
 test("terms: 18+, community rules, licence, copyright, subscriptions, changes in the app", () => {
-  assert.match(terms, /updated="October 17, 2026"/);
+  assert.match(terms, /updated="November 3, 2026"/);
   assert.match(terms, /the registration refers to them before you continue/);
   assert.match(terms, /weekly, monthly or yearly subscriptions/);
   assert.doesNotMatch(terms, /lifetime/i, "lifetime is no longer sold");
@@ -190,4 +190,41 @@ test("privacy: Apple Health as it ships (saving workouts, body weight, cardio), 
   ]) {
     assert.ok(privacy.includes(part), part);
   }
+});
+
+// ---- App version 1.1 (2026-11-03) -----------------------------------------------
+
+test("privacy: who sees achievements, as strivis-backend lib/achievementVisibility.ts decides", () => {
+  assert.match(privacy, /heading: "Achievements"/);
+  assert.match(privacy, /Training and community achievements are visible to everyone who may see your profile/);
+  assert.match(privacy, /nutrition achievements, body achievements .* and six personal ones/);
+  assert.match(privacy, /new gold or rare achievement in training or community, a post about it goes to your followers/);
+  assert.match(privacy, /Settings › Privacy › Share achievements automatically/);
+  assert.match(privacy, /at least 1,000 active users/);
+});
+
+test("privacy: challenge, year review and strength levels say what they use and who sees it", () => {
+  assert.match(privacy, /heading: "Monthly challenge"/);
+  assert.match(privacy, /appears only from 20 participants on/);
+  assert.match(privacy, /heading: "Year review"/);
+  assert.match(privacy, /From 1 December to 31 January/);
+  assert.match(privacy, /heading: "Strength levels and records"/);
+  assert.match(privacy, /calculates the level on your device, and our server calculates it/);
+  assert.match(privacy, /"Strong" or "Elite" on a main lift are training achievements/);
+});
+
+test("privacy: the community photo check names Anthropic, no AI consent, the 30 days and the appeal", () => {
+  assert.match(privacy, /heading: "Automatic check of community photos"/);
+  assert.match(privacy, /does not depend on your consent to the AI features/);
+  assert.match(privacy, /you can appeal for 30 days; a person then decides/);
+  assert.match(privacy, /Art\. 6\(1\)\(f\) GDPR\)\. You can object/);
+  assert.match(terms, /checked automatically by an AI model/);
+});
+
+test("privacy: the waitlist is closed, what stored signups need stays", () => {
+  assert.match(privacy, /Former waitlist and launch email/);
+  assert.match(privacy, /no longer collects addresses/);
+  assert.doesNotMatch(privacy, /The waitlist on this website is also for adults only/);
+  assert.doesNotMatch(privacy, /If you join it/);
+  assert.match(privacy, /address from the former waitlist until you unsubscribe/);
 });
