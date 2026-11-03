@@ -126,7 +126,7 @@ const SECTIONS = [
           <span className="font-semibold text-white">Who sees them.</span> Training and community achievements are
           visible to everyone who may see your profile; with a private profile, to your accepted followers. These
           stay with you alone: nutrition achievements, body achievements (progress photos, measurements, weight entries)
-          and six personal ones, three about when you train and three about how much you lift against your body weight.
+          and eight personal ones, three about when you train and five about how much you lift against your body weight.
         </p>
         <p>
           <span className="font-semibold text-white">Automatic posts.</span> When you earn a new gold or rare achievement

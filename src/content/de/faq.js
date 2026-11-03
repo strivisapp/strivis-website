@@ -55,7 +55,7 @@ export const FAQ_GROUPS = [
       },
       {
         q: "Wer sieht meine Erfolge?",
-        a: "Erfolge zu Training und Community erscheinen auf deinem Profil, für alle, die es sehen dürfen. Erfolge zu Ernährung und Körper und sechs persönliche siehst nur du. Neue Erfolge in Gold und Selten gehen an deine Follower, außer du schaltest das unter Einstellungen › Privatsphäre aus. Die Details stehen in unserer",
+        a: "Erfolge zu Training und Community erscheinen auf deinem Profil, für alle, die es sehen dürfen. Erfolge zu Ernährung und Körper und acht persönliche siehst nur du. Neue Erfolge in Gold und Selten gehen an deine Follower, außer du schaltest das unter Einstellungen › Privatsphäre aus. Die Details stehen in unserer",
         link: { to: "/datenschutz", label: "Datenschutzerklärung" },
       },
       {

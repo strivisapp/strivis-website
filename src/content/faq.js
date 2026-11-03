@@ -58,7 +58,7 @@ export const FAQ_GROUPS = [
       },
       {
         q: "Who can see my achievements?",
-        a: "Training and community achievements appear on your profile, for whoever may see it. Nutrition and body achievements and six personal ones are only for you. New gold and rare ones post to your followers unless you turn that off in Settings › Privacy. The details are in our",
+        a: "Training and community achievements appear on your profile, for whoever may see it. Nutrition and body achievements and eight personal ones are only for you. New gold and rare ones post to your followers unless you turn that off in Settings › Privacy. The details are in our",
         link: { to: "/datenschutz", label: "Privacy Policy" },
       },
       {
