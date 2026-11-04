@@ -230,7 +230,7 @@ test("privacy: the community photo check rests on consent, in both languages", (
   assert.match(en, /Without your yes you can't add photos to the community, and our server enforces that/);
   assert.match(en, /you can appeal for 30 days; a person then decides/);
   assert.match(en, /your consent \(Art\. 6\(1\)\(a\) GDPR, and Art\. 9\(2\)\(a\) GDPR insofar as a photo can reveal information about your health\)/);
-  assert.match(en, /withdraw it at any time in the app \(Settings › Privacy\)/);
+  assert.match(en, /withdraw it at any time in the app \(Settings › Privacy › Photo check\)/);
   assert.match(en, /separate from your consent to the AI features/);
   assert.match(en, /already online from people without this consent stay online and are not sent to Anthropic, also if the consent comes later; they remain subject to reports and manual moderation/);
   assert.doesNotMatch(en, /6\(1\)\(f\)|legitimate interest|You can object|does not depend on your consent/);
@@ -241,7 +241,7 @@ test("privacy: the community photo check rests on consent, in both languages", (
   assert.match(de, /Ohne dein Ja kannst du der Community keine Fotos hinzufügen, und unser Server setzt das durch/);
   assert.match(de, /30 Tage lang Widerspruch einlegen; dann entscheidet ein Mensch/);
   assert.match(de, /deine Einwilligung \(Art\. 6 Abs\. 1 lit\. a DSGVO und, soweit ein Foto etwas über deine Gesundheit verraten kann, Art\. 9 Abs\. 2 lit\. a DSGVO\)/);
-  assert.match(de, /jederzeit in der App widerrufen \(Einstellungen › Privatsphäre\)/);
+  assert.match(de, /jederzeit in der App widerrufen \(Einstellungen › Privatsphäre › Foto-Prüfung\)/);
   assert.match(de, /getrennt von deiner Einwilligung in die KI-Funktionen/);
   assert.match(de, /von Personen ohne diese Einwilligung bereits online sind, bleiben online und werden nicht an Anthropic gesendet, auch wenn die Einwilligung später kommt; für sie gelten weiterhin Meldungen und manuelle Moderation/);
   assert.doesNotMatch(de, /lit\. f|berechtigte/);
