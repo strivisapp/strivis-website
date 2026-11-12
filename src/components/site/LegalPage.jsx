@@ -4,6 +4,10 @@ import { SiteShell } from "@/components/site/SiteShell";
 const slug = (text) =>
   text
     .toLowerCase()
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
     .replace(/^\d+\.\s*/, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
@@ -13,7 +17,16 @@ const slug = (text) =>
 // contents: collapsible on phones, sticky beside the text from lg up. Only
 // layout lives here; each page keeps its wording as it is.
 // sections: [{ heading, body?: string, children?: node }]
-export function LegalPage({ title, updated, intro, sections }) {
+// lang: the language the page's own text is written in, for the two labels
+// here. Not the visitor's choice: the Impressum and the copyright page stay
+// English when opened from the German site.
+const LABELS = {
+  en: { updated: "Last updated", toc: "On this page" },
+  de: { updated: "Zuletzt aktualisiert", toc: "Auf dieser Seite" },
+};
+
+export function LegalPage({ title, updated, intro, sections, lang = "en" }) {
+  const labels = LABELS[lang];
   const toc = sections.map((s) => ({ id: slug(s.heading), heading: s.heading }));
   // A short page (the Impressum) reads fine without one.
   const showToc = toc.length > 4;
@@ -35,29 +48,31 @@ export function LegalPage({ title, updated, intro, sections }) {
       <div className="mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-6 md:pb-28 md:pt-36">
         <header className="max-w-[68ch]">
           <h1 className="font-heading uppercase text-h2-sm md:text-h2">{title}</h1>
-          {updated && <p className="mt-3 text-small text-white/60">Last updated: {updated}</p>}
+          {updated && <p className="mt-3 text-small text-white/60">{labels.updated}: {updated}</p>}
         </header>
 
         <div className={showToc ? "mt-10 grid gap-10 lg:grid-cols-[16rem_1fr] lg:gap-16" : "mt-10"}>
           {showToc && (
-            <nav aria-label="On this page" className="lg:sticky lg:top-24 lg:self-start">
+            <nav aria-label={labels.toc} className="lg:sticky lg:top-24 lg:self-start">
               <details className="group rounded-core bg-surface-1 shadow-core ring-1 ring-hairline lg:hidden">
                 <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 rounded-core px-4 text-small font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-primary [&::-webkit-details-marker]:hidden">
-                  On this page ({toc.length})
+                  {labels.toc} ({toc.length})
                   <ChevronDown aria-hidden="true" className="h-4 w-4 text-white/60 transition-transform duration-200 ease-out group-open:rotate-180" />
                 </summary>
                 <div className="border-t border-hairline px-4 py-3">{tocList}</div>
               </details>
               <div className="hidden lg:block lg:max-h-[calc(100svh-7rem)] lg:overflow-y-auto lg:pb-4 [scrollbar-width:thin]">
-                <p className="mb-2 text-small font-semibold text-white">On this page</p>
+                <p className="mb-2 text-small font-semibold text-white">{labels.toc}</p>
                 {tocList}
               </div>
             </nav>
           )}
 
-          {/* No common ligatures: Manrope's would turn the "(c)" in legal
+          {/* min-w-0 and break-words: a long URL in the text breaks instead of
+              widening the grid and the whole page on a phone.
+              No common ligatures: Manrope's would turn the "(c)" in legal
               references such as "§ 512(c)(3)" or "Art. 6(1)(c)" into "©". */}
-          <article className="max-w-[68ch] text-base leading-[1.65] text-white/80 [font-variant-ligatures:no-common-ligatures]">
+          <article className="min-w-0 max-w-[68ch] break-words text-base leading-[1.65] text-white/80 [font-variant-ligatures:no-common-ligatures]">
             {intro}
             {sections.map((s) => (
               <section key={s.heading} id={slug(s.heading)} className="scroll-mt-24 border-t border-hairline py-7 first:border-t-0 first:pt-0">

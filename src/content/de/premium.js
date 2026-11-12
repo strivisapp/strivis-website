@@ -6,14 +6,19 @@ export const FREE_FEATURES = [
   "Drei Programme aus der Plan-Bibliothek: First Rep, Comeback und Hold Strong",
   "Training loggen mit vollständigem Verlauf und Rekord-Erkennung",
   "Ernährung loggen per Lebensmittelsuche und Barcode-Scanner",
+  "Fünf Mahlzeiten per Foto",
   "Je zwei KI-Versuche für Trainingspläne und Rezepte",
   "Alle 601 Übungen, nach einem einmaligen Download offline",
   "Fortschrittsfotos und Datenexport",
+  "Alle 76 Erfolge, die Monats-Challenge, der Jahresrückblick, Kraftstufen und Rekorde",
+  "Die Community mit Beiträgen, einem Foto pro Beitrag und Reaktionen",
+  "Die Apple-Watch-App, Cardio und Pläne, die Rücksicht auf Beschwerden nehmen",
 ];
 
 export const PREMIUM_FEATURES = [
   "Jede Woche mehr KI-Trainingspläne und KI-Rezepte",
   "Acht weitere Programme in der Plan-Bibliothek",
+  "Bis zu 15 Mahlzeiten am Tag per Foto",
   "Ein Kalorienziel, das sich jede Woche an deinen Gewichtsverlauf und dein Training anpasst",
   "Fortschritt über 6 Monate, ein Jahr oder die ganze Zeit, mit Plateau-Erkennung und Blockvergleich",
 ];

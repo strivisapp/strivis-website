@@ -22,6 +22,8 @@ const flat = (p) => read(p).replace(/\s+/g, " ");
 const copyright = flat("src/pages/Copyright.jsx");
 const privacy = flat("src/pages/Datenschutz.jsx");
 const terms = flat("src/pages/Agb.jsx");
+const privacyDe = flat("src/pages/de/Datenschutz.jsx");
+const termsDe = flat("src/pages/de/Agb.jsx");
 
 // ---- /copyright ----------------------------------------------------------------
 
@@ -121,7 +123,7 @@ test("privacy: names every recipient the app, backend and website contact", () =
 });
 
 test("privacy: the launch facts are stated", () => {
-  assert.match(privacy, /updated="October 17, 2026"/);
+  assert.match(privacy, /updated="November 3, 2026"/);
   assert.match(privacy, /IP address and the search term/, "Open Food Facts is queried from the device");
   assert.doesNotMatch(privacy, /queried anonymously/);
   assert.match(privacy, /pseudonymous/, "PostHog events carry the account ID");
@@ -144,7 +146,7 @@ test("privacy: the launch facts are stated", () => {
 // ---- Terms -------------------------------------------------------------------------
 
 test("terms: 18+, community rules, licence, copyright, subscriptions, changes in the app", () => {
-  assert.match(terms, /updated="October 17, 2026"/);
+  assert.match(terms, /updated="November 3, 2026"/);
   assert.match(terms, /the registration refers to them before you continue/);
   assert.match(terms, /weekly, monthly or yearly subscriptions/);
   assert.doesNotMatch(terms, /lifetime/i, "lifetime is no longer sold");
@@ -165,9 +167,13 @@ test("terms: 18+, community rules, licence, copyright, subscriptions, changes in
 });
 
 test("legal pages keep the 'not legal advice, have it reviewed' note", () => {
-  for (const p of ["src/pages/Datenschutz.jsx", "src/pages/Agb.jsx", "src/pages/Copyright.jsx", "src/content/impressum.js"]) {
+  for (const p of ["src/pages/Datenschutz.jsx", "src/pages/Agb.jsx", "src/pages/de/Datenschutz.jsx", "src/pages/de/Agb.jsx", "src/pages/Copyright.jsx", "src/content/impressum.js"]) {
     assert.match(flat(p), /not legal advice/, p);
   }
+});
+
+test("legal pages: a long URL breaks, it never widens the page on a phone", () => {
+  assert.match(read("src/components/site/LegalPage.jsx"), /<article className="min-w-0 [^"]*break-words/);
 });
 
 test("legal pages: '(c)' in legal references is never drawn as the © ligature", () => {
@@ -190,4 +196,157 @@ test("privacy: Apple Health as it ships (saving workouts, body weight, cardio), 
   ]) {
     assert.ok(privacy.includes(part), part);
   }
+});
+
+// ---- App version 1.1 (2026-11-03) -----------------------------------------------
+
+test("privacy: who sees achievements, as strivis-backend lib/achievementVisibility.ts decides", () => {
+  assert.match(privacy, /heading: "Achievements"/);
+  assert.match(privacy, /Training and community achievements are visible to everyone who may see your profile/);
+  assert.match(privacy, /nutrition achievements, body achievements .* and eight personal ones/);
+  assert.match(privacy, /new gold or rare achievement in training or community, a post about it goes to your followers/);
+  assert.match(privacy, /Settings › Privacy › Share achievements automatically/);
+  assert.match(privacy, /at least 1,000 active users/);
+});
+
+test("privacy: challenge, year review and strength levels say what they use and who sees it", () => {
+  assert.match(privacy, /heading: "Monthly challenge"/);
+  assert.match(privacy, /appears only from 20 participants on/);
+  assert.match(privacy, /heading: "Year review"/);
+  assert.match(privacy, /From 1 December to 31 January/);
+  assert.match(privacy, /heading: "Strength levels and records"/);
+  assert.match(privacy, /calculates the level on your device, and our server calculates it/);
+  assert.match(privacy, /"Strong" or "Elite" on a main lift are personal ones that stay with you alone/);
+  assert.doesNotMatch(privacy, /training achievements and therefore visible/);
+});
+
+// One section's text, from a page that keeps it as `heading` + `body`.
+const bodyOf = (source, heading) => source.match(new RegExp(`heading: "${heading}", body: \`([^\`]*)\``))?.[1] ?? "";
+
+test("privacy: the community photo check rests on consent, in both languages", () => {
+  const en = bodyOf(privacy, "Automatic check of community photos");
+  assert.match(en, /Anthropic, PBC \(United States\)/);
+  assert.match(en, /Before your first community or profile photo, the app asks you once/);
+  assert.match(en, /Without your yes you can't add photos to the community, and our server enforces that/);
+  assert.match(en, /you can appeal for 30 days; a person then decides/);
+  assert.match(en, /your consent \(Art\. 6\(1\)\(a\) GDPR, and Art\. 9\(2\)\(a\) GDPR insofar as a photo can reveal information about your health\)/);
+  assert.match(en, /withdraw it at any time in the app \(Settings › Privacy › Photo check\)/);
+  assert.match(en, /separate from your consent to the AI features/);
+  assert.match(en, /already online from people without this consent stay online and are not sent to Anthropic, also if the consent comes later; they remain subject to reports and manual moderation/);
+  assert.doesNotMatch(en, /6\(1\)\(f\)|legitimate interest|You can object|does not depend on your consent/);
+
+  const de = bodyOf(privacyDe, "Automatische Prüfung von Community-Fotos");
+  assert.match(de, /Anthropic, PBC \(USA\)/);
+  assert.match(de, /Vor deinem ersten Community- oder Profilfoto fragt dich die App einmal/);
+  assert.match(de, /Ohne dein Ja kannst du der Community keine Fotos hinzufügen, und unser Server setzt das durch/);
+  assert.match(de, /30 Tage lang Widerspruch einlegen; dann entscheidet ein Mensch/);
+  assert.match(de, /deine Einwilligung \(Art\. 6 Abs\. 1 lit\. a DSGVO und, soweit ein Foto etwas über deine Gesundheit verraten kann, Art\. 9 Abs\. 2 lit\. a DSGVO\)/);
+  assert.match(de, /jederzeit in der App widerrufen \(Einstellungen › Privatsphäre › Foto-Prüfung\)/);
+  assert.match(de, /getrennt von deiner Einwilligung in die KI-Funktionen/);
+  assert.match(de, /von Personen ohne diese Einwilligung bereits online sind, bleiben online und werden nicht an Anthropic gesendet, auch wenn die Einwilligung später kommt; für sie gelten weiterhin Meldungen und manuelle Moderation/);
+  assert.doesNotMatch(de, /lit\. f|berechtigte/);
+
+  assert.match(terms, /checked automatically by an AI model/);
+  assert.match(terms, /asks for your consent to this once before your first such photo/);
+  assert.match(terms, /remain subject to reports and manual moderation/);
+  assert.match(termsDe, /automatisch von einem KI-Modell/);
+  assert.match(termsDe, /einmal nach deiner Einwilligung dazu/);
+  assert.match(termsDe, /weiterhin Meldungen und manuelle Moderation/);
+});
+
+// ---- The German legal pages (owner decision 2026-11-03) ---------------------------
+
+// What the two languages must share: the text without code comments.
+const noComments = (p) => read(p).replace(/^\s*\/\/.*$/gm, "").replace(/\s+/g, " ");
+const TWINS = [
+  ["src/pages/Datenschutz.jsx", "src/pages/de/Datenschutz.jsx"],
+  ["src/pages/Agb.jsx", "src/pages/de/Agb.jsx"],
+];
+
+test("German legal pages: as many sections, list items and providers as the English ones", () => {
+  for (const [en, de] of TWINS) {
+    const count = (p, re) => (noComments(p).match(re) || []).length;
+    assert.equal(count(de, /heading: "/g), count(en, /heading: "/g), `${de}: sections`);
+    assert.equal(count(de, /<li\b/g), count(en, /<li\b/g), `${de}: list items`);
+    assert.equal(count(de, /<p\b/g), count(en, /<p\b/g), `${de}: paragraphs`);
+    assert.equal(count(de, /\bname: "/g), count(en, /\bname: "/g), `${de}: providers`);
+  }
+});
+
+test("German legal pages: the same legal references as the English ones", () => {
+  const refs = (s, norm) => (norm(s).match(/(Art\.|§) \d+(\(\d+\))?(\([a-z]\))?/g) || []).sort();
+  const fromEn = (s) => s;
+  const fromDe = (s) =>
+    s
+      .replace(/(Art\.|§) (\d+) Abs\. (\d+) lit\. ([a-z])/g, "$1 $2($3)($4)")
+      .replace(/(Art\.|§) (\d+) Abs\. (\d+)/g, "$1 $2($3)");
+  for (const [en, de] of TWINS) {
+    assert.deepEqual(refs(noComments(de), fromDe), refs(noComments(en), fromEn), de);
+  }
+});
+
+test("German legal pages: every number of the English ones", () => {
+  // Thousands written 1,000 and 1.000; dates and articles in another order.
+  const numbers = (s) => (s.replace(/(\d)[.,](\d{3})\b/g, "$1$2").match(/\d+/g) || []).sort();
+  for (const [en, de] of TWINS) assert.deepEqual(numbers(noComments(de)), numbers(noComments(en)), de);
+});
+
+test("German legal pages: date, routes, owner, recipients, what stays with the user", () => {
+  assert.match(privacyDe, /updated="3\. November 2026"/);
+  assert.match(termsDe, /updated="3\. November 2026"/);
+  assert.match(privacyDe, /Simon Paretski, Aldebaranstraße 18, 12529 Schönefeld, Deutschland/);
+  assert.match(privacyDe, /Kontakt-E-Mail: strivisofficial@gmail\.com/);
+  assert.match(privacyDe, /<Link to="\/copyright"/);
+  assert.match(termsDe, /<Link to="\/copyright"/);
+  for (const recipient of [
+    "Supabase",
+    "Railway",
+    "Cloudflare, Inc.",
+    "R2-Speicher",
+    "Cloudflare Turnstile",
+    "Pwned Passwords",
+    "k-Anonymität",
+    "RevenueCat",
+    "App Store",
+    "Apple Push Notification service",
+    "Mit Apple anmelden",
+    "Anmeldung mit Google",
+    "Anthropic",
+    "Open Food Facts",
+    "USDA FoodData Central",
+    "PostHog",
+    "Sentry",
+    "Vercel",
+    "Meta Platforms Ireland",
+    "Brevo",
+    "base44.app",
+  ]) {
+    assert.ok(privacyDe.includes(recipient), `German privacy policy must name ${recipient}`);
+  }
+  assert.match(privacyDe, /Erfolge zu Ernährung, Erfolge zum Körper .* und acht persönliche/);
+  assert.match(privacyDe, /„Stark“ oder „Elite“ in einer Grundübung sind persönliche, die bei dir allein bleiben/);
+  assert.match(termsDe, /mindestens 18 Jahre alt/);
+  assert.match(termsDe, /drei bestätigten Entfernungen wegen Urheberrechtsverletzung/);
+  assert.match(termsDe, /apple\.com\/legal\/internet-services\/itunes\/dev\/stdeula/);
+  assert.match(termsDe, /Recht der Bundesrepublik Deutschland/);
+});
+
+test("legal pages: no dashes, informal du, and no clause that one language prevails", () => {
+  for (const [en, de] of TWINS) {
+    for (const p of [en, de]) {
+      assert.doesNotMatch(noComments(p), /—|\s–\s/, `${p}: dash`);
+      assert.doesNotMatch(noComments(p), /prevail|maßgeblich|Vorrang hat/i, `${p}: one language prevails`);
+    }
+    // "Sie" and "Ihr" alone can be "they" and "its" at the start of a sentence.
+    assert.doesNotMatch(noComments(de), /\b(Ihnen|Ihre[mnrs]?|Sie können|können Sie)\b/, `${de}: formal address`);
+    assert.match(noComments(de), /\bdu\b/, `${de}: informal address`);
+  }
+});
+
+test("privacy: the waitlist is closed, what stored signups need stays", () => {
+  assert.match(privacy, /Former waitlist and launch email/);
+  assert.match(privacy, /no longer collects addresses/);
+  assert.doesNotMatch(privacy, /The waitlist on this website is also for adults only/);
+  assert.doesNotMatch(privacy, /If you join it/);
+  assert.match(privacy, /address from the former waitlist until you unsubscribe/);
 });

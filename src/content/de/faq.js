@@ -8,7 +8,7 @@ export const FAQ_GROUPS = [
     items: [
       {
         q: "Auf welchen Geräten läuft Strivis?",
-        a: "Aktuell als iOS-App. Eine Version für Google Play ist in Arbeit.",
+        a: "Aktuell als iOS-App, dazu eine App für die Apple Watch. Eine Version für Google Play ist in Arbeit.",
       },
       {
         q: "Kann ich meinen eigenen Trainingsplan erstellen?",
@@ -22,6 +22,26 @@ export const FAQ_GROUPS = [
         q: "Was, wenn ich auf mehreren Geräten trainiere?",
         a: "Dein Konto synchronisiert sich über alle Geräte. Melde dich überall mit denselben Zugangsdaten an.",
       },
+      {
+        q: "Kann ich nur mit der Apple Watch trainieren?",
+        a: "Ja. Die Uhr speichert dein nächstes geplantes Training, du kannst es also ohne iPhone starten und jeden Satz dort loggen. Die Sätze kommen danach über dein iPhone in dein Konto. Die Watch-App ist kostenlos.",
+      },
+      {
+        q: "Wie funktioniert die Mahlzeit per Foto?",
+        a: "Mach ein Foto oder wähle eins aus deiner Mediathek und ergänze auf Wunsch eine Notiz. Die KI erkennt die Lebensmittel und schätzt die Gramm, du prüfst die Mengen, bevor etwas eingetragen wird. Ohne Abo hast du insgesamt fünf Analysen, mit Premium bis zu 15 am Tag. Du brauchst dafür Internet und deine Einwilligung in die KI-Funktionen. Das Foto wird nicht gespeichert.",
+      },
+      {
+        q: "Was sind Erfolge?",
+        a: "76 Medaillen in vier Stufen: Bronze, Silber, Gold und Selten. Manche bleiben geheim, bis du sie verdient hast. Alle sind kostenlos, genau wie die Monats-Challenge, der Jahresrückblick im Dezember und Januar und die Kraftstufen.",
+      },
+      {
+        q: "Wie funktioniert die Monats-Challenge?",
+        a: "Du machst für den Monat mit und bekommst ein persönliches Ziel von 4 bis 24 Trainings, passend zu deiner Trainingswoche. Cardio zählt mit. Ab 20 Teilnehmenden zeigt ein gemeinsamer Zähler die Summen der Community, ohne Namen. Eine Rangliste gibt es nicht.",
+      },
+      {
+        q: "Was sind Kraftstufen?",
+        a: "Für Kniebeuge, Bankdrücken, Kreuzheben, Schulterdrücken, Langhantelrudern und Klimmzüge vergleicht Strivis dein geschätztes Maximum mit deinem Körpergewicht und zeigt eine von fünf Stufen, von Einsteiger bis Elite. Der Maßstab für Männer oder Frauen kommt aus deinem Geschlecht oder deiner eigenen Wahl.",
+      },
     ],
   },
   {
@@ -34,8 +54,13 @@ export const FAQ_GROUPS = [
         link: { to: "/datenschutz", label: "Datenschutzerklärung" },
       },
       {
+        q: "Wer sieht meine Erfolge?",
+        a: "Erfolge zu Training und Community erscheinen auf deinem Profil, für alle, die es sehen dürfen. Erfolge zu Ernährung und Körper und acht persönliche siehst nur du. Neue Erfolge in Gold und Selten gehen an deine Follower, außer du schaltest das unter Einstellungen › Privatsphäre aus. Die Details stehen in unserer",
+        link: { to: "/datenschutz", label: "Datenschutzerklärung" },
+      },
+      {
         q: "Woher kommen die Nährwerte?",
-        a: "Grundlebensmittel stammen aus dem Bundeslebensmittelschlüssel (BLS) und der Schweizer Nährwertdatenbank, eingebaut in die App und offline verfügbar. Verpackte Lebensmittel und Barcodes kommen von Open Food Facts. Echte, öffentlich gepflegte Daten statt Schätzungen.",
+        a: "Grundlebensmittel stammen aus dem Bundeslebensmittelschlüssel (BLS) und der Schweizer Nährwertdatenbank, eingebaut in die App und offline verfügbar. Verpackte Lebensmittel und Barcodes kommen von Open Food Facts. Bei einer Mahlzeit per Foto schätzt die KI die Mengen und du prüfst sie; ein Gericht, das keine der Datenbanken kennt, ist als geschätzt markiert.",
       },
     ],
   },
@@ -46,7 +71,7 @@ export const FAQ_GROUPS = [
       {
         q: "Ist Strivis kostenlos?",
         // Same facts as ./premium.js (the app's real gating).
-        a: "Ja. Training und Ernährung loggen mit Barcode-Scanner, die Übungsdatenbank, drei Programme aus der Plan-Bibliothek und je zwei KI-Versuche für Trainingspläne und Rezepte sind kostenlos. Premium bringt ein Kalorienziel, das sich an deinen Gewichtsverlauf und dein Training anpasst, jede Woche mehr KI, acht weitere Programme und tiefere Auswertungen.",
+        a: "Ja. Training und Ernährung loggen mit Barcode-Scanner, die Übungsdatenbank, drei Programme aus der Plan-Bibliothek, je zwei KI-Versuche für Trainingspläne und Rezepte, fünf Mahlzeiten per Foto, die Apple-Watch-App, die Community und alle Erfolge sind kostenlos. Premium bringt ein Kalorienziel, das sich an deinen Gewichtsverlauf und dein Training anpasst, jede Woche mehr KI, bis zu 15 Mahlzeiten am Tag per Foto, acht weitere Programme und tiefere Auswertungen.",
       },
       {
         q: "Was kostet Premium?",

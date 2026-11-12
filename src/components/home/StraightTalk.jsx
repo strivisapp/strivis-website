@@ -9,7 +9,10 @@ import { useT } from "@/i18n/context";
 // - delete: SettingsAccount.jsx deleteAccount -> DELETE /api/account, which
 //   removes the data and the login itself (strivis-backend deleteAccount.ts)
 // - food data: lib/foodSearch.js (BLS and Swiss database, on the device),
-//   lib/openFoodFacts.js (packaged food, barcodes)
+//   lib/openFoodFacts.js (packaged food, barcodes); a meal from a photo is an
+//   AI estimate the user checks (components/nutrition/FoodPhotoFlow.jsx)
+// - body weight: never in a post card or profile (strivis-backend
+//   docs/api/community.md, lib/achievementVisibility.ts)
 // - billing: en.json settings.demoNotice (Apple ID, cancel in device settings)
 // "Not there yet" names only what the FAQ already says; no dates.
 // TODO(Simon): the AI coach (app: Coach.jsx is a "coming soon" stub) goes

@@ -67,7 +67,7 @@ export default {
   },
   features: {
     title: "Alles in einer App.",
-    lead: "Plan, Trainingslog, Ernährung und Fortschritt, aus deinen eigenen Daten.",
+    lead: "Plan, Trainingslog, Ernährung und Fortschritt, aus deinen eigenen Daten. Ein Plus auf Heute trägt Training, Cardio, Mahlzeit, Foto, Wasser oder Gewicht ein.",
     plan: {
       title: "KI-Trainingspläne",
       body: "Gib Ziel, Level und Equipment an. Jeden Tag des Plans kannst du anpassen.",
@@ -79,8 +79,8 @@ export default {
       alt: "Drei geloggte Sätze Bankdrücken, jeweils mit Gewicht, Wiederholungen und Häkchen",
     },
     food: {
-      title: "Geloggt statt geschätzt",
-      body: "Kalorien, Makros und Wasser für den Tag. Durchsuche deutsche und Schweizer Nährwertdaten, eingebaut und offline, oder scanne einen Barcode.",
+      title: "Jede Mahlzeit geloggt",
+      body: "Kalorien, Makros und Wasser für den Tag. Durchsuche deutsche und Schweizer Nährwertdaten, eingebaut und offline, scanne einen Barcode oder fotografiere die Mahlzeit und prüfe die Mengen. Eiweiß- und Fettziel richten sich nach Körpergewicht und Ziel.",
       alt: "Der Tag im Ernährungs-Tab: 2.107 von 3.560 kcal übrig, dazu Eiweiß, Kohlenhydrate und Fett im Vergleich zum Ziel",
     },
     progress: {
@@ -88,6 +88,32 @@ export default {
       body: "Volumen, Rekorde und Muskelbalance, aus deinem eigenen Training.",
       alt: "Sätze pro Muskel in dieser Woche im Vergleich zum Plan: Beine, Schultern, Rücken, Brust, Waden, Trizeps und Bizeps",
     },
+    more: [
+      {
+        title: "76 Erfolge",
+        body: "Bronze, Silber, Gold und Selten, jede Stufe mit eigener Medaillenform. Manche bleiben geheim, bis du sie verdient hast. Alle sind kostenlos.",
+      },
+      {
+        title: "Ein Ziel pro Monat",
+        body: "Mach bei der Monats-Challenge mit und hol dir ein persönliches Trainingsziel. Ab 20 Teilnehmenden zählt ein gemeinsamer Zähler die Trainings aller zusammen. Im Dezember und Januar gibt es deinen Jahresrückblick.",
+      },
+      {
+        title: "Stufen und Rekorde",
+        body: "Eine Kraftstufe für sechs Hauptübungen, von Einsteiger bis Elite, gemessen an deinem Körpergewicht. Eine Rekordwand für jede Übung: schwerstes Gewicht, geschätztes Maximum, meiste Wiederholungen.",
+      },
+      {
+        title: "Training teilen",
+        body: "Aus einem fertigen Training wird mit einem Tipp ein Beitrag, mit deinen Rekorden und auf Wunsch einem Foto. Vier Reaktionen und die Highlights der Woche. Dein Körpergewicht bleibt unsichtbar.",
+      },
+      {
+        title: "Apple Watch",
+        body: "Starte das Training auf der Uhr und lass das iPhone im Spind. Vorgeschlagene Gewichte, Pausen-Ring, Puls live und Wasser mit einem Tipp. Kostenlos.",
+      },
+      {
+        title: "Training nach Maß",
+        body: "Cardio mit Wochenziel, von Hand oder aus Apple Health, zählt für deine Serie. Gib Beschwerden in acht Bereichen an und dein Plan tauscht die Übungen, die sie belasten.",
+      },
+    ],
   },
   screens: {
     title: "Jeder Screen, wie er ist.",
@@ -118,6 +144,7 @@ export default {
       "Geschätztes 1RM, Volumen und Verlauf Satz für Satz pro Übung",
       "Favoriten für die Übungen, zu denen du immer wieder greifst",
       "Start- und Endposition jeder Bewegung",
+      "Kraftstufe für die sechs Hauptübungen, Rekorde für jede Übung",
     ],
     previewTitle: "Ein paar aus der Bibliothek",
     previewLabel: "Übungen aus der Bibliothek",
@@ -126,7 +153,7 @@ export default {
   },
   premium: {
     title: "Kostenlos trainieren. Premium für mehr.",
-    lead: "Alles, was du zum Planen, Loggen und Auswerten brauchst, ist kostenlos. Premium bringt jede Woche mehr KI, acht weitere Programme und tiefere Auswertungen.",
+    lead: "Alles, was du zum Planen, Loggen und Auswerten brauchst, ist kostenlos, auch alle Erfolge. Premium bringt jede Woche mehr KI, mehr Mahlzeiten per Foto, acht weitere Programme und tiefere Auswertungen.",
     free: "Kostenlos",
     freeSub: "Ohne Abo.",
     premiumSub: "Alles aus Kostenlos, dazu:",
@@ -144,12 +171,12 @@ export default {
     solid: [
       { title: "Funktioniert offline", body: "Nach einem einmaligen Download läuft die ganze Übungsbibliothek mit Bildern und Anleitungen ohne Verbindung." },
       { title: "Alles löschen, in der App", body: "Dein Konto löschst du jederzeit in den Einstellungen der App. Deine Daten sind dann endgültig weg." },
-      { title: "Echte Nährwerte", body: "Die Nährwerte stammen aus dem Bundeslebensmittelschlüssel, der Schweizer Nährwertdatenbank und Open Food Facts, nicht aus Schätzungen." },
+      { title: "Echte Nährwerte", body: "Die Nährwerte stammen aus dem Bundeslebensmittelschlüssel, der Schweizer Nährwertdatenbank und Open Food Facts. Bei einer Mahlzeit per Foto sind die Mengen zuerst geschätzt: Du prüfst sie vor dem Eintragen, und ein Gericht, das die Datenbanken nicht kennen, ist als geschätzt markiert." },
+      { title: "Dein Körpergewicht bleibt bei dir", body: "Beiträge und Profile zeigen es nie. Erfolge zu Ernährung und Körper und persönliche Erfolge siehst nur du." },
       { title: "Abgerechnet über Apple", body: "Premium bezahlst du über deine Apple-ID und kündigst es jederzeit in den Einstellungen deines Geräts." },
     ],
     notYet: [
       { title: "Android", body: "Eine Version für Google Play ist in Arbeit. Bis dahin gibt es Strivis nur fürs iPhone." },
-      { title: "Essen per Foto", body: "Eine Mahlzeit über ein Foto eintragen. Bis dahin trägst du Mahlzeiten per Suche oder Barcode ein." },
     ],
   },
   cta: {

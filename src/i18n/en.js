@@ -67,7 +67,7 @@ export default {
   },
   features: {
     title: "Everything in one app.",
-    lead: "Training, logging, nutrition and progress, built from your own data.",
+    lead: "Training, logging, nutrition and progress, built from your own data. One plus on Today logs a workout, cardio, a meal, a photo, water or your weight.",
     plan: {
       title: "AI training plans",
       body: "Tell it your goal, level and equipment. Every day of the plan stays editable.",
@@ -79,8 +79,8 @@ export default {
       alt: "Three logged sets of Barbell Bench Press with weight, reps and a check mark each",
     },
     food: {
-      title: "Logged, not guessed",
-      body: "Calories, macros and water for the day. Search German and Swiss food data, built in and offline, or scan a barcode.",
+      title: "Every meal, logged",
+      body: "Calories, macros and water for the day. Search German and Swiss food data, built in and offline, scan a barcode, or take a photo and check the amounts. Protein and fat targets follow your body weight and goal.",
       alt: "Today in the Nutrition tab: 2,107 kcal left of 3,560 and protein, carbs and fat against their goals",
     },
     progress: {
@@ -88,6 +88,34 @@ export default {
       body: "Volume, records and muscle balance, built from your own training.",
       alt: "Sets per muscle this week against the plan: legs, shoulders, back, chest, calves, triceps and biceps",
     },
+    // Text-only cells under the bento (components/home/Features.jsx). Every
+    // claim is checked against the app and backend, branch erfolge.
+    more: [
+      {
+        title: "76 achievements",
+        body: "Bronze, silver, gold and rare, each with its own medal shape. Some stay secret until you earn them. All of them are free.",
+      },
+      {
+        title: "One goal a month",
+        body: "Join the monthly challenge and get a personal workout goal. From 20 participants on, a shared counter adds up everyone's workouts. In December and January you get your year in review.",
+      },
+      {
+        title: "Levels and records",
+        body: "A strength level on six main lifts, from Beginner to Elite, measured against your body weight. A record wall for every exercise: heaviest weight, estimated max, most reps.",
+      },
+      {
+        title: "Share the workout",
+        body: "A finished workout becomes a post in one tap, with your records and one photo if you want. Four reactions and weekly highlights. Your body weight never shows.",
+      },
+      {
+        title: "Apple Watch",
+        body: "Start a workout on the watch and leave the iPhone in your locker. Suggested weights, a rest ring, live heart rate and one tap for water. Free.",
+      },
+      {
+        title: "Training around you",
+        body: "Cardio with a weekly goal, logged by hand or taken from Apple Health, counts toward your streak. Report aches in eight areas and your plan swaps the exercises that strain them.",
+      },
+    ],
   },
   screens: {
     title: "Every screen, as it is.",
@@ -118,6 +146,7 @@ export default {
       "Estimated 1RM, volume and set-by-set history per exercise",
       "Favorites, for the ones you come back to",
       "Start and end position of every movement",
+      "Strength level on the six main lifts, records for every exercise",
     ],
     previewTitle: "A few from the library",
     previewLabel: "Exercises from the library",
@@ -126,7 +155,7 @@ export default {
   },
   premium: {
     title: "Free to train. Premium for more.",
-    lead: "Everything you need to plan, log and track is free. Premium adds more AI every week, eight more programs and deeper analytics.",
+    lead: "Everything you need to plan, log and track is free, achievements included. Premium adds more AI every week, more meals from a photo, eight more programs and deeper analytics.",
     free: "Free",
     freeSub: "No subscription required.",
     premiumSub: "Everything in Free, plus:",
@@ -144,12 +173,12 @@ export default {
     solid: [
       { title: "Works offline", body: "After a one-time download, the whole exercise library, images and instructions included, works without a connection." },
       { title: "Delete it all, in the app", body: "Delete your account in the app's settings at any time. Your data goes with it, permanently." },
-      { title: "Real food data", body: "Nutrition values come from the German and Swiss nutrient databases and Open Food Facts, not from estimates." },
+      { title: "Real food data", body: "Nutrition values come from the German and Swiss nutrient databases and Open Food Facts. A meal from a photo starts with an estimate of the amounts: you check them before logging, and a dish the databases don't know is marked as estimated." },
+      { title: "Your body weight stays yours", body: "Posts and profiles never show it. Nutrition, body and personal achievements are for you alone." },
       { title: "Billed by Apple", body: "Premium is paid through your Apple ID and can be cancelled anytime in your device settings." },
     ],
     notYet: [
       { title: "Android", body: "A Google Play version is in the works. Until then, Strivis is iPhone only." },
-      { title: "Food from photos", body: "Logging a meal from a photo of it. For now, meals are logged by search or barcode." },
     ],
   },
   cta: {

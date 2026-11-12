@@ -10,8 +10,8 @@ const LINK =
 // Support and the legal pages, in the same order everywhere (footer,
 // countdown, legal pages), labelled in the page's language (footer.legal in
 // src/i18n/en.js and de.js). Impressum under its German name in both, as
-// German law and German visitors expect it. Support has a German twin; the
-// legal pages exist once and are linked as they are. "Cookie settings" is a button, not a page: it
+// German law and German visitors expect it. Support, privacy and terms have
+// German twins; copyright and Impressum exist once and are linked as they are. "Cookie settings" is a button, not a page: it
 // reopens the consent banner, so withdrawing is as easy as accepting.
 
 const INSTAGRAM_URL = "https://instagram.com/strivisofficial";

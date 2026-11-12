@@ -7,6 +7,8 @@ import Home from "@/pages/Home";
 const Support = lazy(() => import("@/pages/Support"));
 const Datenschutz = lazy(() => import("@/pages/Datenschutz"));
 const Agb = lazy(() => import("@/pages/Agb"));
+const DatenschutzDe = lazy(() => import("@/pages/de/Datenschutz"));
+const AgbDe = lazy(() => import("@/pages/de/Agb"));
 const Impressum = lazy(() => import("@/pages/Impressum"));
 const Copyright = lazy(() => import("@/pages/Copyright"));
 const ComingSoon = lazy(() => import("@/pages/ComingSoon"));
@@ -38,10 +40,12 @@ function App() {
       <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={gated ? <ComingSoon /> : <Home />} />
-        {/* German twins (src/i18n/lang.js LOCALIZED_PAGES). The legal pages
-            exist once and are linked from both languages. */}
+        {/* German twins (src/i18n/lang.js LOCALIZED_PAGES). Copyright and
+            Impressum exist once and are linked from both languages. */}
         <Route path="/de" element={<Home />} />
         <Route path="/de/support" element={<Support />} />
+        <Route path="/de/datenschutz" element={<DatenschutzDe />} />
+        <Route path="/de/agb" element={<AgbDe />} />
         {/* The Instagram bio's link page (pages/Links.jsx): live with the
             app, so outside the launch gate. */}
         <Route path="/links" element={<Links />} />

@@ -26,7 +26,7 @@ const HOME_META_DE = {
 };
 
 // Every indexable page. `lang` is the language its content is written in
-// (the legal pages are English, also when opened from the German site).
+// (copyright and Impressum are English, also when opened from the German site).
 export const PAGE_META = {
   "/": { lang: "en", ...HOME_META },
   "/support": { lang: "en", title: "Support | Strivis", description: "Help with Strivis: cancelling Premium, restoring a purchase, deleting your account, and how to reach us." },
@@ -36,6 +36,8 @@ export const PAGE_META = {
   "/copyright": { lang: "en", title: "Copyright and Content Reports | Strivis", description: "How to report content in Strivis that infringes your rights or is illegal, with or without an account." },
   "/de": { lang: "de", ...HOME_META_DE },
   "/de/support": { lang: "de", title: "Hilfe und Support | Strivis", description: "Hilfe zu Strivis: Premium kündigen, einen Kauf wiederherstellen, dein Konto löschen und so erreichst du uns." },
+  "/de/datenschutz": { lang: "de", title: "Datenschutzerklärung | Strivis", description: "Welche Daten die Strivis-App und strivis.app verarbeiten, warum, wie lange und welche Rechte du nach der DSGVO hast." },
+  "/de/agb": { lang: "de", title: "AGB | Strivis", description: "Die Bedingungen für die Nutzung der Strivis-App, mit Premium-Abos, Community-Regeln und dem Mindestalter von 18 Jahren." },
   "/links": { lang: "en", title: "Strivis Links: App Store, Website, Support", description: "Get Strivis on the App Store, visit strivis.app or reach support. Impressum, privacy policy and terms." },
   "/de/links": { lang: "de", title: "Strivis Links: App Store, Website, Hilfe", description: "Strivis im App Store laden, strivis.app besuchen oder den Support erreichen. Impressum, Datenschutz und AGB." },
 };

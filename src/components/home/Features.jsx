@@ -16,7 +16,8 @@ import { cn } from "@/lib/utils";
 // 2026-10-07 build. Every grid here names its columns (grid-cols-1 on phones)
 // and every cell has min-w-0: WebKit sizes an implicit column from the
 // screenshots' intrinsic width, which pushed the cells past the screen edge
-// on iPhones and let the page scroll sideways.
+// on iPhones and let the page scroll sideways. Under the bento, f.more: text
+// cells without a screen, three to a row from md up.
 function Cell({ title, body, children, className, textClassName }) {
   return (
     <Bezel as="li" className={cn("min-w-0", className)} coreClassName="flex flex-col overflow-hidden">
@@ -76,6 +77,9 @@ export function Features() {
               className="mx-6 aspect-[4/3] rounded-b-none md:col-span-7 md:mx-0 md:mr-10 md:mt-8 md:aspect-[16/10]"
             />
           </Bezel>
+          {f.more.map((cell) => (
+            <Cell key={cell.title} title={cell.title} body={cell.body} className="md:col-span-4" />
+          ))}
         </ul>
       </div>
     </section>

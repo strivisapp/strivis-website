@@ -14,7 +14,7 @@ const SECTIONS = [
   },
   {
     heading: "2. Description of service",
-    body: `Strivis provides training, nutrition, and progress-tracking features, including AI-generated training plans, an exercise database, nutrition tracking using third-party nutrition databases, analytics, and a community in which users share posts, comments and achievements. Strivis does not replace professional medical, nutritional, or fitness advice.`,
+    body: `Strivis provides training, nutrition, and progress-tracking features, including AI-generated training plans, an exercise database, nutrition tracking using third-party nutrition databases, analytics, meals added from a photo, achievements and a monthly challenge, and a community in which users share posts, photos, comments, reactions and achievements. Strivis does not replace professional medical, nutritional, or fitness advice.`,
   },
   {
     heading: "3. Registration, account and minimum age",
@@ -83,6 +83,15 @@ const SECTIONS = [
           You can report posts, comments and users in the App and block users. We review reports, remove
           objectionable content, and suspend or remove users who post it. We aim to act on reports within 24 hours.
         </p>
+        <p>
+          Photos you share in the community (post photos and profile photos) are also checked automatically by an AI
+          model for nudity, sexual content, violence and hate. The App asks for your consent to this once before your
+          first such photo; without it you can't add photos to the community. A photo that clearly breaks these rules is removed
+          automatically while the post stays. You are told the reason in the App and can appeal for 30 days; a person
+          then decides. An unclear photo stays online until a person has looked at it. Two removals within 30 days lock
+          adding photos for 30 days. Photos already online from people without this consent are not checked this way and
+          remain subject to reports and manual moderation.
+        </p>
       </>
     ),
   },
@@ -101,7 +110,7 @@ const SECTIONS = [
   },
   {
     heading: "8. Health and safety disclaimer",
-    body: `Strivis, including its AI-generated training and nutrition plans, is not a medical device and does not provide medical, nutritional, or fitness advice from a licensed professional. All content is for informational and motivational purposes only. Consult a physician before starting any new exercise or nutrition program, particularly if you have a pre-existing health condition or injury, or are pregnant. You use the App's training and nutrition features at your own risk and assume all risks associated with physical exercise.`,
+    body: `Strivis, including its AI-generated training and nutrition plans, is not a medical device and does not provide medical, nutritional, or fitness advice from a licensed professional. All content is for informational and motivational purposes only. Amounts and values from a meal photo are estimates, so check them before you log them. Strength levels compare your lifts with reference values and are not a health assessment. Consult a physician before starting any new exercise or nutrition program, particularly if you have a pre-existing health condition or injury, or are pregnant. You use the App's training and nutrition features at your own risk and assume all risks associated with physical exercise.`,
   },
   {
     heading: "9. Disclaimer of warranties",
@@ -135,6 +144,10 @@ const SECTIONS = [
 // the chosen audience, copyright and repeat infringers, App Store
 // subscription terms and Apple's standard EULA, changes announced in the
 // App); the other sections are worded as published, renumbered.
+// Revised on 2026-11-03 for app version 1.1: the service description, the
+// automatic photo check (Art. 14 DSA) and the limits of photo estimates and
+// strength levels; the consent to the photo check. The German text
+// (src/pages/de/Agb.jsx) has the same sections and facts; change both together.
 export default function Agb() {
-  return <LegalPage title="Terms of Service" updated="October 17, 2026" sections={SECTIONS} />;
+  return <LegalPage title="Terms of Service" updated="November 3, 2026" sections={SECTIONS} />;
 }
