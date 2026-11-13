@@ -29,7 +29,7 @@ export function MobileDownloadBar({ heroActionRef, pricingActionRef, finalRef, f
       )}
     >
       <a
-        href={APP_STORE_URL ?? "#download"}
+        href={APP_STORE_URL}
         className="press flex min-h-[52px] w-full items-center justify-center rounded-full bg-primary px-6 text-body font-bold text-primary-foreground shadow-lift outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
       >
         {t.download.sticky}

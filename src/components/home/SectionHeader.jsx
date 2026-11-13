@@ -19,9 +19,12 @@ export function Headline({ as: Tag = "h2", id, lines, className }) {
 
 // A section of the home page: full width, the content in the page column.
 // `id` is the nav's anchor; scroll-mt keeps the heading clear of the fixed nav.
-export function Section({ id, labelledBy, className, innerClassName, children }) {
+// `className` adjusts the band (spacing, background), `innerClassName` the
+// column (a narrower max width, a grid); `ref` is for the download bar's
+// visibility checks.
+export function Section({ ref, id, labelledBy, className, innerClassName, children }) {
   return (
-    <section id={id} aria-labelledby={labelledBy} className={cn("scroll-mt-20 border-t border-hairline bg-surface-0 py-24 md:py-36", className)}>
+    <section ref={ref} id={id} aria-labelledby={labelledBy} className={cn("scroll-mt-20 border-t border-hairline bg-surface-0 py-24 md:py-36", className)}>
       <div className={cn("mx-auto max-w-6xl px-5 sm:px-6", innerClassName)}>{children}</div>
     </section>
   );

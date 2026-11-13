@@ -28,7 +28,7 @@ export function Training() {
       </div>
 
       <div className="mt-24 grid items-center gap-10 rounded-[28px] bg-surface-1 p-7 shadow-core ring-1 ring-hairline sm:p-10 md:mt-32 md:grid-cols-[auto_1fr] md:gap-14 md:p-14">
-        <WatchFrame alt={t.hero.watchAlt} loading="lazy" className="w-[156px] md:w-[188px]" />
+        <WatchFrame alt={t.hero.watchAlt} className="w-[156px] md:w-[188px]" />
         <div className="min-w-0">
           <Headline as="h3" lines={tr.watch.title} className="text-[2.25rem] leading-[0.95] md:text-[3.25rem]" />
           <p className="mt-5 max-w-[46ch] text-body text-white/75 text-pretty md:text-lead">{tr.watch.lead}</p>

@@ -109,7 +109,6 @@ module.exports = {
       transitionDuration: {
         press: 'var(--dur-press)',
         ui: 'var(--dur-ui)',
-        reveal: 'var(--dur-reveal)',
         // The hero phone's entrance (a CSS animation, Hero.jsx).
         entrance: '320ms',
       },

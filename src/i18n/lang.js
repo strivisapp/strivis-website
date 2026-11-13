@@ -96,9 +96,12 @@ export function preferredLang(languages) {
 // bare English home address ever moves, never a deep page: a choice made
 // with the language switch wins (German goes to /de, English stays); without
 // one, a browser that prefers German goes to /de on arrival. The move is
-// not stored, so the switch stays the only remembered choice. Runs in the
-// browser only (src/main.jsx), never on the server or by user agent, so the
-// prerendered HTML of every page stays as it is.
+// not stored, so the switch stays the only remembered choice. This is the
+// rule; it runs in the browser only, as public/lang-redirect.js at the top
+// of the English home page's <head> (a classic script, so the rule is
+// written out there again; tests/i18n.test.mjs runs that file against this
+// function). Never on the server or by user agent, so the prerendered HTML
+// of every page stays as it is.
 export function arrivalRedirect(pathname, { stored = null, languages = [] } = {}) {
   if (normalizePath(pathname) !== "/") return null;
   const lang = stored ?? preferredLang(languages);

@@ -111,14 +111,40 @@ test("images: width and height on every image, lazy below the first screen, alt 
       assert.match(img, /\balt=/, `${name}: img without alt`);
       if (name !== "Hero") assert.match(img, /loading="lazy"|loading=\{/, `${name}: below the fold, so lazy`);
     }
+    // The device frames: lazy unless the section passes `priority`, which
+    // only the hero does.
+    for (const [frame] of source.matchAll(/<(?:PhoneFrame|WatchFrame)\b[\s\S]*?\/>/g)) {
+      if (name === "Hero") assert.match(frame, /\spriority[\s/]/, `Hero: ${frame.slice(0, 40)} eager`);
+      else assert.doesNotMatch(frame, /\bpriority\b|\bloading=/, `${name}: below the fold, so the frame stays lazy`);
+    }
   }
-  for (const file of ["public/photos/chalk-800.webp", "public/photos/chalk-1400.webp", "public/screenshots/watch-set.webp", "public/founder/founder.webp"]) {
+  const frames = read("src/components/home/PhoneFrame.jsx");
+  assert.equal((frames.match(/loading=\{priority \? "eager" : "lazy"\}/g) || []).length, 2, "PhoneFrame and WatchFrame: lazy by default");
+  assert.match(frames, /export function WatchFrame\(\{ alt = "", className, priority = false \}\)/);
+  // The watch's description once: in Training; the hero's watch is decoration.
+  assert.doesNotMatch(read("src/components/home/Hero.jsx"), /<WatchFrame[^>]*\balt=/);
+  assert.match(read("src/components/home/Training.jsx"), /<WatchFrame alt=\{t\.hero\.watchAlt\}/);
+  // The chalk photo fills the width: a middle size between 800 and 1400.
+  assert.match(read("src/components/home/Problem.jsx"), /srcSet="\/photos\/chalk-800\.webp 800w, \/photos\/chalk-1100\.webp 1100w, \/photos\/chalk-1400\.webp 1400w"/);
+  for (const file of ["public/photos/chalk-800.webp", "public/photos/chalk-1100.webp", "public/photos/chalk-1400.webp", "public/screenshots/watch-set.webp", "public/founder/founder.webp"]) {
     assert.ok(exists(file), file);
     assert.ok(readFileSync(new URL(`../${file}`, import.meta.url)).length < 160 * 1024, `${file} over 160 KB`);
   }
   for (const key of ["library", "ai", "own"]) {
     for (const w of [480, 800]) assert.ok(exists(`public/photos/path-${key}-${w}.webp`), `path-${key}-${w}`);
   }
+});
+
+test("sections share one band (Section), and the English notes card marks only its own text as English", () => {
+  for (const name of ["Training", "Plans", "Progress", "Pricing", "Founder", "Faq", "ClosingCta"]) {
+    const source = read(`src/components/home/${name}.jsx`);
+    assert.match(source, /<Section\b/, `${name}: uses Section`);
+    assert.doesNotMatch(source, /<section\b/, `${name}: no copied section markup`);
+  }
+  const problem = read("src/components/home/Problem.jsx");
+  assert.doesNotMatch(problem, /<figure[^>]*\blang=/, "the figure's label is in the page's language");
+  assert.match(problem, /<figcaption lang="en"/);
+  assert.match(problem, /<ul lang="en"/);
 });
 
 test("motion: one entrance (the hero's devices), reduced motion respected", () => {
