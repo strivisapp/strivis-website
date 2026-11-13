@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import { useLanguage, useT } from "@/i18n/context";
 import { localizedPath } from "@/i18n/lang";
 import { useOpenSet } from "@/hooks/useOpenSet";
+import { Section } from "@/components/home/SectionHeader";
 import { cn } from "@/lib/utils";
 
 // One question and its answer. Every answer is always in the page (the
@@ -65,17 +66,15 @@ export function Faq() {
   const [open, toggle] = useOpenSet([0]);
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-20 border-t border-hairline bg-surface-0 py-24 md:py-36">
-      <div className="mx-auto max-w-3xl px-5 sm:px-6">
-        <h2 id="faq-title" className="font-heading text-section-sm uppercase md:text-[3.5rem] md:leading-[0.95]">
-          {t.faq.title}
-        </h2>
-        <div className="mt-10 border-t border-hairline">
-          {t.faq.items.map((item, i) => (
-            <FaqItem key={item.q} id={`faq-${i}`} item={item} headingLevel="h3" isOpen={open.has(i)} onToggle={() => toggle(i)} />
-          ))}
-        </div>
+    <Section id="faq" labelledBy="faq-title" innerClassName="max-w-3xl">
+      <h2 id="faq-title" className="font-heading text-section-sm uppercase md:text-[3.5rem] md:leading-[0.95]">
+        {t.faq.title}
+      </h2>
+      <div className="mt-10 border-t border-hairline">
+        {t.faq.items.map((item, i) => (
+          <FaqItem key={item.q} id={`faq-${i}`} item={item} headingLevel="h3" isOpen={open.has(i)} onToggle={() => toggle(i)} />
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

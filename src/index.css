@@ -44,7 +44,6 @@
     --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
     --dur-press: 160ms;
     --dur-ui: 220ms;
-    --dur-reveal: 280ms;
 
     --font-heading: 'Anton', ui-sans-serif, system-ui, sans-serif;
     --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
@@ -125,16 +124,5 @@
     .press:active {
       transform: none;
     }
-  }
-
-  /* Once-only entrance used by <Reveal>: opacity plus a short rise. */
-  .reveal {
-    transition-property: opacity, transform;
-    transition-duration: var(--dur-reveal);
-    transition-timing-function: var(--ease-out);
-  }
-  .reveal[data-visible="false"] {
-    opacity: 0;
-    transform: translateY(12px);
   }
 }

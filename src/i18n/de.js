@@ -161,7 +161,6 @@ export default {
   },
   download: {
     badgeAlt: "Laden im App Store",
-    freeOnIphone: "Kostenlos fürs iPhone",
     sticky: "Strivis im App Store laden",
   },
   qr: {

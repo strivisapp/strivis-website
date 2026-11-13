@@ -48,7 +48,7 @@ export function Hero({ ref, actionRef }) {
 
         <div className="relative mx-auto w-fit animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-entrance delay-entrance ease-out motion-reduce:slide-in-from-bottom-0 md:col-span-5 md:mr-6 lg:mr-10">
           <PhoneFrame shot={workout} priority sizes="(min-width: 1024px) 300px, (min-width: 768px) 280px, 250px" className="w-[250px] md:w-[280px] lg:w-[300px]" />
-          <WatchFrame alt={h.watchAlt} className="absolute -bottom-6 -left-8 w-[104px] sm:-left-14 md:-left-20 md:w-[132px]" />
+          <WatchFrame priority className="absolute -bottom-6 -left-8 w-[104px] sm:-left-14 md:-left-20 md:w-[132px]" />
         </div>
       </div>
     </section>
