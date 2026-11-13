@@ -104,10 +104,12 @@ never in an iframe.
 - The prerendered HTML carries no inline script and no `style` attribute
   (the build fails otherwise). Structured data is JSON-LD in
   `<script type="application/ld+json">`, a data block the browser never
-  runs, so `script-src` stays `'self'`.
+  runs, so `script-src` stays `'self'`. The English home page's language
+  redirect is a file for the same reason (`public/lang-redirect.js`,
+  loaded with `src` from the `<head>` of `dist/index.html` only).
 - Every page is a static import behind a fixed route; nothing loads a
   module, page or content file by a URL value.
-- `public/` holds only images, the two self-destructing service workers
-  and the Apple app-site association. `tests/path-safety.test.mjs` fails
+- `public/` holds only images, the two self-destructing service workers,
+  the language redirect and the Apple app-site association. `tests/path-safety.test.mjs` fails
   on anything else there, and on source maps, env or config files in
   `dist/`.

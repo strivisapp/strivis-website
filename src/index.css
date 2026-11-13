@@ -90,6 +90,12 @@
   a {
     text-underline-offset: 0.25em;
   }
+  /* A German visitor on the English home page while /de loads
+     (public/lang-redirect.js): the dark background only, not the English
+     page, so nothing swaps in front of them. */
+  html[data-lang-redirect] body {
+    visibility: hidden;
+  }
 }
 
 @media (prefers-reduced-transparency: reduce) {

@@ -58,8 +58,11 @@ function head(meta, structuredData = [], hints = []) {
     `<meta property="og:title" content="${esc(meta.ogTitle)}" />`,
     `<meta property="og:description" content="${esc(meta.ogDescription)}" />`,
     `<meta property="og:locale" content="${meta.lang === "de" ? "de_DE" : "en_US"}" />`,
+    `<meta property="og:image" content="${esc(meta.ogImage)}" />`,
+    `<meta property="og:image:alt" content="${esc(meta.ogImageAlt)}" />`,
     `<meta name="twitter:title" content="${esc(meta.ogTitle)}" />`,
-    `<meta name="twitter:description" content="${esc(meta.ogDescription)}" />`
+    `<meta name="twitter:description" content="${esc(meta.ogDescription)}" />`,
+    `<meta name="twitter:image" content="${esc(meta.ogImage)}" />`
   );
   for (const data of structuredData) lines.push(`<script type="application/ld+json">${jsonLd(data)}</script>`);
   return lines.join("\n    ");
@@ -74,10 +77,19 @@ function splitHints(html) {
   return { hints: hints.map((h) => h.replace(/\/>$/, " />")), body: html.slice(lead.length) };
 }
 
-function page({ meta, structuredData, html = "", dataPage = null }) {
+// The English home page only: public/lang-redirect.js sends a German visitor
+// (by the switch's choice or the browser) to /de before anything is drawn.
+// First in <head>, ahead of the stylesheet, so it never waits for it; a file,
+// because the CSP blocks inline scripts. Never on /de or a deep page.
+const CHARSET = /<meta charset="[^"]*" \/>/i;
+const LANG_REDIRECT = '<script src="/lang-redirect.js"></script>';
+if (!CHARSET.test(template)) throw new Error("dist/index.html: <meta charset> is missing (index.html changed?)");
+
+function page({ meta, structuredData, html = "", dataPage = null, langRedirect = false }) {
   const { hints, body } = splitHints(html);
   const root = dataPage ? `<div id="root" data-page="${esc(dataPage)}">${body}</div>` : ROOT_DIV;
   return template
+    .replace(CHARSET, (charset) => (langRedirect ? `${charset}\n    ${LANG_REDIRECT}` : charset))
     .replace(/<html lang="en"/, `<html lang="${meta.lang}"`)
     .replace(HEAD_BLOCK, () => head(meta, structuredData, hints))
     .replace(ROOT_DIV, () => root);
@@ -107,7 +119,7 @@ console.log("prerender:");
 for (const route of Object.keys(PAGE_META)) {
   const html = await render(route);
   const rel = route === "/" ? "index.html" : path.join(route.slice(1), "index.html");
-  write(rel, page({ meta: metaFor(route), structuredData: structuredDataFor(route), html, dataPage: route }));
+  write(rel, page({ meta: metaFor(route), structuredData: structuredDataFor(route), html, dataPage: route, langRedirect: route === "/" }));
 }
 
 // Any unknown path renders the 404 page; this one stands for all of them.

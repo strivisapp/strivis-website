@@ -85,7 +85,27 @@ export function alternatesFor(pathname) {
   ];
 }
 
-export function metaFor(pathname, { gated = false } = {}) {
+// The link-preview image, one per language (public/og-image.png and
+// og-image-de.png, 1200 x 630): the hero's promise in the brand style, the
+// workout screen on an iPhone. Every page in a language shares it.
+export const OG_IMAGE = {
+  en: {
+    url: `${ORIGIN}/og-image.png`,
+    alt: "Strivis: Know your next set. Free on iPhone. The workout screen of the app on an iPhone.",
+  },
+  de: {
+    url: `${ORIGIN}/og-image-de.png`,
+    alt: "Strivis: Kenn deinen nächsten Satz. Kostenlos fürs iPhone. Der Trainingsbildschirm der App auf einem iPhone.",
+  },
+};
+
+export function metaFor(pathname, options) {
+  const meta = pageMetaFor(pathname, options);
+  const image = OG_IMAGE[meta.lang] ?? OG_IMAGE.en;
+  return { ...meta, ogImage: image.url, ogImageAlt: image.alt };
+}
+
+function pageMetaFor(pathname, { gated = false } = {}) {
   const path = normalizePath(pathname);
   const known = PAGE_META[path];
   if (known) {

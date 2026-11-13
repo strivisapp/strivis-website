@@ -10,9 +10,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
+import vm from "node:vm";
 import en from "../src/i18n/en.js";
 import de from "../src/i18n/de.js";
 import {
+  LANGS,
   LANG_STORAGE_KEY,
   arrivalRedirect,
   langOfPath,
@@ -26,7 +28,7 @@ import { FAQ_ITEMS as FAQ_EN } from "../src/content/faq.js";
 import { FAQ_ITEMS as FAQ_DE } from "../src/content/de/faq.js";
 import { PREVIEW_EXERCISES } from "../src/content/exercises.js";
 import { EXERCISE_NAMES, AREAS } from "../src/content/de/exercises.js";
-import { PAGE_META, metaFor, prerenderedPage, structuredDataFor } from "../src/lib/seo.js";
+import { OG_IMAGE, PAGE_META, metaFor, prerenderedPage, structuredDataFor } from "../src/lib/seo.js";
 
 const read = (p) => readFileSync(new URL(`../${p}`, import.meta.url), "utf8");
 
@@ -114,12 +116,79 @@ test("language on arrival: the browser's first known language, only at the bare 
   }
 });
 
-test("the redirect runs in the browser only: before React, from main.jsx, never by user agent or on the server", () => {
+// public/lang-redirect.js (a classic script in the English home page's
+// <head>) in a sandbox: the address, the stored choice and the browser's
+// languages it sees, and where it sends the visitor.
+const LANG_REDIRECT = read("public/lang-redirect.js");
+
+function runLangRedirect({ pathname, search = "", hash = "", storage = "ok", stored = null, languages = [], language }) {
+  let replaced = null;
+  const attrs = {};
+  const sandbox = {
+    location: { pathname, search, hash, replace: (to) => (replaced = to) },
+    navigator: { languages, language },
+    document: { documentElement: { setAttribute: (name, value) => (attrs[name] = value) } },
+  };
+  sandbox.window = sandbox;
+  if (storage === "ok") sandbox.localStorage = { getItem: (key) => (key === LANG_STORAGE_KEY ? stored : null) };
+  if (storage === "throws") {
+    Object.defineProperty(sandbox, "localStorage", {
+      get() {
+        throw new Error("SecurityError: storage blocked");
+      },
+    });
+  }
+  vm.runInNewContext(LANG_REDIRECT, sandbox);
+  return { replaced, hidden: "data-lang-redirect" in attrs };
+}
+
+test("lang-redirect.js follows arrivalRedirect: same paths, same stored choice, same browser languages", () => {
+  const paths = ["/", "//", "/de", "/de/", "/support", "/support/", "/de/support", "/links", "/impressum", "/u/someone", "/index.html", "/nope"];
+  const storedValues = [null, "en", "de", "fr"];
+  const languageLists = [["de-DE", "en"], ["en-US", "de"], ["fr"], ["de_AT"], ["fr-FR", "de-CH", "en"], ["DE"], []];
+  let moved = 0;
+  for (const pathname of paths) {
+    for (const stored of storedValues) {
+      for (const languages of languageLists) {
+        for (const storage of ["ok", "throws", "missing"]) {
+          const storedSeen = storage === "ok" && LANGS.includes(stored) ? stored : null;
+          // An empty navigator.languages falls back to navigator.language, as in the browser.
+          const language = languages.length ? languages[0] : "de-DE";
+          const expected = arrivalRedirect(pathname, { stored: storedSeen, languages: languages.length ? languages : [language] });
+          const got = runLangRedirect({ pathname, search: "?ref=x", hash: "#faq", storage, stored, languages, language });
+          const what = `${pathname} stored=${stored} (${storage}) languages=${languages.join(",") || `[] language=${language}`}`;
+          assert.equal(got.replaced, expected && `${expected}?ref=x#faq`, what);
+          assert.equal(got.hidden, Boolean(expected), `${what}: hidden only while it moves`);
+          if (expected) moved++;
+        }
+      }
+    }
+  }
+  assert.ok(moved > 0);
+  // The same storage key as the language switch.
+  assert.match(LANG_REDIRECT, new RegExp(`getItem\\("${LANG_STORAGE_KEY}"\\)`));
+});
+
+test("lang-redirect.js: plain and safe (no modules, nothing stored, no user agent, never throws)", () => {
+  const code = LANG_REDIRECT.replace(/^\s*\/\/.*$/gm, "");
+  assert.doesNotMatch(code, /\b(import|export)\b|=>|\?\.|\?\?|\blet\b|\bconst\b/, "a classic script any Safari runs");
+  assert.doesNotMatch(LANG_REDIRECT, /setItem|storeLang/, "an automatic move is never remembered as a choice");
+  assert.doesNotMatch(LANG_REDIRECT, /userAgent|user-agent/i);
+  // A navigator without languages, a broken location: the page stays.
+  assert.doesNotThrow(() => vm.runInNewContext(LANG_REDIRECT, { location: { pathname: "/" }, navigator: {}, document: {}, window: {} }));
+  assert.doesNotThrow(() => vm.runInNewContext(LANG_REDIRECT, {}));
+});
+
+test("the redirect runs in the browser only: in the English home page's <head>, never by user agent or on the server", () => {
   const main = read("src/main.jsx");
-  assert.match(main, /arrivalRedirect\(window\.location\.pathname, \{\s*stored: readStoredLang\(\),\s*languages: navigator\.languages/);
-  assert.match(main, /window\.history\.replaceState/);
+  assert.doesNotMatch(main, /arrivalRedirect|replaceState|navigator\.language/, "one redirect, in public/lang-redirect.js");
+  // While the German page loads, the English one is neither shown nor started.
+  assert.match(main, /const redirecting = document\.documentElement\.hasAttribute\('data-lang-redirect'\)/);
+  assert.match(main, /if \(!redirecting\) \{\s*if \(container\.dataset\.page/);
+  assert.match(read("src/index.css"), /html\[data-lang-redirect\] body \{\s*visibility: hidden;/);
   assert.doesNotMatch(main, /storeLang/, "an automatic move is never remembered as a choice");
-  const everywhere = ["src/main.jsx", "src/i18n/lang.js", "src/i18n/LanguageProvider.jsx", "src/App.jsx", "scripts/prerender.mjs", "vercel.json"].map(read).join(" ");
+  assert.match(read("scripts/prerender.mjs"), /langRedirect: route === "\/"/, "the English home page only");
+  const everywhere = ["src/main.jsx", "src/i18n/lang.js", "src/i18n/LanguageProvider.jsx", "src/App.jsx", "scripts/prerender.mjs", "vercel.json", "public/lang-redirect.js"].map(read).join(" ");
   assert.doesNotMatch(everywhere, /userAgent|user-agent|Googlebot|bingbot/i, "no user-agent sniffing");
   assert.doesNotMatch(read("vercel.json"), /accept-language/i, "no server-side language redirect");
   assert.doesNotMatch(read("scripts/prerender.mjs") + read("src/App.jsx"), /navigator\.language/, "the prerendered HTML never depends on the browser");
@@ -241,6 +310,49 @@ test("dist: nothing the CSP would block (no inline script, no style attribute)",
       if (content.trim()) assert.match(attrs, /type="application\/ld\+json"/, `${rel}: inline script`);
     }
     assert.doesNotMatch(html.slice(html.indexOf('<div id="root"')), /\sstyle="/, `${rel}: style attribute`);
+  }
+});
+
+test("dist: the language redirect is in the English home page only, first in <head>, ahead of the stylesheet", (t) => {
+  if (!built) return t.skip("not built");
+  const tag = '<script src="/lang-redirect.js"></script>';
+  const home = page("index.html");
+  assert.equal(home.split(tag).length - 1, 1, "index.html: once");
+  const at = home.indexOf(tag);
+  assert.ok(at < home.indexOf("<title>") && at < home.indexOf('rel="stylesheet"') && at < home.indexOf('type="module"'), "before the title, the stylesheet and the app");
+  assert.ok(existsSync(new URL("lang-redirect.js", dist)), "dist/lang-redirect.js");
+  for (const rel of [...Object.keys(PAGE_META).filter((r) => r !== "/").map(fileFor), "404.html", "app-shell.html"]) {
+    assert.ok(!page(rel).includes("lang-redirect"), `${rel}: no redirect`);
+  }
+});
+
+test("link previews: one image per language, 1200 x 630, under 300 KB, alt text in the page's language", () => {
+  for (const [lang, file] of [["en", "og-image.png"], ["de", "og-image-de.png"]]) {
+    assert.equal(OG_IMAGE[lang].url, `https://strivis.app/${file}`);
+    const png = readFileSync(new URL(`../public/${file}`, import.meta.url));
+    assert.equal(png.toString("ascii", 1, 4), "PNG", file);
+    assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [1200, 630], `${file}: 1200 x 630`);
+    assert.ok(png.length < 300 * 1024, `${file}: ${png.length} bytes`);
+  }
+  assert.match(OG_IMAGE.en.alt, /Know your next set/);
+  assert.match(OG_IMAGE.de.alt, /Kenn deinen nächsten Satz/);
+  for (const route of Object.keys(PAGE_META)) {
+    const meta = metaFor(route);
+    assert.equal(meta.ogImage, OG_IMAGE[meta.lang].url, route);
+    assert.equal(meta.ogImageAlt, OG_IMAGE[meta.lang].alt, route);
+  }
+  assert.doesNotMatch(read("index.html"), /Train\. Track\. Progress\./, "the old tagline is gone from the preview");
+});
+
+test("dist: each page's preview image and alt text in its language", (t) => {
+  if (!built) return t.skip("not built");
+  for (const route of Object.keys(PAGE_META)) {
+    const html = page(fileFor(route));
+    const image = OG_IMAGE[metaFor(route).lang];
+    assert.equal((html.match(/property="og:image"/g) || []).length, 1, `${route}: one og:image`);
+    assert.ok(html.includes(`<meta property="og:image" content="${image.url}" />`), `${route}: og:image`);
+    assert.ok(html.includes(`<meta name="twitter:image" content="${image.url}" />`), `${route}: twitter:image`);
+    assert.ok(unescape(html).includes(`<meta property="og:image:alt" content="${image.alt}" />`), `${route}: og:image:alt`);
   }
 });
 

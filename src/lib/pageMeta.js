@@ -52,8 +52,11 @@ export function usePageMeta({ gated = false } = {}) {
     setMeta('meta[property="og:title"]', property("og:title"), meta.ogTitle);
     setMeta('meta[property="og:description"]', property("og:description"), meta.ogDescription);
     setMeta('meta[property="og:locale"]', property("og:locale"), meta.lang === "de" ? "de_DE" : "en_US");
+    setMeta('meta[property="og:image"]', property("og:image"), meta.ogImage);
+    setMeta('meta[property="og:image:alt"]', property("og:image:alt"), meta.ogImageAlt);
     setMeta('meta[name="twitter:title"]', named("twitter:title"), meta.ogTitle);
     setMeta('meta[name="twitter:description"]', named("twitter:description"), meta.ogDescription);
+    setMeta('meta[name="twitter:image"]', named("twitter:image"), meta.ogImage);
     setMeta('meta[name="robots"]', named("robots"), meta.noindex ? "noindex" : null);
     setAlternates(meta.alternates);
   }, [pathname, gated]);

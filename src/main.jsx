@@ -13,24 +13,17 @@ import './index.css'
 import App from './App.jsx'
 import { stripAuthParams } from './lib/stripAuthParams.js'
 import { prerenderedPage } from './lib/seo.js'
-import { arrivalRedirect, readStoredLang } from './i18n/lang.js'
+
+// A visitor arriving at the bare home address who belongs on /de (the
+// switch's choice, or a German browser without one) is already on the way
+// there: public/lang-redirect.js runs at the top of the English home page's
+// <head>, starts the move and marks <html> with data-lang-redirect. Then
+// nothing starts here, so the English page is never rendered and swapped;
+// the German page starts React itself (and cleans the URL, below).
+const redirecting = document.documentElement.hasAttribute('data-lang-redirect')
 
 // Before the router or any script reads the URL (see stripAuthParams.js).
-stripAuthParams()
-
-// A visitor arriving at the bare home address gets the German home page when
-// they picked German with the language switch, or, without a choice of
-// their own, when their browser prefers German (src/i18n/lang.js
-// arrivalRedirect). Client-side only and before React renders: links to a
-// specific page stay as they are, crawlers get the prerendered pages as
-// they are, and the switch's choice always wins.
-const arrival = arrivalRedirect(window.location.pathname, {
-  stored: readStoredLang(),
-  languages: navigator.languages?.length ? navigator.languages : [navigator.language],
-})
-if (arrival) {
-  window.history.replaceState(window.history.state, '', `${arrival}${window.location.search}${window.location.hash}`)
-}
+if (!redirecting) stripAuthParams()
 
 const app = (
   <StrictMode>
@@ -43,12 +36,14 @@ const app = (
 // Every page is prerendered at build time (scripts/prerender.mjs), and
 // #root's data-page says which one. When it is the page at this address,
 // React takes over the existing HTML (hydration); otherwise (the app's
-// handoff pages from the empty shell, the 404 page for a German path, the
-// German home after the redirect above) it renders from scratch.
+// handoff pages from the empty shell, the 404 page for a German path) it
+// renders from scratch.
 const container = document.getElementById('root')
-if (container.dataset.page && container.dataset.page === prerenderedPage(window.location.pathname)) {
-  hydrateRoot(container, app)
-} else {
-  createRoot(container).render(app)
+if (!redirecting) {
+  if (container.dataset.page && container.dataset.page === prerenderedPage(window.location.pathname)) {
+    hydrateRoot(container, app)
+  } else {
+    createRoot(container).render(app)
+  }
 }
 
