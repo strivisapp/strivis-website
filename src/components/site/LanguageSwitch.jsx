@@ -9,7 +9,8 @@ const FOCUS = "outline-none focus-visible:ring-2 focus-visible:ring-primary focu
 // The language switch (wireframe variant A, approved 2026-10-16). Real links
 // to the same page in the other language, so it works before JavaScript and
 // crawlers follow it; a click also remembers the choice (src/i18n/lang.js).
-// No automatic redirect by browser language.
+// The browser language only matters on arrival at the bare home address
+// (src/i18n/lang.js arrivalRedirect); a choice made here always wins.
 //
 //   variant="inline"    desktop nav: "EN | DE", two 44 px text buttons, the
 //                       active one white, the other muted.

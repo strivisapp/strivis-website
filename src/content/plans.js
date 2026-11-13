@@ -1,7 +1,9 @@
 // The programs in the app's Plan Library. Source of truth is
 // strivis-backend/data/curatedPlans.json (name_en, tier, levels,
 // days_per_week); update this list together with that file. Three are free,
-// eight are Premium. Own names only: no third-party program names.
+// eight are Premium: the home page's counts ("11 programs", "3 programs",
+// "8 more programs") are checked against this list in tests/content.test.mjs.
+// Own names only: no third-party program names.
 export const PLANS = [
   { key: "first_rep", name: "First Rep", tier: "free", levels: ["beginner"], days: 3 },
   { key: "comeback", name: "Comeback", tier: "free", levels: ["beginner"], days: 2 },
@@ -15,14 +17,3 @@ export const PLANS = [
   { key: "leg_legacy", name: "Leg Legacy", tier: "premium", levels: ["advanced"], days: 4 },
   { key: "express_45", name: "Express 45", tier: "premium", levels: ["intermediate"], days: 3 },
 ];
-
-export const PREMIUM_PLANS = PLANS.filter((p) => p.tier === "premium");
-
-// "advanced", "intermediate and up", "every level".
-export function levelLabel(levels) {
-  if (levels.length >= 3) return "every level";
-  if (levels.length === 2) return `${levels[0]} and up`;
-  return levels[0];
-}
-
-export const planAnchor = (key) => `plan-${key.replace(/_/g, "-")}`;

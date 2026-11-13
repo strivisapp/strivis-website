@@ -58,6 +58,11 @@ module.exports = {
         // (mirrored as --surface-* in index.css) so opacity modifiers like
         // bg-surface-2/95 work.
         ink: '#0B0D11',
+        // A record in the app is gold (the set, the watch's frame); on the
+        // site only the review stars carry it.
+        gold: '#E8B44A',
+        // The notes-app card in the problem section.
+        paper: '#F3F1EC',
         surface: {
           0: '#0b0d11',
           1: '#11141a',
@@ -75,7 +80,9 @@ module.exports = {
         heading: ['var(--font-heading)'],
         body: ['var(--font-body)'],
         display: ['var(--font-display)'],
-        mono: ['var(--font-mono)']
+        mono: ['var(--font-mono)'],
+        // The notes-app card (Problem.jsx) is set like the iPhone's Notes.
+        notes: ['-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif']
       },
       // Fixed type ramp (mobile / desktop pairs). Anton is set without extra
       // tracking; display stays at or below 6rem.
@@ -83,6 +90,10 @@ module.exports = {
         'display-sm': ['3.5rem', { lineHeight: '0.95' }],
         display: ['6rem', { lineHeight: '0.9' }],
         'h2-sm': ['2.25rem', { lineHeight: '1' }],
+        // The home page's section headlines (two lines, the second orange).
+        // Line height 1: German umlauts on the second line need the room.
+        'section-sm': ['2.75rem', { lineHeight: '1' }],
+        section: ['4.5rem', { lineHeight: '1' }],
         h2: ['3.5rem', { lineHeight: '0.95' }],
         h3: ['1.5rem', { lineHeight: '1.1' }],
         lead: ['1.1875rem', { lineHeight: '1.6' }],

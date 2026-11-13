@@ -1,8 +1,9 @@
 // The German site and the prerendered pages (owner decision 2026-10-16,
 // wireframe variant A): English at "/", German under "/de", both rendered
 // from the same components with one dictionary per language (src/i18n/en.js,
-// de.js), the switch remembers the choice without ever redirecting by browser
-// language, and every indexable page ships as its own HTML with title, lang,
+// de.js), the switch remembers the choice, a German browser gets /de on
+// arriving at the bare home address (owner decision 2026-11-13, website
+// rebuild) while the switch's choice wins, and every indexable page ships as its own HTML with title, lang,
 // canonical and hreflang (scripts/prerender.mjs). The dist/ checks run after
 // `npm run build` (CI builds before testing) and skip otherwise.
 
@@ -13,20 +14,18 @@ import en from "../src/i18n/en.js";
 import de from "../src/i18n/de.js";
 import {
   LANG_STORAGE_KEY,
+  arrivalRedirect,
   langOfPath,
+  preferredLang,
   localizedPath,
   readStoredLang,
   storeLang,
   switchPath,
 } from "../src/i18n/lang.js";
-import { FAQ_GROUPS as FAQ_EN } from "../src/content/faq.js";
-import { FAQ_GROUPS as FAQ_DE } from "../src/content/de/faq.js";
-import * as premiumEn from "../src/content/premium.js";
-import * as premiumDe from "../src/content/de/premium.js";
-import { PLANS } from "../src/content/plans.js";
-import { EXERCISES } from "../src/content/exercises.js";
-import { EXERCISE_NAMES } from "../src/content/de/exercises.js";
-import { GOALS, DAYS_PER_WEEK, EQUIPMENT, buildExampleWeek } from "../src/content/planExamples.js";
+import { FAQ_ITEMS as FAQ_EN } from "../src/content/faq.js";
+import { FAQ_ITEMS as FAQ_DE } from "../src/content/de/faq.js";
+import { PREVIEW_EXERCISES } from "../src/content/exercises.js";
+import { EXERCISE_NAMES, AREAS } from "../src/content/de/exercises.js";
 import { PAGE_META, metaFor, prerenderedPage, structuredDataFor } from "../src/lib/seo.js";
 
 const read = (p) => readFileSync(new URL(`../${p}`, import.meta.url), "utf8");
@@ -92,12 +91,38 @@ test("the choice is kept in localStorage and survives storage that throws", () =
   assert.equal(readStoredLang(), null, "no storage at all (prerendering in Node)");
 });
 
-test("no redirect by browser language; only the visitor's own choice, only at the bare home address", () => {
-  const sources = ["src/main.jsx", "src/i18n/lang.js", "src/i18n/LanguageProvider.jsx", "src/components/site/LanguageSwitch.jsx"].map(read).join("\n");
-  assert.doesNotMatch(sources, /navigator\.languages?|Accept-Language/i);
+test("language on arrival: the browser's first known language, only at the bare home address, the switch wins", () => {
+  assert.equal(preferredLang(["de-DE", "en-US"]), "de");
+  assert.equal(preferredLang(["de_AT"]), "de");
+  assert.equal(preferredLang(["en-GB", "de"]), "en");
+  assert.equal(preferredLang(["fr-FR", "de-CH", "en"]), "de", "the first language the site has");
+  assert.equal(preferredLang(["fr", "es"]), null);
+  assert.equal(preferredLang(undefined), null);
+
+  // First arrival, no stored choice: German browsers go to /de.
+  assert.equal(arrivalRedirect("/", { languages: ["de-DE", "en"] }), "/de");
+  assert.equal(arrivalRedirect("/", { languages: ["en-US", "de"] }), null);
+  assert.equal(arrivalRedirect("/", { languages: ["fr"] }), null, "English is the default");
+  assert.equal(arrivalRedirect("/", {}), null);
+  // The switch's remembered choice wins over the browser.
+  assert.equal(arrivalRedirect("/", { stored: "en", languages: ["de-DE"] }), null);
+  assert.equal(arrivalRedirect("/", { stored: "de", languages: ["en-US"] }), "/de");
+  // Never a deep page, never the German pages themselves.
+  for (const path of ["/support", "/datenschutz", "/agb", "/links", "/impressum", "/u/someone", "/de", "/de/support"]) {
+    assert.equal(arrivalRedirect(path, { languages: ["de-DE"] }), null, path);
+    assert.equal(arrivalRedirect(path, { stored: "de", languages: ["de-DE"] }), null, path);
+  }
+});
+
+test("the redirect runs in the browser only: before React, from main.jsx, never by user agent or on the server", () => {
   const main = read("src/main.jsx");
-  assert.match(main, /normalizePath\(window\.location\.pathname\) === '\/' && readStoredLang\(\) === 'de'/);
+  assert.match(main, /arrivalRedirect\(window\.location\.pathname, \{\s*stored: readStoredLang\(\),\s*languages: navigator\.languages/);
+  assert.match(main, /window\.history\.replaceState/);
+  assert.doesNotMatch(main, /storeLang/, "an automatic move is never remembered as a choice");
+  const everywhere = ["src/main.jsx", "src/i18n/lang.js", "src/i18n/LanguageProvider.jsx", "src/App.jsx", "scripts/prerender.mjs", "vercel.json"].map(read).join(" ");
+  assert.doesNotMatch(everywhere, /userAgent|user-agent|Googlebot|bingbot/i, "no user-agent sniffing");
   assert.doesNotMatch(read("vercel.json"), /accept-language/i, "no server-side language redirect");
+  assert.doesNotMatch(read("scripts/prerender.mjs") + read("src/App.jsx"), /navigator\.language/, "the prerendered HTML never depends on the browser");
 });
 
 // ---- One set of components, two dictionaries -----------------------------------
@@ -116,23 +141,9 @@ test("German dictionary: exactly the keys of the English one", () => {
   assert.equal(de.lang, "de");
 });
 
-test("German FAQ and Free vs Premium: the same questions, links and facts as the English ones", () => {
-  assert.deepEqual(
-    FAQ_DE.map((g) => [g.id, g.items.length, g.items.map((i) => i.link?.to ?? null)]),
-    FAQ_EN.map((g) => [g.id, g.items.length, g.items.map((i) => i.link?.to ?? null)])
-  );
-  assert.equal(premiumDe.FREE_FEATURES.length, premiumEn.FREE_FEATURES.length);
-  assert.equal(premiumDe.PREMIUM_FEATURES.length, premiumEn.PREMIUM_FEATURES.length);
-  const free = PLANS.filter((p) => p.tier === "free");
-  assert.ok(premiumDe.FREE_FEATURES.some((f) => /Drei Programme/.test(f) && free.every((p) => f.includes(p.name))));
-  assert.ok(premiumDe.FREE_FEATURES.includes("Je zwei KI-Versuche für Trainingspläne und Rezepte"));
-  const ai = premiumDe.PREMIUM_FEATURES.find((f) => /KI/.test(f));
-  assert.match(ai, /Jede Woche/);
-  assert.doesNotMatch(ai, /\d|unbegrenzt|unlimit/i);
-  assert.match(premiumDe.PREMIUM_BILLING, /App Store/);
-  assert.equal(premiumDe.levelLabel(["advanced"]), "für Erfahrene");
-  assert.equal(premiumDe.levelLabel(["intermediate", "advanced"]), "ab Fortgeschritten");
-  assert.equal(premiumDe.levelLabel(["beginner", "intermediate", "advanced"]), "für jedes Level");
+test("German FAQ: the same number of questions and the same links as the English one", () => {
+  assert.equal(FAQ_DE.length, FAQ_EN.length);
+  assert.deepEqual(FAQ_DE.map((i) => i.link?.to ?? null), FAQ_EN.map((i) => i.link?.to ?? null));
 });
 
 // Every German string the site shows, for the copy rules below.
@@ -145,7 +156,11 @@ function strings(value, out = []) {
 }
 
 test("German copy: informal du, no em dashes, no emojis, no prices, no invented superlatives", () => {
-  const texts = strings(de).filter((s) => s !== "en" && s !== "de");
+  // "unbegrenzt" only where it is a fact: own plans and logging are not
+  // gated in the app (content/premium.js); never for Premium or AI.
+  const factual = new Set([de.pricing.freeFeatures[0]]);
+  assert.match(de.pricing.freeFeatures[0], /^Eigene Pläne und Trainings loggen, unbegrenzt$/);
+  const texts = strings(de).filter((s) => s !== "en" && s !== "de" && !factual.has(s));
   assert.ok(texts.length > 100);
   for (const s of texts) {
     assert.doesNotMatch(s, /—|\s–\s/, `dash: ${s}`);
@@ -157,24 +172,12 @@ test("German copy: informal du, no em dashes, no emojis, no prices, no invented 
   for (const s of strings(en)) assert.doesNotMatch(s, /—/, `dash: ${s}`);
 });
 
-test("German configurator: every combination gives a full week with the app's German names", () => {
-  for (const g of GOALS) {
-    for (const d of DAYS_PER_WEEK) {
-      for (const e of EQUIPMENT) {
-        const week = buildExampleWeek({ goal: g.id, days: d, equipment: e.id, lang: "de" });
-        assert.equal(week.length, d);
-        for (const day of week) {
-          assert.ok(day.name && !/body|Full|Upper|Lower/.test(day.name), day.name);
-          assert.match(day.weekday, /^(Mo|Di|Mi|Do|Fr|Sa|So)$/);
-          for (const ex of day.exercises) {
-            assert.equal(ex.name, EXERCISE_NAMES[ex.id], ex.id);
-            assert.doesNotMatch(ex.muscle, /[a-z] [a-z]|maximus|brachii|dorsi/, `${ex.id}: ${ex.muscle} not translated`);
-          }
-        }
-      }
-    }
+test("German exercise library: a German name and area for every exercise the site shows", () => {
+  assert.deepEqual(Object.keys(EXERCISE_NAMES).sort(), PREVIEW_EXERCISES.map((e) => e.id).sort());
+  for (const ex of de.plans.library.preview) {
+    assert.equal(ex.name, EXERCISE_NAMES[ex.id], ex.id);
+    assert.ok(Object.values(AREAS).includes(ex.area), ex.id);
   }
-  assert.deepEqual(Object.keys(EXERCISE_NAMES).sort(), Object.keys(EXERCISES).sort(), "a German name for every exercise the site names");
 });
 
 const appCatalog = ["../../strivis/public/exercises/exercises.json", "../../../strivis/public/exercises/exercises.json"]
@@ -223,9 +226,9 @@ test("dist: every page in both languages with its own title, lang, canonical and
   }
   const de = page("de/index.html");
   assert.ok(de.includes('<link rel="alternate" hreflang="x-default" href="https://strivis.app/" />'));
-  assert.ok(text(de).includes("Trainieren."), "German home in German");
+  assert.ok(text(de).includes("Kenn deinen nächsten Satz."), "German home in German");
   assert.ok(text(page("de/support/index.html")).includes("Häufige Fragen"));
-  assert.ok(text(page("index.html")).includes("Train. Track."), "English home in English");
+  assert.ok(text(page("index.html")).includes("Know your next set."), "English home in English");
   // The switch is in the prerendered markup, pointing at the twin.
   assert.match(page("support/index.html"), /<a[^>]*href="\/de\/support"[^>]*hrefLang="de"|<a[^>]*hrefLang="de"[^>]*href="\/de\/support"/i);
 });
@@ -246,12 +249,12 @@ test("dist: the FAQ answers are in the HTML, and FAQPage JSON-LD matches them pe
   for (const [rel, groups, lang] of [["index.html", FAQ_EN, "en"], ["de/index.html", FAQ_DE, "de"]]) {
     const html = page(rel);
     const visible = text(html);
-    for (const item of groups.flatMap((g) => g.items)) assert.ok(visible.includes(item.a), `${rel}: answer missing: ${item.q}`);
+    for (const item of groups) assert.ok(visible.includes(item.a), `${rel}: answer missing: ${item.q}`);
     const lds = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
     assert.deepEqual(lds, structuredDataFor(rel === "index.html" ? "/" : "/de"));
     const faq = lds.find((d) => d["@type"] === "FAQPage");
     assert.equal(faq.inLanguage, lang);
-    assert.deepEqual(faq.mainEntity.map((q) => q.name), groups.flatMap((g) => g.items.map((i) => i.q)));
+    assert.deepEqual(faq.mainEntity.map((q) => q.name), groups.map((i) => i.q));
     const app = lds.find((d) => d["@type"] === "MobileApplication");
     assert.equal(app.installUrl, "https://apps.apple.com/app/id6809217490");
     assert.equal(app.aggregateRating, undefined);

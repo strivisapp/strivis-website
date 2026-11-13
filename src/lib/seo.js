@@ -4,8 +4,8 @@
 // (src/lib/pageMeta.js) keeps the head right while the app navigates,
 // scripts/prerender.mjs writes it into each prerendered page, and the tests
 // check it. Plain JS with relative imports, so all three can load it.
-import { FAQ_GROUPS as FAQ_EN } from "../content/faq.js";
-import { FAQ_GROUPS as FAQ_DE } from "../content/de/faq.js";
+import { FAQ_ITEMS as FAQ_EN } from "../content/faq.js";
+import { FAQ_ITEMS as FAQ_DE } from "../content/de/faq.js";
 import { LOCALIZED_PAGES, englishPath, langOfPath, localizedPath, normalizePath } from "../i18n/lang.js";
 import { APP_STORE_URL } from "./appStore.js";
 
@@ -14,15 +14,15 @@ export const ORIGIN = "https://strivis.app";
 export const HOME_META = {
   title: "Strivis: Workout Tracker, Training Plans & Macros for iPhone",
   description: "Training plans, workout logging with PR detection, calories and macros, and 601 exercises that work offline. One iPhone app, free to start.",
-  ogTitle: "Strivis. Train. Track. Progress.",
-  ogDescription: "One iPhone app for training, nutrition and progress. Free to start.",
+  ogTitle: "Strivis. Know your next set.",
+  ogDescription: "Strivis shows what you lifted last time and the number to beat today. Training, plans and nutrition in one iPhone app.",
 };
 
 const HOME_META_DE = {
   title: "Strivis: Trainingsplan, Trainingslog & Kalorien fürs iPhone",
   description: "Trainingspläne, Trainingslog mit Rekord-Erkennung, Kalorien und Makros und 601 Übungen, die offline funktionieren. Eine iPhone-App, kostenlos zum Einstieg.",
-  ogTitle: "Strivis. Trainieren. Loggen. Steigern.",
-  ogDescription: "Eine iPhone-App für Training, Ernährung und Fortschritt. Kostenlos zum Einstieg.",
+  ogTitle: "Strivis. Kenn deinen nächsten Satz.",
+  ogDescription: "Strivis zeigt dir, was du letztes Mal geschafft hast und was du heute schlagen kannst. Training, Pläne und Ernährung in einer iPhone-App.",
 };
 
 // Every indexable page. `lang` is the language its content is written in
@@ -135,14 +135,12 @@ export function appStructuredData(lang) {
 // The home page's FAQ as FAQPage, the same questions and answers the page
 // shows (its answers are in the HTML, collapsed).
 export function faqStructuredData(lang) {
-  const groups = lang === "de" ? FAQ_DE : FAQ_EN;
+  const items = lang === "de" ? FAQ_DE : FAQ_EN;
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     inLanguage: lang,
-    mainEntity: groups
-      .flatMap((g) => g.items)
-      .map((item) => ({
+    mainEntity: items.map((item) => ({
         "@type": "Question",
         name: item.q,
         acceptedAnswer: { "@type": "Answer", text: item.link ? `${item.a} ${item.link.label}.` : item.a },

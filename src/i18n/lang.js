@@ -78,3 +78,29 @@ export function storeLang(lang) {
     // Storage blocked: the choice applies to this visit only.
   }
 }
+
+// ---- Language on arrival ------------------------------------------------------
+
+// The visitor's language from the browser's list (navigator.languages, most
+// preferred first): the first entry the site has, by its primary subtag
+// ("de-AT" counts as "de"). null when none of them is English or German.
+export function preferredLang(languages) {
+  for (const tag of languages ?? []) {
+    const primary = String(tag).toLowerCase().split(/[-_]/)[0];
+    if (LANGS.includes(primary)) return primary;
+  }
+  return null;
+}
+
+// Where a visitor arriving at `pathname` belongs, or null to stay. Only the
+// bare English home address ever moves, never a deep page: a choice made
+// with the language switch wins (German goes to /de, English stays); without
+// one, a browser that prefers German goes to /de on arrival. The move is
+// not stored, so the switch stays the only remembered choice. Runs in the
+// browser only (src/main.jsx), never on the server or by user agent, so the
+// prerendered HTML of every page stays as it is.
+export function arrivalRedirect(pathname, { stored = null, languages = [] } = {}) {
+  if (normalizePath(pathname) !== "/") return null;
+  const lang = stored ?? preferredLang(languages);
+  return lang === "de" ? homePath("de") : null;
+}

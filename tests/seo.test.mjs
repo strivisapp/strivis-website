@@ -11,7 +11,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { metaFor, PAGE_META, HOME_META } from "../src/lib/pageMeta.js";
 import { appStructuredData, sitemapXml } from "../src/lib/seo.js";
 import { FREE_FEATURES, PREMIUM_FEATURES } from "../src/content/premium.js";
-import { PLANS, PREMIUM_PLANS, levelLabel } from "../src/content/plans.js";
+import { PLANS } from "../src/content/plans.js";
 import { FAQ_ITEMS } from "../src/content/faq.js";
 
 const file = (p) => readFileSync(new URL(`../${p}`, import.meta.url), "utf8");
@@ -101,20 +101,17 @@ test("no third-party program names and no lifetime purchase anywhere on the site
 test("the Plan Library: three free programs, eight Premium ones, as in the app's catalog", () => {
   assert.equal(PLANS.length, 11);
   assert.equal(PLANS.filter((p) => p.tier === "free").length, 3);
-  assert.equal(PREMIUM_PLANS.length, 8);
-  assert.ok(FREE_FEATURES.some((f) => /Three programs/.test(f) && PLANS.filter((p) => p.tier === "free").every((p) => f.includes(p.name))));
-  assert.ok(PREMIUM_FEATURES.some((f) => /Eight more programs/.test(f)));
-  assert.equal(levelLabel(["advanced"]), "advanced");
-  assert.equal(levelLabel(["intermediate", "advanced"]), "intermediate and up");
-  assert.equal(levelLabel(["beginner", "intermediate", "advanced"]), "every level");
+  assert.equal(PLANS.filter((p) => p.tier === "premium").length, 8);
+  assert.ok(FREE_FEATURES.includes("3 programs from the plan library"));
+  assert.ok(PREMIUM_FEATURES.includes("8 more programs"));
 });
 
 test("AI: two free tries per kind, Premium more every week, never a number or 'unlimited'", () => {
-  assert.ok(FREE_FEATURES.includes("Two AI tries each for training plans and recipes"));
+  assert.ok(FREE_FEATURES.includes("Two AI tries each for plans and recipes"));
   const ai = PREMIUM_FEATURES.find((f) => /AI/.test(f));
   assert.match(ai, /every week/);
   assert.doesNotMatch(ai, /\d|unlimited/i);
   const free = FAQ_ITEMS.find((i) => i.q === "Is Strivis free?").a;
-  assert.match(free, /two AI tries each for training plans and recipes/);
-  assert.doesNotMatch(free, /one free AI plan/);
+  assert.match(free, /Premium adds more AI/);
+  assert.doesNotMatch(free, /one free AI plan|unlimited/);
 });

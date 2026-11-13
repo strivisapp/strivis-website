@@ -73,7 +73,7 @@ export default function Links() {
         <header className={cn("mt-2 text-center", ENTER)}>
           <img src="/apple-touch-icon.png" width="72" height="72" alt="" className="mx-auto h-[72px] w-[72px] rounded-[18px] shadow-lift [@media(max-height:620px)]:h-14 [@media(max-height:620px)]:w-14 [@media(max-height:620px)]:rounded-[14px]" />
           <h1 className="mt-4 [@media(max-height:620px)]:mt-2 font-heading text-[2.5rem] uppercase leading-none tracking-wide">Strivis</h1>
-          <p className="mt-2 font-heading text-[1.0625rem] uppercase tracking-[0.08em] text-primary">{t.hero.titleLines.join(" ")}</p>
+          <p className="mt-2 font-heading text-[1.0625rem] uppercase tracking-[0.08em] text-primary">{l.tagline}</p>
           <p className="mx-auto mt-2 max-w-[22rem] text-small text-white/70 [text-wrap:balance] [@media(max-height:620px)]:hidden">{l.lead}</p>
         </header>
 
