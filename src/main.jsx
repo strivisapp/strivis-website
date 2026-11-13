@@ -13,17 +13,23 @@ import './index.css'
 import App from './App.jsx'
 import { stripAuthParams } from './lib/stripAuthParams.js'
 import { prerenderedPage } from './lib/seo.js'
-import { normalizePath, readStoredLang } from './i18n/lang.js'
+import { arrivalRedirect, readStoredLang } from './i18n/lang.js'
 
 // Before the router or any script reads the URL (see stripAuthParams.js).
 stripAuthParams()
 
-// Someone who picked German with the language switch gets the German home
-// page when they come back to strivis.app. Only the bare home address, only
-// on arrival, and only from their own choice: never from the browser's
-// language, and links to a specific page stay as they are.
-if (normalizePath(window.location.pathname) === '/' && readStoredLang() === 'de') {
-  window.history.replaceState(window.history.state, '', `/de${window.location.search}${window.location.hash}`)
+// A visitor arriving at the bare home address gets the German home page when
+// they picked German with the language switch, or, without a choice of
+// their own, when their browser prefers German (src/i18n/lang.js
+// arrivalRedirect). Client-side only and before React renders: links to a
+// specific page stay as they are, crawlers get the prerendered pages as
+// they are, and the switch's choice always wins.
+const arrival = arrivalRedirect(window.location.pathname, {
+  stored: readStoredLang(),
+  languages: navigator.languages?.length ? navigator.languages : [navigator.language],
+})
+if (arrival) {
+  window.history.replaceState(window.history.state, '', `${arrival}${window.location.search}${window.location.hash}`)
 }
 
 const app = (

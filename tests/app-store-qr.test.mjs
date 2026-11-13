@@ -16,8 +16,8 @@ test("QR: hidden while APP_STORE_URL is null, and on phones", () => {
   if (url === "null") assert.ok(true, "no listing yet — the QR code is not rendered");
 });
 
-test("QR: the final CTA is where it shows up", () => {
-  assert.match(read("src/components/home/CtaRepeat.jsx"), /<AppStoreQr \/>/);
+test("QR: next to the hero's App Store badge (desktop only, see above)", () => {
+  assert.match(read("src/components/home/Hero.jsx"), /<AppStoreQr \/>/);
 });
 
 test("QR: the SVG path draws exactly the dark modules of the code", () => {

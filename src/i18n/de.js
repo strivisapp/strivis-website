@@ -3,13 +3,13 @@
 // dataSources, onboarding options) and the German App Store description
 // (screenshots/appstore/store-texts.md), so the site promises what the app
 // says. Informal "du", no em dashes, no invented results.
-import { FAQ_GROUPS } from "../content/de/faq.js";
-import { FREE_FEATURES, PREMIUM_FEATURES, PREMIUM_BILLING, levelLabel } from "../content/de/premium.js";
+import { FAQ_ITEMS } from "../content/de/faq.js";
+import { FREE_FEATURES, PREMIUM_FEATURES, PREMIUM_BILLING } from "../content/de/premium.js";
 import { SCREENSHOT_TEXT } from "../content/de/screenshots.js";
-import { EXERCISE_NAMES, AREAS, muscleLabel } from "../content/de/exercises.js";
+import { EXERCISE_NAMES, AREAS } from "../content/de/exercises.js";
 import { SCREENSHOTS } from "../content/screenshots.js";
-import { PREVIEW_EXERCISES } from "../content/exercises.js";
-import { GOALS_DE, EQUIPMENT_DE } from "../content/planExamples.js";
+import { PLANS } from "../content/plans.js";
+import { EXERCISE_COUNT, PREVIEW_EXERCISES } from "../content/exercises.js";
 
 export default {
   lang: "de",
@@ -17,9 +17,10 @@ export default {
   nav: {
     label: "Abschnitte",
     links: [
-      { href: "#how-it-works", label: "So geht's" },
-      { href: "#features", label: "Funktionen" },
-      { href: "#premium", label: "Premium" },
+      { href: "#training", label: "Training" },
+      { href: "#plans", label: "Pläne" },
+      { href: "#progress", label: "Fortschritt" },
+      { href: "#pricing", label: "Preise" },
       { href: "#faq", label: "FAQ" },
     ],
     getTheApp: "App laden",
@@ -39,151 +40,82 @@ export default {
     cookieSettings: "Cookie-Einstellungen",
   },
   hero: {
-    titleLines: ["Trainieren.", "Loggen.", "Steigern."],
-    lead: "Plane die Woche, logge jeden Satz und behalte Kalorien und Makros im Blick. Eine iPhone-App, kostenlos zum Einstieg.",
-    howLink: "So funktioniert's",
-    phoneAlt: "Der Trainingsbildschirm von Strivis: drei geloggte Sätze Bankdrücken und ein laufender Pausen-Timer",
+    tag: "Trainingslog fürs iPhone",
+    title: ["Kenn deinen", "nächsten Satz."],
+    lead: "Strivis zeigt dir, was du letztes Mal geschafft hast und was du heute schlagen kannst. Training, Pläne und Ernährung in einer iPhone-App.",
+    facts: ["Kostenlos starten", `${EXERCISE_COUNT} Übungen`, "Apple Watch", "Funktioniert offline"],
+    factsLabel: "Auf einen Blick",
+    watchAlt: "Strivis auf der Apple Watch: Bankdrücken, 7 von 18 Sätzen, 80 kg x 8 und ein Button, um Satz 3 abzuhaken",
   },
-  how: {
-    title: "In drei Schritten zum ersten Satz.",
-    step: (n) => `Schritt ${n}: `,
-    steps: [
-      {
-        title: "Erzähl von dir",
-        body: "Dein Ziel, dein Level, dein Equipment, wie viele Tage pro Woche du trainieren kannst und welche Muskelgruppen du in den Fokus nimmst.",
-        shot: "onboarding-focus-muscles",
-      },
-      {
-        title: "Hol dir deinen Plan",
-        body: "Strivis schlägt dir ein Programm vor, das zu deinen Antworten passt. Du kannst auch die KI einen Entwurf erstellen lassen oder den Plan selbst zusammenstellen. Jeden Tag darin kannst du anpassen.",
-        shot: "plan-preview",
-      },
-      {
-        title: "Trainieren und loggen",
-        body: "Gewicht, Wiederholungen und wie schwer der Satz war, Satz für Satz. Nach jedem Satz startet der Pausen-Timer, und einen neuen persönlichen Rekord siehst du sofort.",
-        shot: "active-workout",
-      },
-    ],
+  problem: {
+    notesLabel: "Ein Trainingslog in der Notiz-App",
+    notesTitle: "Notes · gym stuff",
+    notes: ["bench 80x8?? or 7", "squat 3 sets felt heavy", "rows same as last wk?"],
+    title: ["Geraten ist", "kein Plan."],
+    lead: "Notizen reichen, bis du sie brauchst. Waren es 8 Wiederholungen oder 7? Welche Sätze waren schwer? Strivis behält jeden Satz, die letzte Woche ist einen Tipp entfernt.",
   },
-  features: {
-    title: "Alles in einer App.",
-    lead: "Plan, Trainingslog, Ernährung und Fortschritt, aus deinen eigenen Daten. Ein Plus auf Heute trägt Training, Cardio, Mahlzeit, Foto, Wasser oder Gewicht ein.",
-    plan: {
-      title: "KI-Trainingspläne",
-      body: "Gib Ziel, Level und Equipment an. Jeden Tag des Plans kannst du anpassen.",
-      alt: "Ein Push-Pull-Legs-Plan in Strivis: Tag 1, Push, mit Bankdrücken und Klimmzügen im neutralen Griff",
-    },
-    sets: {
-      title: "Jeder Satz zählt",
-      body: "Gewicht, Wiederholungen und RIR. Der Pausen-Timer läuft von selbst, Rekorde siehst du sofort.",
-      alt: "Drei geloggte Sätze Bankdrücken, jeweils mit Gewicht, Wiederholungen und Häkchen",
-    },
-    food: {
-      title: "Jede Mahlzeit geloggt",
-      body: "Kalorien, Makros und Wasser für den Tag. Durchsuche deutsche und Schweizer Nährwertdaten, eingebaut und offline, scanne einen Barcode oder fotografiere die Mahlzeit und prüfe die Mengen. Eiweiß- und Fettziel richten sich nach Körpergewicht und Ziel.",
-      alt: "Der Tag im Ernährungs-Tab: 2.107 von 3.560 kcal übrig, dazu Eiweiß, Kohlenhydrate und Fett im Vergleich zum Ziel",
-    },
-    progress: {
-      title: "Sieh, was wirkt",
-      body: "Volumen, Rekorde und Muskelbalance, aus deinem eigenen Training.",
-      alt: "Sätze pro Muskel in dieser Woche im Vergleich zum Plan: Beine, Schultern, Rücken, Brust, Waden, Trizeps und Bizeps",
-    },
-    more: [
-      {
-        title: "76 Erfolge",
-        body: "Bronze, Silber, Gold und Selten, jede Stufe mit eigener Medaillenform. Manche bleiben geheim, bis du sie verdient hast. Alle sind kostenlos.",
-      },
-      {
-        title: "Ein Ziel pro Monat",
-        body: "Mach bei der Monats-Challenge mit und hol dir ein persönliches Trainingsziel. Ab 20 Teilnehmenden zählt ein gemeinsamer Zähler die Trainings aller zusammen. Im Dezember und Januar gibt es deinen Jahresrückblick.",
-      },
-      {
-        title: "Stufen und Rekorde",
-        body: "Eine Kraftstufe für sechs Hauptübungen, von Einsteiger bis Elite, gemessen an deinem Körpergewicht. Eine Rekordwand für jede Übung: schwerstes Gewicht, geschätztes Maximum, meiste Wiederholungen.",
-      },
-      {
-        title: "Training teilen",
-        body: "Aus einem fertigen Training wird mit einem Tipp ein Beitrag, mit deinen Rekorden und auf Wunsch einem Foto. Vier Reaktionen und die Highlights der Woche. Dein Körpergewicht bleibt unsichtbar.",
-      },
-      {
-        title: "Apple Watch",
-        body: "Starte das Training auf der Uhr und lass das iPhone im Spind. Vorgeschlagene Gewichte, Pausen-Ring, Puls live und Wasser mit einem Tipp. Kostenlos.",
-      },
-      {
-        title: "Training nach Maß",
-        body: "Cardio mit Wochenziel, von Hand oder aus Apple Health, zählt für deine Serie. Gib Beschwerden in acht Bereichen an und dein Plan tauscht die Übungen, die sie belasten.",
-      },
-    ],
-  },
-  screens: {
-    title: "Jeder Screen, wie er ist.",
-    lead: "Echte Screenshots aus der iPhone-App, hier in der englischen Fassung. Keine Mock-ups.",
-    previous: "Vorheriger Screenshot",
-    next: "Nächster Screenshot",
-    railLabel: "App-Screenshots. Mit den Pfeiltasten blättern.",
-    position: (i, n) => `${i} von ${n}: `,
-  },
-  screenshots: SCREENSHOTS.map((s) => ({ ...s, ...SCREENSHOT_TEXT[s.id] })),
-  configurator: {
-    title: "Skizzier deine Woche.",
-    lead: "Wähle Ziel, Trainingstage und Equipment und sieh, wie eine Woche aussehen könnte.",
-    goal: "Ziel",
-    days: "Tage pro Woche",
-    equipment: "Equipment",
-    goals: GOALS_DE,
-    equipmentOptions: EQUIPMENT_DE,
-    heading: (goal, days, equipment) => `${goal}, ${days} Tage, ${equipment}`,
-    example: "Beispielwoche, nicht dein Plan.",
-    note: "Ein von Hand gewähltes Beispiel aus der Übungsbibliothek der App. In der App wählst du ein fertiges Programm passend zu Ziel, Level und Trainingstagen, stellst dir selbst eins zusammen oder lässt einen Entwurf erstellen. Jeden Tag kannst du anpassen.",
-    cta: "Deinen echten Plan gibt's in der App.",
-  },
-  exercises: {
-    title: "Übungen. Jede erklärt.",
-    lead: "Bild, Schritte, Zielmuskeln und dein eigener Verlauf zu jeder Übung. Nach einem einmaligen Download auch offline.",
+  training: {
+    title: ["Jeder Satz,", "festgehalten."],
     points: [
-      "Geschätztes 1RM, Volumen und Verlauf Satz für Satz pro Übung",
-      "Favoriten für die Übungen, zu denen du immer wieder greifst",
-      "Start- und Endposition jeder Bewegung",
-      "Kraftstufe für die sechs Hauptübungen, Rekorde für jede Übung",
+      { title: "Dein Verlauf, einen Tipp entfernt", body: "Jede Übung zeigt, was du die letzten Male geschafft hast, genau da, wo du heute einträgst." },
+      { title: "Die Pause läuft von selbst", body: "Satz abhaken, der Timer startet, auch auf dem Sperrbildschirm." },
+      { title: "Ein Rekord wird gold", body: "Mehr Gewicht, mehr Wiederholungen oder ein höheres geschätztes Maximum, und du siehst es im Satz." },
     ],
-    previewTitle: "Ein paar aus der Bibliothek",
-    previewLabel: "Übungen aus der Bibliothek",
-    imageAlt: (name) => `${name}, als Illustration`,
-    preview: PREVIEW_EXERCISES.map((e) => ({ ...e, name: EXERCISE_NAMES[e.id], muscle: muscleLabel(e.muscle), area: AREAS[e.area] })),
+    watch: {
+      title: ["Das Handy bleibt", "im Spind."],
+      lead: "Starte dein Training auf der Apple Watch. Sätze abhaken, Pause und Puls am Handgelenk, ein Rekord zeigt sich als goldener Rahmen.",
+    },
   },
-  premium: {
-    title: "Kostenlos trainieren. Premium für mehr.",
-    lead: "Alles, was du zum Planen, Loggen und Auswerten brauchst, ist kostenlos, auch alle Erfolge. Premium bringt jede Woche mehr KI, mehr Mahlzeiten per Foto, acht weitere Programme und tiefere Auswertungen.",
+  plans: {
+    title: ["Ein Plan, der zu", "deiner Woche passt."],
+    lead: "Ziel, Niveau, Ausrüstung und Trainingstage angeben, dann einen von drei Wegen wählen.",
+    paths: [
+      { key: "library", title: "Programm wählen", body: `${PLANS.length} Programme für Muskelaufbau, passend zu deinen Antworten.` },
+      { key: "ai", title: "Von der KI entwerfen", body: "Aus deinen Antworten, vor dem Start Tag für Tag anpassbar." },
+      { key: "own", title: "Selbst bauen", body: "Jede Übung, jede Reihenfolge, so viele Pläne du willst." },
+    ],
+    library: {
+      title: `${EXERCISE_COUNT} Übungen. Jede erklärt.`,
+      body: "Start- und Endposition, Schritte und Zielmuskeln. Offline nach einem Download.",
+      label: "Übungen aus der Bibliothek",
+      imageAlt: (name) => `${name}, als Illustration`,
+      preview: PREVIEW_EXERCISES.map((e) => ({ ...e, name: EXERCISE_NAMES[e.id], area: AREAS[e.area] })),
+    },
+  },
+  progress: {
+    title: ["Sieh, was sich", "bewegt."],
+    points: [
+      { title: "Kraftstufe", body: "Sechs Hauptübungen von Einsteiger bis Elite, dazu Rekorde für jede Übung." },
+      { title: "76 Medaillen", body: "Von Bronze bis Selten, manche geheim, bis du sie hast. Jeden Monat eine Challenge." },
+      { title: "Essen in derselben App", body: "Kalorien und Makros aus deinem Ziel. Suchen, Barcode scannen oder den Teller fotografieren." },
+    ],
+    shotsLabel: "Bildschirme aus der App",
+  },
+  reviews: {
+    title: "Aus dem App Store",
+    stars: (n) => `${n} von 5 Sternen`,
+  },
+  pricing: {
+    title: ["Kostenlos trainieren.", "Premium für mehr."],
     free: "Kostenlos",
     freeSub: "Ohne Abo.",
-    premiumSub: "Alles aus Kostenlos, dazu:",
-    library: "In der Plan-Bibliothek",
-    planDetails: (days, levels) => `, ${days} Tage pro Woche, ${levelLabel(levels)}`,
+    premium: "Premium",
+    premiumSub: PREMIUM_BILLING,
     freeFeatures: FREE_FEATURES,
     premiumFeatures: PREMIUM_FEATURES,
-    billing: PREMIUM_BILLING,
+    honestLabel: "Klartext",
+    honest: ["Funktioniert offline", "Alles löschen, in der App", "Dein Gewicht sieht niemand", "Über Apple, jederzeit kündbar"],
+    notYet: "Noch nicht: Android",
   },
-  straight: {
-    title: "Klartext.",
-    lead: "Worauf du dich heute verlassen kannst und was noch fehlt.",
-    solidTitle: "Heute schon da",
-    notYetTitle: "Noch nicht da",
-    solid: [
-      { title: "Funktioniert offline", body: "Nach einem einmaligen Download läuft die ganze Übungsbibliothek mit Bildern und Anleitungen ohne Verbindung." },
-      { title: "Alles löschen, in der App", body: "Dein Konto löschst du jederzeit in den Einstellungen der App. Deine Daten sind dann endgültig weg." },
-      { title: "Echte Nährwerte", body: "Die Nährwerte stammen aus dem Bundeslebensmittelschlüssel, der Schweizer Nährwertdatenbank und Open Food Facts. Bei einer Mahlzeit per Foto sind die Mengen zuerst geschätzt: Du prüfst sie vor dem Eintragen, und ein Gericht, das die Datenbanken nicht kennen, ist als geschätzt markiert." },
-      { title: "Dein Körpergewicht bleibt bei dir", body: "Beiträge und Profile zeigen es nie. Erfolge zu Ernährung und Körper und persönliche Erfolge siehst nur du." },
-      { title: "Abgerechnet über Apple", body: "Premium bezahlst du über deine Apple-ID und kündigst es jederzeit in den Einstellungen deines Geräts." },
-    ],
-    notYet: [
-      { title: "Android", body: "Eine Version für Google Play ist in Arbeit. Bis dahin gibt es Strivis nur fürs iPhone." },
-    ],
+  founder: {
+    title: "Warum Strivis",
   },
-  cta: {
-    title: "Dein nächster Satz beginnt hier.",
+  faq: { title: "Fragen", items: FAQ_ITEMS },
+  closing: {
+    title: ["Dein nächster Satz", "fängt hier an."],
     lead: "Kostenlos fürs iPhone. Ohne Abo.",
   },
-  faq: { title: "Fragen.", groups: FAQ_GROUPS },
+  screenshots: SCREENSHOTS.map((s) => ({ ...s, ...SCREENSHOT_TEXT[s.id] })),
   support: {
     lead: "Fragen, Fehler oder Feedback zu Strivis? Wir lesen jede E-Mail.",
     emailUs: "Schreib uns",
@@ -213,6 +145,7 @@ export default {
   },
   // Die Linkseite für Instagram (/de/links, pages/Links.jsx).
   links: {
+    tagline: "Trainieren. Loggen. Steigern.",
     lead: "Trainingsplan, jeder Satz und deine Makros. Kostenlos zum Einstieg.",
     devices: "iPhone · Apple Watch",
     shotsLabel: "Ein Blick in die App",
@@ -229,6 +162,7 @@ export default {
   download: {
     badgeAlt: "Laden im App Store",
     freeOnIphone: "Kostenlos fürs iPhone",
+    sticky: "Strivis im App Store laden",
   },
   qr: {
     label: "QR-Code zu Strivis im App Store",

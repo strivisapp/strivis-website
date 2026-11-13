@@ -9,7 +9,8 @@ import { homePath } from "@/i18n/lang";
 // The same footer on every page (the countdown has its own slim row).
 // `download="full"`: pages without their own download block get it here,
 // with id="download" so "Get the app" lands on it. `download="compact"`:
-// the page already has one above. "English · Deutsch" under the links is the
+// the page already has one above. `download="none"`: the home page, which
+// has its three badges already (hero, pricing, close). "English · Deutsch" under the links is the
 // language switch for everyone who didn't find it at the top.
 export function SiteFooter({ download = "full", source = "footer", ref }) {
   const { lang } = useLanguage();
@@ -21,7 +22,7 @@ export function SiteFooter({ download = "full", source = "footer", ref }) {
             <Link to={homePath(lang)} className="inline-block rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary">
               <img src="/brand/strivis-lockup-on-dark.svg" alt="Strivis" width="120" height="32" className="h-8 w-auto" />
             </Link>
-            <DownloadAction variant={download} source={source} anchor={download === "full"} />
+            {download !== "none" && <DownloadAction variant={download} source={source} anchor={download === "full"} />}
           </div>
           {download === "full" && <AppStoreQr />}
         </div>

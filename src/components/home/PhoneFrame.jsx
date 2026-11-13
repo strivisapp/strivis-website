@@ -9,26 +9,17 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/content/screenshots";
 // first screen: eager and high fetch priority instead of lazy.
 // A small phone passes `screenClassName` (and a smaller shell radius and
 // padding in `className`) to keep the radii concentric.
-// `src` + `rotate` instead of `shot` is the older call style, kept so the
-// pre-redesign home page on main keeps rendering with this same file.
-export function PhoneFrame({ shot, src, rotate, alt, className, screenClassName, priority = false, sizes = "(min-width: 768px) 300px, 60vw" }) {
-  const image = shot ?? { src };
+export function PhoneFrame({ shot, alt, className, screenClassName, priority = false, sizes = "(min-width: 768px) 300px, 60vw" }) {
   return (
-    <div
-      className={cn(
-        "w-[220px] shrink-0 rounded-[46px] bg-gradient-to-b from-white/[0.14] to-white/[0.04] p-1.5 shadow-lift ring-1 ring-white/10",
-        className
-      )}
-      style={rotate ? { transform: `rotate(${rotate}deg)` } : undefined}
-    >
+    <div className={cn("w-[220px] shrink-0 rounded-[46px] bg-gradient-to-b from-white/[0.14] to-white/[0.04] p-1.5 shadow-lift ring-1 ring-white/10", className)}>
       <div className={cn("overflow-hidden rounded-[40px] bg-ink ring-1 ring-black/70", screenClassName)}>
         <img
-          src={image.src}
-          srcSet={image.src480 ? `${image.src480} 480w, ${image.src} 780w` : undefined}
-          sizes={image.src480 ? sizes : undefined}
+          src={shot.src}
+          srcSet={`${shot.src480} 480w, ${shot.src} 780w`}
+          sizes={sizes}
           width={SCREEN_WIDTH}
           height={SCREEN_HEIGHT}
-          alt={alt ?? image.alt}
+          alt={alt ?? shot.alt}
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : "auto"}
           decoding={priority ? "sync" : "async"}
@@ -39,26 +30,22 @@ export function PhoneFrame({ shot, src, rotate, alt, className, screenClassName,
   );
 }
 
-// A cut-out of a real screenshot (not a rebuilt UI): the image is scaled to
-// the frame's width and `position` picks which part shows. The image sits
-// absolutely inside the frame, so the frame's size comes only from its own
-// classes (an aspect ratio, or flex-1 filling a cell) and never from the
-// screenshot's full 780 x 1688 height. `positionClassName` is a Tailwind
-// object-position class (object-[50%_4%]), not an inline style: the page is
-// prerendered, and the CSP blocks style attributes in served HTML.
-export function ScreenCrop({ shot, alt, className, positionClassName = "object-top", sizes = "(min-width: 768px) 480px, 90vw" }) {
+// The Apple Watch app's set page (public/screenshots/watch-set.webp, an
+// English capture of app 1.1, 416 x 496) in the same double bezel as the
+// phone, radii scaled to the watch.
+const WATCH_SHOT = { src: "/screenshots/watch-set.webp", width: 416, height: 496 };
+
+export function WatchFrame({ alt, className, loading = "eager" }) {
   return (
-    <div className={cn("relative overflow-hidden rounded-tile bg-ink ring-1 ring-hairline", className)}>
+    <div className={cn("rounded-[30%/26%] bg-gradient-to-b from-white/[0.16] to-white/[0.05] p-[6%] shadow-lift ring-1 ring-white/10", className)}>
       <img
-        src={shot.src}
-        srcSet={`${shot.src480} 480w, ${shot.src} 780w`}
-        sizes={sizes}
-        width={SCREEN_WIDTH}
-        height={SCREEN_HEIGHT}
-        alt={alt ?? shot.alt}
-        loading="lazy"
+        src={WATCH_SHOT.src}
+        width={WATCH_SHOT.width}
+        height={WATCH_SHOT.height}
+        alt={alt}
+        loading={loading}
         decoding="async"
-        className={cn("absolute inset-0 block h-full w-full object-cover", positionClassName)}
+        className="block h-auto w-full rounded-[24%/20%] bg-black"
       />
     </div>
   );

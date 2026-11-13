@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
-import { Reveal } from "@/components/home/Reveal";
-import { SectionHeader } from "@/components/home/SectionHeader";
 import { useLanguage, useT } from "@/i18n/context";
 import { localizedPath } from "@/i18n/lang";
 import { useOpenSet } from "@/hooks/useOpenSet";
@@ -26,7 +24,7 @@ export function FaqItem({ id, item, isOpen, onToggle, headingLevel: H = "h4" }) 
           aria-controls={`${id}-a`}
           className="flex min-h-12 w-full items-center justify-between gap-4 rounded-sm py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
         >
-          <span className="text-body font-semibold text-white">{item.q}</span>
+          <span className="text-body font-bold text-white md:text-lg">{item.q}</span>
           <Plus aria-hidden="true" className={cn("h-4 w-4 shrink-0 text-primary transition-transform duration-200 ease-out", isOpen && "rotate-45")} />
         </button>
       </H>
@@ -59,26 +57,22 @@ export function FaqItem({ id, item, isOpen, onToggle, headingLevel: H = "h4" }) 
   );
 }
 
-// One column, three small groups with quiet labels (not orange capitals).
+// The home page's six questions, one column, the first one open. Also the
+// answers search engines read (the FAQPage data in src/lib/seo.js is built
+// from the same list).
 export function Faq() {
   const t = useT();
-  const [open, toggle] = useOpenSet(["app-0"]);
+  const [open, toggle] = useOpenSet([0]);
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-20 border-t border-hairline bg-surface-0 py-20 md:py-28">
-      <div className="mx-auto max-w-2xl px-5 sm:px-6">
-        <Reveal>
-          <SectionHeader id="faq-title" title={t.faq.title} />
-        </Reveal>
-        <div className="mt-10 space-y-12">
-          {t.faq.groups.map((group) => (
-            <div key={group.id}>
-              <h3 className="mb-1 text-small font-semibold text-white/60">{group.title}</h3>
-              {group.items.map((item, i) => {
-                const key = `${group.id}-${i}`;
-                return <FaqItem key={key} id={`faq-${key}`} item={item} isOpen={open.has(key)} onToggle={() => toggle(key)} />;
-              })}
-            </div>
+    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-20 border-t border-hairline bg-surface-0 py-24 md:py-36">
+      <div className="mx-auto max-w-3xl px-5 sm:px-6">
+        <h2 id="faq-title" className="font-heading text-section-sm uppercase md:text-[3.5rem] md:leading-[0.95]">
+          {t.faq.title}
+        </h2>
+        <div className="mt-10 border-t border-hairline">
+          {t.faq.items.map((item, i) => (
+            <FaqItem key={item.q} id={`faq-${i}`} item={item} headingLevel="h3" isOpen={open.has(i)} onToggle={() => toggle(i)} />
           ))}
         </div>
       </div>
